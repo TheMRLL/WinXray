@@ -1,0 +1,6 @@
+//此触发器在生成EXE以后执行
+import ide;
+import fsys; 
+
+//获取生成的EXE文件路径
+var publishFile = ide.getPublishPath();
