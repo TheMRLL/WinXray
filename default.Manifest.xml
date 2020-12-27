@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?> 
+<assembly 
+xmlns="urn:schemas-microsoft-com:asm.v1" 
+manifestVersion="1.0">
+<assemblyIdentity 
+    processorArchitecture="x86" 
+    version="5.1.0.0"
+    type="win32"
+    name="winXray.exe"/>
+    <description>winXray</description>
+    <dependency>
+    <dependentAssembly>
+    <assemblyIdentity
+        type="win32"
+        name="Microsoft.Windows.Common-Controls"
+        version="6.0.0.0"
+        publicKeyToken="6595b64144ccf1df"
+        language="*"
+        processorArchitecture="x86"/>
+    </dependentAssembly>
+    </dependency>
+    <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
+      <application> 
+          <!--Windows Vista -->
+          <supportedOS Id="{e2011457-1546-43c5-a5fe-008deee3d3f0}"/>
+          <!--Windows 7 -->
+          <supportedOS Id="{35138b9a-5d96-4fbd-8e2d-a2440225f93a}"/>
+		  <!--Windows 8 -->  
+		  <supportedOS Id="{4a2f28e3-53b9-4441-ba9c-d69d4a4a6e38}"/>
+		  <!-- Windows 8.1 -->             
+          <supportedOS Id="{1f676c76-80e1-4239-95bb-83d0f6d0da78}"/>   
+          <!-- Windows 10 -->              
+          <supportedOS Id="{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}"/>    
+      </application>
+    </compatibility>
+    <trustInfo xmlns="urn:schemas-microsoft-com:asm.v3">
+    	<security>
+        	<requestedPrivileges>
+			<!-- 
+				可任选以下配置之一指定一个进程权限：
+				<requestedExecutionLevel level="asInvoker" uiAccess="false" />
+				<requestedExecutionLevel level="requireAdministrator" uiAccess="false" /> 
+				<requestedExecutionLevel level="highestAvailable" uiAccess="false" />
+				
+				requireAdministrator 为管理员权限，
+				highestAvailable 为可以获取到的最高权限，
+				asInvoker 为默认值,即调用进程当前权限,一般不需要显式指定,指定后会禁用虚拟化。
+				
+				虚拟化指Vista以后系统禁止写 Program File目录,启用虚拟化则重定向到%localappdata%\VirtualStore目录，
+				而注册表 HKEY_LOCAL_MACHINE\Software 则重定向到HKEY_CURRENT_USER\Software\Classes\VirtualStore\MACHINE\Software
+			--> 
+        	</requestedPrivileges>
+    	</security>
+	</trustInfo>
+	<asmv3:application xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" >
+		<asmv3:windowsSettings xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">
+			<dpiAware>True/PM</dpiAware>
+		</asmv3:windowsSettings>
+	</asmv3:application>
+</assembly>

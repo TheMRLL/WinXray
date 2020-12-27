@@ -1,0 +1,5 @@
+//发布前触发
+import ide;
+io.remove("\..\xray-core\config.json")
+io.remove("\..\winXray\xray-core\config.json")
+ 
