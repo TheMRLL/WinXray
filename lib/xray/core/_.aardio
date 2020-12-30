@@ -1,0 +1,182 @@
+﻿//core 代理服务
+import wsock.tcp.server;
+import process.popen;
+import config;
+
+namespace xray.core;
+
+socksProxyPort = null;
+httpProxPort = null;
+
+getHttpProxyAddress = function(){
+    if(!(socksProxyPort&&httpProxPort)){ return null; }
+	return ..config.proxy.useHttpGlobal ? ("127.0.0.1:" + httpProxPort ): ("SOCKS=127.0.0.1:"+socksProxyPort)  
+} 
+
+isInboundPortChanged = function(){
+	var inbounds = ..config.core.default.inbounds;
+	if(! (..table.isArray(inbounds) && inbounds[1] && inbounds[2]) ){
+		return true;
+	}	
+	
+	return (inbounds[1].port!=socksProxyPort) || (inbounds[2].port!=httpProxPort)
+}
+
+var prcsXray;
+import process.job.limitKill;
+restart = function(editor,outbound){
+    if(!outbound){ return null,"错误的出站代理服务器配置"  }
+    if(_WINXP){
+    	return null,"抱歉！Xray Core 不支持 Windows XP, 仅支持 Windows 7, Windows 10 以及更新操作系统。";  
+    }
+
+	var inbounds = ..config.core.default[["inbounds"]];
+	if(! (..table.isArray(inbounds) && inbounds[1] ) ){
+		return null,"错误的入站SOCKS代理服务器配置" 
+	}
+	if(! ( inbounds[2] ) ){
+		return null,"错误的入站HTTP代理服务器配置" 
+	}
+
+	if(prcsXray){
+		prcsXray.terminate();
+		prcsXray = null;
+	}
+
+	socksProxyPort = inbounds[1].port;  
+	httpProxPort = inbounds[2].port;
+	if( (! socksProxyPort) || socksProxyPort >=  49152 ){ socksProxyPort = ..wsock.tcp.server.getFreePort("127.0.0.1",1081,10801,10811,44821)  }
+	if( (! httpProxPort) || httpProxPort >=  49152 ){ httpProxPort = ..wsock.tcp.server.getFreePort("127.0.0.1",1082,10802,10812,44822) }
+
+	var corePath = getPath(editor.hwnd);
+	if(!corePath){ return false,"启动失败,未找到xray.exe"; } 
+
+	import xray.core.configJson;
+	var jsonPath,err = ..xray.core.configJson.write(
+		..io.joinpath(..io.splitpath(corePath).dir,"config.json")
+		,outbound,socksProxyPort,httpProxPort);
+	if(!jsonPath){
+		return false,err:"启动失败,写入配置文件遇到错误！"; 
+	}
+	
+	..publish("activeOutbound",false);
+	
+	import sysProxy;
+	..sysProxy.reset(false);	
+	
+	var err;
+	prcsXray,err = ..process.popen(corePath,"-c=config.json" );
+	if(!prcsXray){
+		..publish("uiCommand.print",err:"启动 Xray Core 时遇到未知错误!");
+		
+		if(!..process().isWow64()){
+			if(..process.isExe(corePath)!="PE32"){
+				..io.remove(corePath);
+				if(!..io.exist(corePath)){
+					..publish("uiCommand.print","当前操作系统是32位，已删除无效的64位 Xray Core，正在下载32位 Xray Core");
+					return restart(editor,outbound)	
+				}
+				else {
+					..publish("uiCommand.print","当前操作系统是32位，但是找到的 Xray Core 是64位，请重新下载32位 Xray Core");
+				} 
+			} 	
+		}
+		
+		return;
+	}
+	prcsXray.assignToJobObject(process.job.limitKill);
+	prcsXray.codepage = 65001;	
+	prcsXray.logResponse(editor);
+
+	inbounds[1].port = socksProxyPort;
+	inbounds[2].port = httpProxPort;
+	..config.core.save();
+	
+	..publish("uiCommand.print","已启动代理服务器，SOCKS端口:" + socksProxyPort + " HTTP端口:" + httpProxPort)
+	..publish("xrayCore.restarted",socksProxyPort,httpProxPort);
+	return true;
+}
+
+stop = function(){
+	if(prcsXray){
+		prcsXray.terminate();
+		prcsXray = null;
+	}
+	
+	..sysProxy.reset(false);
+
+	import xray.github;
+   	xray.github.setProxy(false);
+}
+
+var getXrayCoreUrl = function(){
+	import inet.http;
+	var http = ..inet.http();
+	var url = http.location("https://github.com/XTLS/Xray-core/releases/latest");
+	http.close();
+	
+	if(!url)return;
+	
+	var tag = ..string.match(url,"[^/]+$")
+	if(!tag) return;
+	
+	return "https://github.com/XTLS/Xray-core/releases/download/" 
+		+ tag + "/xray-windows-" +	(..process().isWow64() ? "64" : "32") + ".zip",tag
+} 
+
+getPath = function(hwnd){
+	var path = ..io.fullpath("/xray-core/xray.exe");
+	if(..io.exist(path)){
+		return path;
+	}
+		
+	var path = ..io.appData("/xray/core/xray.exe");
+	if(..io.exist(path)){
+		return path;
+	}
+	
+	var url = getXrayCoreUrl();
+	if(!url) return null;
+	
+	import zlib.httpFile;
+	if( ..zlib.httpFile.download(url,"正在下载 Xray Core"
+		,..io.appData("/xray/download/")
+		,..io.appData("/xray/core/"),,hwnd) )
+		return ..io.exist(path);
+} 
+
+updateCore = function(){
+	var coreDir = ..io.exist("/xray-core/xray.exe") ? ..io.fullpath("/xray-core/");
+	if(!coreDir){
+		coreDir = ..io.appData("/xray/core/");
+	}
+	
+	var url,versionTag = getXrayCoreUrl();
+	if(!url) return null; 
+	  
+	import fsys;
+	fsys.delete(..io.appData("/xray/temp/"))
+	
+	import zlib.httpFile;
+	if( ..zlib.httpFile.download(url,"正在下载 Xray Core"
+		,..io.appData("/xray/download/")
+		,..io.appData("/xray/temp/"),,..mainForm.hwnd) ){
+			if(..io.exist(..io.appData("/xray/temp/xray.exe"))){
+				import sysProxy;
+				sysProxy.reset(false);
+
+				import process.file;
+				process.file.terminate(..io.joinpath(coreDir,"xray.exe")); 
+				fsys.copy(..io.appData("/xray/temp/xray.exe"),..io.joinpath(coreDir,"xray.exe")); 
+				
+				return versionTag;
+			}
+		} 	 
+}
+
+/**intellisense(xray.core)
+socksProxyPort = SOCKS代理端口
+httpProxPort = HTTP代理端口
+isInboundPortChanged() = 是否已变更代理端口配置
+restart(.(editor,outbound) = 重启启动 Xray 服务进程
+end intellisense**/

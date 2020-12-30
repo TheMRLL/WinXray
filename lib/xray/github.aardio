@@ -1,0 +1,46 @@
+//github 代理设置
+import xray.core;
+import process.popen;
+namespace xray.github;
+
+setProxy = function(enableProxy){
+	if(enableProxy===null){
+			enableProxy = (..config.proxy.mode === "pac") || (..config.proxy.mode === "proxy")
+			
+			if(!..config.proxy.enableGitConfigGithub){
+			return;
+		}
+	} 
+
+	var socksPort = ..xray.core.socksProxyPort;
+	if(!socksPort && enableProxy) return; 
+
+	var git;
+	if(enableProxy){
+		git = ..process.popen("git config --global http.https://github.com.proxy socks5://127.0.0.1:" + socksPort)
+		
+		var path = ..io.getSpecial(0x28/*_CSIDL_PROFILE*/,".ssh/config")
+		var str = ..string.load(path):"";
+		if(..string.find(str,"Host\s+github.com" ) ){
+			if(!..string.find(str,"Host\s+github.com\s+ProxyCommand\s+connect\s+\-S\s+127\.0\.0\.1\:\d+ \-a none \%h \%p" )){
+				str = ..string.replace(str,"Host\s+github.com",'Host github.com\r\n    ProxyCommand connect -S 127.0.0.1:' + socksPort + ' -a none %h %p')
+			}
+		}
+		else {
+			str = str + '\r\n\r\nHost github.com\r\n    ProxyCommand connect -S 127.0.0.1:' + socksPort + ' -a none %h %p'
+		}
+		
+		..string.save(path,str)
+	}
+	else {
+		git = ..process.popen("git config --global --unset http.https://github.com.proxy")
+		var path = ..io.getSpecial(0x28/*_CSIDL_PROFILE*/,".ssh/config")
+		var str = ..string.load(path):"";
+		if(..string.find(str,"Host\s+github.com" ) ){
+			if(..string.find(str,"Host\s+github.com\s+ProxyCommand\s+connect\s+\-S\s+127\.0\.0\.1\:\d+ \-a none \%h \%p" )){
+				str = ..string.replace(str,"Host\s+github.com\s+ProxyCommand\s+connect\s+\-S\s+127\.0\.0\.1\:\d+ \-a none \%h \%p",'Host github.com')
+				..string.save(path,str)
+			}
+		}
+	} 
+}

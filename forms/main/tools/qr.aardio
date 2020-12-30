@@ -1,0 +1,71 @@
+import win.ui;
+import win.ui.atom;
+import fonts.fontAwesome;
+/*DSG{{*/
+var winform = win.form(text="winXray - 二维码生成工具";right=730;bottom=678;bgcolor=16777215;border="none";exmode="none";mode="popup")
+winform.add(
+bk={cls="bk";left=-6;top=-2;right=734;bottom=27;bgcolor=12632256;z=10};
+btnQrEnode={cls="plus";text="生成二维码";left=562;top=565;right=694;bottom=595;align="left";bgcolor=14935259;db=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=22}};iconText='\uF1C4';notify=1;textPadding={left=40};z=9};
+editUrl={cls="plus";left=44;top=569;right=537;bottom=594;align="right";bgcolor=16777215;border={bottom=1;color=-8355712};db=1;dl=1;dr=1;editable="edit";font=LOGFONT(h=-16);textPadding={bottom=1};z=8};
+lbErrLevel={cls="static";text=" 0：L 可纠错7%数据码字";left=104;top=656;right=272;bottom=679;db=1;dl=1;transparent=1;z=6};
+lbVersion={cls="static";text="自动选择版本";left=466;top=656;right=672;bottom=679;db=1;dr=1;transparent=1;z=7};
+plus={cls="plus";left=28;top=49;right=708;bottom=522;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;repeat="scale";z=1};
+static={cls="static";text="纠错级别:";left=13;top=624;right=97;bottom=651;align="right";db=1;dl=1;transparent=1;z=3};
+static2={cls="static";text="版本(大小):";left=353;top=624;right=437;bottom=651;align="right";db=1;dl=1;dr=1;transparent=1;z=5};
+static3={cls="static";text="winXray - 二维码生成工具";left=17;top=4;right=230;bottom=24;color=3947580;transparent=1;z=11};
+tbErrLevel={cls="trackbar";left=96;top=611;right=290;bottom=641;bgcolor=16777215;db=1;dl=1;max=3;min=0;z=2};
+tbVersion={cls="trackbar";left=439;top=611;right=703;bottom=641;bgcolor=16777215;db=1;dr=1;max=40;min=0;z=4}
+)
+/*}}*/
+
+import style;
+winform.btnQrEnode.skin(style.primaryButton); 
+
+winform.tbErrLevel.oncommand = function(id,event,pos){
+		
+	if( event == 0x8/*_TB_ENDTRACK*/ ){
+		pos = winform.tbErrLevel.pos;
+		var v = {[0]="L 可纠错7%数据码字";[1]="M 可纠错15%的数据码字";[2]="Q 可纠错25%的数据码字";[3]="H 可纠错30%的数据码字";}
+		winform.lbErrLevel.text = pos +"："+ v[pos];  
+	}
+}
+	
+winform.tbVersion.oncommand = function(id,event,pos){ 
+	if( event == 0x8/*_TB_ENDTRACK*/ ){
+		pos = winform.tbVersion.pos;
+		if(!pos)winform.lbVersion.text = "自动选择版本";
+		else {
+			var width = ((pos-1)*4)+21;
+			winform.lbVersion.text = string.format("版本:%d 二维码数据大小:%d x %d",pos,width,width );  
+		}
+	} 
+}
+
+import win.dlg.message;
+import qrencode.bitmap;
+winform.btnQrEnode.oncommand = function(id,event){ 
+	if(!#winform.editUrl.text){
+		return winform.msgErr("请先输入内容")
+	}
+	
+	winform.plus.hide = true;
+	var qrBmp = qrencode.bitmap(winform.editUrl.text,winform.tbVersion.pos,winform.tbErrLevel.pos );
+	if(!qrBmp){
+		return winform.msgErr("请先输入内容")
+	}
+	winform.plus.setBackground(qrBmp.copyBitmap(winform.plus.width));
+	
+	winform.plus.hide = false;
+	winform.plus.redraw()
+}
+
+winform.createQrCode = function(url){
+	winform.editUrl.text = url;
+	winform.btnQrEnode.oncommand();
+}
+
+import win.ui.simpleWindow2;
+win.ui.simpleWindow2(winform);
+
+winform.show() 
+win.loopMessage();

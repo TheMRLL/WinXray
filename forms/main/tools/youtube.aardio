@@ -1,0 +1,95 @@
+import fonts.fontAwesome;
+import win.ui;
+import win.ui.atom;
+/*DSG{{*/
+var winform = win.form(text="youtube 视频下载工具（点击视频链接即可下载）";right=759;bottom=469)
+winform.add(
+btnVideoInfo={cls="button";text="获取视频下载地址";left=511;top=27;right=732;bottom=60;dr=1;dt=1;font=LOGFONT(h=-16;name='FontAwesome');z=3};
+editInfo={cls="richedit";left=29;top=83;right=735;bottom=445;autohscroll=false;db=1;dl=1;dr=1;dt=1;edge=1;link=1;multiline=1;vscroll=1;z=1};
+editVideoUrl={cls="edit";text="https://www.youtube.com/watch?v=ZFA5Rax0ypU";left=27;top=29;right=499;bottom=58;dl=1;dr=1;dt=1;edge=1;multiline=1;z=2}
+)
+/*}}*/
+
+winform.btnVideoInfo.oncommand = function(id,event){
+	var url = winform.editVideoUrl.text;
+	var vid = string.match(url,"v=([\w\-]+)");
+	if(!vid){
+		return winform.editVideoUrl.showErrorTip(,"请输入正确的视频地址");
+	}
+	
+	winform.btnVideoInfo.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'}
+	thread.invoke( 
+		function(winform,vid){
+			import web.rest.jsonLiteClient; 
+			var http = web.rest.jsonLiteClient();
+			
+			var videoApi = http.api("https://www.youtube.com/get_video_info?video_id={video_id}");
+			var info = videoApi[vid].get(); 
+		
+			if(!info){
+				winform.editInfo.text = "网络错误";
+				winform.btnVideoInfo.disabledText = null;
+			}
+			
+			winform.editInfo.text = "";
+			winform.editInfo.print( "视频作者：",info.player_response.videoDetails.author);
+			winform.editInfo.print( "视频标题：",info.player_response.videoDetails.title);
+			winform.editInfo.print( "视频说明：",info.player_response.videoDetails.shortDescription);
+			winform.videoTitle = info.player_response.videoDetails.title;
+		
+			for(i,v in info.player_response.streamingData.adaptiveFormats){
+				if(!string.indexOf(v.mimeType,"audio/mp4")){
+					continue;
+				}
+				
+				winform.editInfo.print();
+				winform.editInfo.print("音频质量：",v.quality);
+				winform.editInfo.print("音频地址：",v.url); 
+			}
+			
+			for(i,v in info.player_response.streamingData.formats){
+				if(!string.indexOf(v.mimeType,"video/mp4")){
+					continue;
+				}
+				
+				winform.editInfo.print();
+				winform.editInfo.print("视频质量：",v.qualityLabel);
+				winform.editInfo.print("视频地址(含音频)：",v.url); 
+			}
+
+	
+			var captionTracks = info.player_response.captions[["playerCaptionsTracklistRenderer"]][["captionTracks"]];
+			if(info.captions[["playerCaptionsTracklistRenderer"]][["captionTracks"]]){
+				if(#captionTracks){
+					for(k,v in captionTracks){
+						if(v.languageCode=="en"){
+							var str  = http.get(v.baseUrl)
+							winform.editInfo.print(str);
+							break
+						}	 
+					}
+					
+				}
+			}
+			
+			winform.editInfo.setFocus();
+			winform.btnVideoInfo.disabledText = null;
+		},winform,vid
+	)
+}
+
+import fsys.dlg;
+import inet.downBox;
+winform.editInfo.onlink=function(message,href){
+	if( message = 0x202/*_WM_LBUTTONUP*/ ) {
+		var path = fsys.dlg.open("*.mp4|*.mp4","请选择下载路径",,winform,,fsys.path.validName(winform.videoTitle))
+		if(!path) return;
+		
+		var downBox = inet.downBox(winform,"下载视频");
+		downBox.download(href,path);
+	}
+}
+
+winform.enableDpiScaling();
+winform.show();
+win.loopMessage();

@@ -1,0 +1,342 @@
+import fonts.fontAwesome;
+import win.ui;
+/*DSG{{*/
+var winform = win.form(text="aardio form";right=912;bottom=793;bgcolor=16777215)
+winform.add(
+btnUpdate={cls="plus";text="更新设置";left=731;top=750;right=863;bottom=781;align="left";bgcolor=11580047;db=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=22}};iconText='\uF0C7';notify=1;textPadding={left=40};z=7};
+editCoreConfig={cls="edit";left=10;top=34;right=903;bottom=744;db=1;dl=1;dr=1;dt=1;edge=1;hide=1;hscroll=1;multiline=1;vscroll=1;z=6};
+editOutbounds={cls="edit";left=9;top=32;right=902;bottom=743;db=1;dl=1;dr=1;dt=1;edge=1;hscroll=1;multiline=1;vscroll=1;z=1};
+lbTip={cls="static";text="可在下面输入JSON数组、或每行一个服务器链接、或每行以空格分开的服务器配置文本：";left=11;top=9;right=899;bottom=29;color=3947580;dl=1;dr=1;dt=1;font=LOGFONT(h=-13);transparent=1;z=8};
+navCoreConfig={cls="plus";text="高级配置( JSON )";left=184;top=750;right=315;bottom=782;border={top=1;color=-16744448};db=1;dl=1;z=3};
+navOutbounds={cls="plus";text="服务器配置( JSON )";left=53;top=750;right=184;bottom=782;border={top=1;color=-16744448};db=1;dl=1;z=2};
+navRight={cls="plus";left=314;top=750;right=604;bottom=751;bgcolor=16777215;border={color=-16744448};db=1;dl=1;dr=1;forecolor=32768;linearGradient=180;z=4};
+plus={cls="plus";left=9;top=750;right=53;bottom=751;border={color=-16744448};db=1;dl=1;forecolor=32768;z=5}
+)
+/*}}*/
+
+import config;
+import web.json;
+import win.ui.tabs;
+var tbs = win.ui.tabs(winform.navOutbounds,winform.navCoreConfig,winform.nav06,winform.nav091,winform.navZhengMa,winform.navTxt)
+tbs.margin = 0;
+
+tbs.skin({
+	foreground={
+		active=0xFFFFFFFF;
+		default=0x00FFFFFF;
+		hover=0xFFCCCCCC;
+	};
+	checked={
+		foreground={ 
+			default=0x00FFFFFF; 
+		};
+		border = { 
+			default = {left=1;right=1;bottom=1;color=0xFF008000} 
+		}; 
+	}
+});
+
+tbs.onSelchange = function(idx,strip,form){
+	if(idx==1){
+		winform.editOutbounds.hide = false;
+		winform.editCoreConfig.hide = true;
+		winform.lbTip.text = `可在下面输入JSON数组、或每行一个服务器链接、或每行以空格分开的服务器配置文本：`
+	}
+	else {
+		winform.editOutbounds.hide = true;
+		winform.editCoreConfig.hide = false;
+		winform.lbTip.text = `outbounds[1]会被自动替换为服务器数组，请勿修改： `
+	}	
+}
+tbs.selIndex = 1;
+
+import style;
+winform.btnUpdate.skin(style.primaryButton);
+winform.btnUpdate.oncommand = function(id,event){
+	winform.btnUpdate.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'};
+
+	if(tbs.selIndex==1){
+		if(..string.match(winform.editOutbounds.text,"%\[\]")){
+			var cfg,err = web.json.tryParse(winform.editOutbounds.text);
+			if(!cfg){
+				winform.editOutbounds.showErrorTip(,string.concat("JSON语法错误 ",err));
+				winform.btnUpdate.disabledText = null;
+				return;
+			}
+			config.proxy.outbounds = cfg : ..table.array();
+		}
+		else {
+			var outbounds = xray.outbounds.importFromString(winform.editOutbounds.text);
+			config.proxy.outbounds = outbounds : ..table.array(); 
+			winform.editOutbounds.text = web.json.stringify(outbounds,true);
+		}
+		
+		config.proxy.save();
+		winform.editOutbounds.modified = false;
+		publish("config.proxy.outbounds.changed",cfg)    	
+	}
+	elseif(tbs.selIndex==2) {
+		var cfg,err = web.json.tryParse(winform.editCoreConfig.text);
+		if(type(cfg)!==type.table){
+			winform.editCoreConfig.showErrorTip(,string.concat("JSON语法错误 ",err));
+			winform.btnUpdate.disabledText = null;
+			return;
+		}
+		
+		if(cfg.outbounds[[1]][["tag"]]!="proxy"){
+			winform.msgErr(`outbounds[1]必须指定为{"tag":"proxy"}`);
+			winform.btnUpdate.disabledText = null;
+			return; 
+		}
+		
+		config.core.default = cfg;
+		config.core.save();
+		publish("config.proxy.outbounds.changed",cfg)   
+	} 
+
+	win.delay(500);
+	winform.btnUpdate.disabledText = null;
+	winform.msgOk("配置已更新",1200);
+}
+
+
+import xray.outbounds;
+winform.editOutbounds.enablePopMenu(function(){
+	if(tbs.selIndex==1){
+		var strEditBounds = string.trim(winform.editOutbounds.text);
+		var menu = {
+			{ /*---分隔线---*/ };
+			{ "自剪贴板批量导入vmess、trojan、ss链接、或订阅源";
+				function(id){ 
+					
+					var outbounds = xray.outbounds.importOutboundFromClip();
+					if(#outbounds){ 
+						var json = strEditBounds;
+						if( (!#json) || ..string.match(json,"%\[\]")){
+							var cfg,err = ..table.array();
+							if(#json){
+								cfg,err= web.json.tryParse(strEditBounds);
+								if(!cfg){
+									winform.editOutbounds.showErrorTip(,string.concat("当前配置存在JSON语法错误 ",err));
+									return;
+								}	
+							} 
+							
+							..table.append(cfg,outbounds);
+							winform.editOutbounds.text = ..web.json.stringify(cfg,true);
+						}
+						else {
+							var str = xray.outbounds.exportSharedLinks(outbounds);
+							if(#strEditBounds){
+								winform.editOutbounds.text = strEditBounds+ '\r\n' + str;
+							}
+							else {
+								winform.editOutbounds.text = str;
+							} 
+						}
+						
+						winform.msgOk("已成功导入" + #outbounds + "个服务器,请点击「更新设置」启用新配置。",1200);
+						winform.editOutbounds.modified = true;
+						winform.editOutbounds.setFocus();
+						return; 
+					}
+		
+					winform.msgFrown("未导入服务器, 请先复制订阅源、或vmess、ss、trojan链接！")
+				} 
+			};  
+		}
+		
+		if( (!#strEditBounds) || ..string.match(strEditBounds,"%\[\]")){
+			menu[3] = { "更新订阅源";
+				function(id){ 
+					var cfg,err = ..table.array();
+					
+					var json = strEditBounds;
+					if(#json){
+						cfg,err = web.json.tryParse(strEditBounds);
+						if(!cfg){
+							winform.editOutbounds.showErrorTip(,string.concat("JSON语法错误 ",err));
+							return;
+						}
+					}
+					 
+					var subscribeUrls = {}
+					for(i=#cfg;1;-1){
+						var outbound = cfg[i] 
+						if(outbound.subscribeUrl){
+							subscribeUrls[outbound.subscribeUrl] = true;	
+						}
+					}
+					
+					if(!table.count(subscribeUrls)){
+						import win.clip;
+						var clibStr = win.clip.read();
+						if( ..string.startWith(clibStr,"http://") || ..string.startWith(clibStr,"https://")  ){
+							subscribeUrls[clibStr] = true;
+						}
+						else {
+							winform.msgWarn('当前配置不包含来自订阅源的服务器,\n请先复制订阅源网址到剪贴板!');
+							return;
+						} 
+					}
+					 
+					var count = 0;
+					for(url,v in subscribeUrls){ 
+						var outbounds = xray.outbounds.importFromString(url);
+						if(#outbounds){
+							for(i=#cfg;1;-1){
+								var outbound = cfg[i] 
+								if(outbound.subscribeUrl==url){
+									..table.remove(	cfg,i );
+								}
+							}
+							
+							count = count + #outbounds;
+							..table.append(cfg,outbounds);
+						}
+					}
+					
+					winform.editOutbounds.text = ..web.json.stringify(cfg,true);
+						
+					winform.msgOk("已成功刷新" + count + "个服务器,请点击「更新设置」启用新配置。",1200);
+					winform.editOutbounds.modified = true;
+					winform.editOutbounds.setFocus();
+					return;   
+				} 
+			};
+		}
+		
+		if(..string.match(strEditBounds,"%\[\]")){	
+			menu[4] = {}	
+			menu[5] = { "转换为 vmess、trojan、ss 分享链接";
+				function(id){ 
+					var cfg,err = web.json.tryParse(strEditBounds);
+					if(!cfg){
+						winform.editOutbounds.showErrorTip(,string.concat("JSON语法错误 ",err));
+						return;
+					}
+		
+					var str = xray.outbounds.exportSharedLinks(cfg);
+					if(str){ 
+						winform.editOutbounds.text = str;
+						winform.editOutbounds.modified = true;
+					} 
+				} 
+			}; 
+			menu[6] = { "转换为 Base64 订阅源";
+				function(id){ 
+					var cfg,err = web.json.tryParse(strEditBounds);
+					if(!cfg){
+						winform.editOutbounds.showErrorTip(,string.concat("JSON语法错误 ",err));
+						return;
+					}
+		
+					var str = xray.outbounds.exportSharedLinks(cfg);
+					if(str){ 
+						import crypt;
+						winform.editOutbounds.text = ..crypt.encodeBin(str);
+						winform.editOutbounds.modified = true;
+					} 
+				} 
+			}; 
+			menu[7] = { "转换为文本格式";
+				function(id){ 
+					var cfg,err = web.json.tryParse(strEditBounds);
+					if(!cfg){
+						winform.editOutbounds.showErrorTip(,string.concat("JSON语法错误 ",err));
+						return;
+					}
+		
+					var outstr = {};
+					for i,outbound in table.eachIndex(cfg){
+						if(outbound.protocol != "shadowsocks"){
+							var path = outbound.path;
+							if( outbound.host){
+								path = ( (#outbound.type && outbound.type!="none") ? outbound.type : outbound.network : "")  
+									+ "://" + outbound.host ++ path;
+							}
+							
+							table.push(outstr, string.concat( outbound.address,'\t'
+								,outbound.port,'\t'
+								,outbound.id,,'\t'
+								,outbound.network,'\t'
+								,path,'\t'
+								,outbound.tls ) );
+						}
+						else {
+							table.push(outstr, string.concat( outbound.address,'\t'
+								,outbound.port,'\t'
+								,outbound.id,,'\t'
+								,'shadowsocks\t'
+								,outbound.security) ); 
+						}
+					}
+					
+					winform.editOutbounds.text = string.join(outstr,'\r\n');
+					winform.editOutbounds.modified = true;
+				} 
+			}; 
+		}
+		elseif( #strEditBounds ) {
+			menu[3] = {}
+			
+			menu[4] = { "转换为 JSON";
+				function(id){
+					import web.json;
+					var outbounds = xray.outbounds.importFromString(strEditBounds);
+					if(outbounds){ 
+						winform.editOutbounds.text = web.json.stringify(outbounds,true);
+						winform.editOutbounds.modified = true;
+					} 
+				} 
+			}; 
+		} 
+		
+		table.push(menu,{ /*---分隔线---*/ });
+		if(winform.editOutbounds.modified){
+			table.push(menu,{ "恢复为当前服务器配置(JSON)";
+				function(id){
+					winform.editOutbounds.text = web.json.stringify( 
+						config.proxy.outbounds,true
+					)
+					winform.editOutbounds.modified = false;
+				} 
+			}); 
+		}
+		
+		table.push(menu,{ "恢复为默认服务器配置(JSON)";
+			function(id){
+				..config.__loadDefaultOutbounds();
+				publish("config.proxy.outbounds.changed",cfg);
+			} 
+		}); 
+		
+		return menu;
+	}
+})
+
+subscribe("config.proxy.outbounds.config.changed",function(){
+	if(winform.editOutbounds.modified){
+		return;
+	}
+	
+	winform.editOutbounds.text = web.json.stringify( 
+		config.proxy.outbounds,true
+	)
+	
+	winform.editOutbounds.modified = false;
+} )
+
+winform.editOutbounds.text = #config.proxy.outbounds ? web.json.stringify( 
+		config.proxy.outbounds ,true
+) : "[]"
+winform.editOutbounds.modified = false;
+
+winform.editCoreConfig.text = web.json.stringify( 
+	config.core.default,true
+)
+
+winform.enableDpiScaling();
+winform.show();
+win.loopMessage();
+return winform;

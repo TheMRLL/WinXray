@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<project ver="10" name="winXray" libEmbed="true" icon="\app.ico" ui="win" output="winXray.exe" CompanyName="winXray" FileDescription="xray,xray,trojan,shadowsocks 通用客户端" LegalCopyright="Copyright (C) winXray 2020" ProductName="winXray" InternalName="winXray" FileVersion="2.1.0.0" ProductVersion="2.1.0.0" publishDir="\winXray" dstrip="false" local="false">
+<project ver="10" name="winXray" libEmbed="true" icon="\app.ico" ui="win" output="winXray.exe" CompanyName="winXray" FileDescription="xray,xray,trojan,shadowsocks 通用客户端" LegalCopyright="Copyright (C) winXray 2020" ProductName="winXray" InternalName="winXray" FileVersion="2.3.0.03" ProductVersion="2.3.0.03" publishDir="\winXray" dstrip="false" local="false">
 	<file name="main" path="main.aardio"/>
 	<folder name="窗体" path="forms" comment="" embed="true" local="false">
 		<folder name="main" path="forms\main" comment="forms\main" local="false" embed="false">
 			<file name="pac.aardio" path="forms\main\pac.aardio" comment="forms\main\pac.aardio"/>
 			<file name="xray.aardio" path="forms\main\xray.aardio" comment="forms\main\xray.aardio"/>
-			<folder name="config" path="forms\main\config" comment="forms\main\config">
+			<folder name="config" path="forms\main\config" comment="forms\main\config" local="false" embed="false">
 				<file name="advancedConfig.aardio" path="forms\main\config\advancedConfig.aardio" comment="forms\main\config\advancedConfig.aardio"/>
 				<file name="jsonConfig.aardio" path="forms\main\config\jsonConfig.aardio" comment="forms\main\config\jsonConfig.aardio"/>
 				<file name="subscription.aardio" path="forms\main\config\subscription.aardio" comment="forms\main\config\subscription.aardio"/>

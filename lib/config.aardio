@@ -1,0 +1,151 @@
+﻿//config 配置文件 
+import fsys.config;
+config  = fsys.config( io.appData("/winXray/") ); 
+
+namespace config {
+	__appName = "winXray"; 
+	__loadDefaultOutbounds = function(){
+		import xray.outbounds;
+		var serverData =  ..string.load("/xray-core/winXray-default-servers.json") 
+			: $"/xray-core/winXray-default-servers.json"
+		
+		proxy.outbounds = ..xray.outbounds.importFromString(..string.removeBom(serverData));
+		..publish("outbounds.updateConfigJson",)
+	}
+	
+	if(!proxy.outbounds){
+		__loadDefaultOutbounds();
+	}
+}
+
+if(!config.proxy.mode) config.proxy.mode = "pac";
+if(!config.proxy.pacPort) config.proxy.pacPort = 0;
+if(config.proxy.useHttpGlobal===null){
+	config.proxy.useHttpGlobal = !_WIN10_LATER;
+}
+
+if(config.proxy.enableGitConfigGithub===null){
+	config.proxy.enableGitConfigGithub = true;
+}
+
+if(config.proxy.test === null){
+	config.proxy.test = true;
+}
+
+if(config.proxy.autoRefreshSubscription === null){
+	config.proxy.autoRefreshSubscription = true;
+}
+
+if(!config.proxy.testInterval){
+	config.proxy.testInterval = 15;
+}
+
+if(!config.proxy.maxTestServers){
+	config.proxy.maxTestServers = 100;
+}
+
+if(!config.proxy.subscribeUrls){
+	config.proxy.subscribeUrls = {
+		fields =  {"";"checked";"ps";"url";}
+	}
+}
+
+config.__resetDefaultCore = function(){
+	config.core.default =  {
+		inbounds={
+			{
+				listen="127.0.0.1";
+				port=0;
+				protocol="socks";
+				settings={
+					auth="noauth";
+					udp=true;
+				};
+				sniffing={
+					destOverride={
+						"http";
+						"tls"
+					};
+					enabled=true
+				};
+				tag="proxy";
+			}; 
+			{
+				listen="127.0.0.1";
+				port=0;
+				protocol="http";
+				settings={};
+				sniffing={
+					destOverride={
+						"http";
+						"tls"
+					};
+					enabled=true
+				};
+				tag="http_proxy"
+			}
+		};
+		log={
+			access="";
+			error="";
+			loglevel="warning"
+		};
+		outbounds={
+			{
+				tag="proxy"
+			};
+			{
+				protocol="freedom";
+				settings={};
+				tag="direct";
+			};
+			{
+				protocol="blackhole";
+				settings={
+					response={
+						type="http"
+					};
+				};
+				tag="block";
+			}
+		};
+		routing={
+			domainStrategy="IPIfNonMatch";
+			rules={
+				{
+					inboundTag={
+						"api"
+					};
+					outboundTag="api";
+					type="field";
+				}
+			}
+		};
+	}	
+}
+
+if(!config.core.default){
+	config.__resetDefaultCore();
+}
+
+if(!config.core.default.inbounds[2]){
+	config.core.default.inbounds[2]	= {
+		listen="127.0.0.1";
+		port=0;
+		protocol="http";
+		settings={};
+		sniffing={
+			destOverride={
+				"http";
+				"tls"
+			};
+			enabled=true
+		};
+		tag="http_proxy"
+	}
+}
+
+/**intellisense(config)
+__appName = 应用程序名
+? = 配置文件名,\n读写配置并序列化为一个表对象,\n表的成员值可以是支持序列化的普通变量,支持table对象\n配置文件在首次使用时自动加载,退出程序时自动保存\n!fsys_table.
+end intellisense**/

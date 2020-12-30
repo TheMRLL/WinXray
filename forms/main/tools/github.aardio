@@ -1,0 +1,240 @@
+//RUNAS//github优化
+import fonts.fontAwesome;
+import win.ui;
+/*DSG{{*/
+var winform = win.form(text="github.com 网速优化工具";right=655;bottom=281;bgcolor=16777215;border="none";max=false)
+winform.add(
+bk={cls="bk";left=0;top=0;right=659;bottom=34;bgcolor=12632256;z=8};
+cmbIpCidrs={cls="combobox";left=49;top=111;right=328;bottom=137;edge=1;items={};mode="dropdown";z=1};
+editIpCurrent={cls="edit";left=118;top=206;right=366;bottom=230;edge=1;z=5};
+plusExploreHosts={cls="plus";text='\uF07C 编辑hosts文件';left=450;top=204;right=607;bottom=235;bgcolor=-6371181;font=LOGFONT(h=-15;name='FontAwesome';charset=0);notify=1;z=7};
+plusUpdateDns={cls="plus";text='\uF0AD 更改github.com解析到选定IP / 并更新图像等服务器IP';left=77;top=158;right=563;bottom=189;bgcolor=-6371181;font=LOGFONT(h=-15;name='FontAwesome';charset=0);notify=1;z=3};
+plusUpdateIps={cls="plus";text='\uF021 获取最新IP列表 / 测速';left=345;top=108;right=607;bottom=139;bgcolor=-6371181;font=LOGFONT(h=-15;name='FontAwesome';charset=0);notify=1;z=2};
+static={cls="static";text="本工具使用github官网接口优化http协议访问官网速度（ 适用于无代理连接 ）。";left=49;top=50;right=635;bottom=86;font=LOGFONT(h=-13);transparent=1;z=4};
+static2={cls="static";text="当前指向IP:";left=27;top=208;right=111;bottom=228;align="right";transparent=1;z=6}
+)
+/*}}*/
+
+winform.cmbIpCidrs.onListChange = function(){  
+	winform.setTimeout( 
+		function(){
+			var ip = string.match(winform.cmbIpCidrs.selText,"\d+\.\d+\.\d+\.\d+");
+			if(!ip){
+				return ; 
+			}
+			winform.plusUpdateDns.text = "更改 github.com 域名解析到:" + ip
+		}
+	);	
+}
+
+import wsock;
+import fsys.config;
+config  = fsys.config( io.appData("/aardio/github-ip-tools/") ); 
+winform.plusUpdateIps.oncommand = function(id,event){
+	winform.editIpCurrent.text = wsock.getIp("www.github.com")
+
+	winform.plusUpdateIps.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'}
+	winform.text = "请稍候，正在测试github.com所有可用IP的响应速度"
+
+	var metaInfo = win.invoke(
+		function(){
+			import win;
+			import web.rest.jsonClient;
+			var http = web.rest.jsonClient();
+			var github = http.api("https://api.github.com/")
+			
+			return github.meta.get() :  { git = {
+				"192.30.252.0";
+				"185.199.108.0";
+				"140.82.112.0";
+				"13.114.40.48";
+				"13.229.188.59";
+				"13.234.176.102";
+				"13.234.210.38";
+				"13.236.229.21";
+				"13.237.44.5";
+				"13.250.177.223";
+				"15.164.81.167";
+				"18.194.104.89";
+				"18.195.85.27";
+				"35.159.8.160";
+				"52.192.72.89";
+				"52.64.108.95";
+				"52.69.186.44";
+				"52.74.223.119";
+				"52.78.231.108"
+			} };
+		} 
+	)
+		
+	if(metaInfo[["git"]]){
+		config.meta.data = table.map(metaInfo.git,lambda(v)..string.match(v,"^\d+\.\d+\.\d+\.\d+"))
+	}
+	elseif(!config.meta.data){
+		winform.msgboxErr("您的操作系统版本过低")
+	}
+
+	var pingThread = function( ip ) {
+		import wsock.tcp.client; 
+		
+		var result = 0;
+		for(i=1;4;1){
+			
+			var beginTick = ..time.tick()
+			var tcp = wsock.tcp.client() 
+			
+			tcp.setTimeouts(1000,1000);
+			if( ! tcp.connectTimeout(ip,80,2) ){
+				return;
+			};
+			
+				sendData =/***********
+GET /  HTTP/1.1
+Host: www.github.com
+Connection: close
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64)
+Accept: */*;  
+Accept-Language: zh-CN,zh; 
+Accept-Charset:utf-8;  
+***********/
+			tcp.write( sendData + '\r\n\r\n' )
+			
+			var rep = tcp.readAll();
+			tcp.close();
+			
+			if( rep && ..string.startWith(rep,"HTTP/1.1 301 Moved Permanently") ){ 
+				result = result + ((..time.tick() - beginTick)/1000); 
+			} 
+			else {
+				return;
+			}
+			
+		}
+		
+		return ip,math.round(result/4,2);
+
+	} 
+	
+	import thread.manage;
+	manage = thread.manage(#config.meta.data) 
+
+	var ipData = {}
+	for(k,ip in config.meta.data){
+		manage.createSuspended(pingThread,ip).onEnd = function(ip,sec){
+			if(ip && sec!==null ) {
+				table.push(ipData,ip + " 响应速度:" + sec + "秒");
+				winform.cmbIpCidrs.items = ipData;
+				winform.cmbIpCidrs.selIndex = 1;
+			}
+		} 
+	}
+	
+	manage.resume();
+	manage.waitClose();
+	
+	winform.cmbIpCidrs.items = ipData;
+	winform.cmbIpCidrs.selIndex = 1;
+	winform.cmbIpCidrs.onListChange();
+	
+	winform.text = "github.com 网速优化工具"
+	winform.plusUpdateIps.disabledText = null;
+}
+
+import fsys.hosts;
+winform.plusUpdateDns.oncommand = function(id,event){
+	var ip = winform.cmbIpCidrs.text;
+	if(!#ip){
+		winform.msgboxErr("请选选择IP地址")
+		return;
+	}
+	
+	ip = string.match(ip,"\d+\.\d+\.\d+\.\d+");
+	if( ip == winform.editIpCurrent.text ) return winform.msgboxErr("域名之前已经解析到该IP地址")
+	
+	winform.plusUpdateDns.disabledText = "正在更新IP"
+		
+	var githubIps = { 
+		["www.github.com"] = ip;
+		["github.com"] = ip; 
+	}
+	
+	import web.rest.jsonLiteClient; 
+	var http = web.rest.jsonLiteClient();
+	var ipApi = http.api("http://ip-api.com/json");
+	var data = ipApi["raw.githubusercontent.com"].get();
+	if(data[["query"]]){
+		githubIps["raw.github.com"] = data[["query"]];
+		githubIps["assets-cdn.github.com"] = data[["query"]];
+		githubIps["raw.githubusercontent.com"] = data[["query"]];
+		githubIps["gist.githubusercontent.com"] = data[["query"]];
+		githubIps["cloud.githubusercontent.com"] = data[["query"]];
+		githubIps["camo.githubusercontent.com"] = data[["query"]];
+		githubIps["avatars0.githubusercontent.com"] = data[["query"]];
+		githubIps["avatars1.githubusercontent.com"] = data[["query"]];
+		githubIps["avatars2.githubusercontent.com"] = data[["query"]];
+		githubIps["avatars3.githubusercontent.com"] = data[["query"]];
+		githubIps["avatars4.githubusercontent.com"] = data[["query"]];
+		githubIps["avatars5.githubusercontent.com"] = data[["query"]];
+		githubIps["avatars6.githubusercontent.com"] = data[["query"]];
+		githubIps["avatars7.githubusercontent.com"] = data[["query"]];
+		githubIps["avatars8.githubusercontent.com"] = data[["query"]];
+		githubIps["marketplace-screenshots.githubusercontent.com"] = data[["query"]];
+		githubIps["repository-images.githubusercontent.com"] = data[["query"]];
+		githubIps["user-images.githubusercontent.com"] = data[["query"]];
+		githubIps["desktop.githubusercontent.com"] = data[["query"]];
+	}
+	
+	fsys.hosts.ownCacls();
+	fsys.hosts.update(githubIps);
+	
+	win.delay(1000);
+	winform.editIpCurrent.text = wsock.getIp("www.github.com");
+	winform.plusUpdateDns.disabledText = null; 
+	
+	if( ip != winform.editIpCurrent.text ){
+		winform.msgboxErr("修改hosts文件失败，如果hosts文件被其他软件锁定时请先解除锁定，也可以搜索网上教程试试设置文件权限")
+	}
+}
+
+winform.plusExploreHosts.skin(
+	background = { 
+		hover = "/res/images/btn-hover.png";
+		focus = "/res/images/btn-focus.jpg";
+		active = "/res/images/btn-active.png";
+		disabled = "/res/images/btn-disabled.png"; 
+	}
+)
+winform.plusExploreHosts.oncommand = function(id,event){
+	import process;
+	process.execute("notepad.exe",fsys.hosts.path,"runas")
+}
+
+winform.plusUpdateDns.skin({
+	background={
+		default=0xFF93C89E;
+		hover=0xFF928BB3
+	}
+})
+
+winform.plusUpdateIps.skin({
+	background={
+		default=0xFF93C89E;
+		hover=0xFF928BB3
+	}
+})
+
+winform.plusExploreHosts.skin({
+	background={
+		default=0xFF93C89E;
+		hover=0xFF928BB3
+	}
+})
+
+import win.ui.simpleWindow2;
+win.ui.simpleWindow2(winform);
+
+winform.enableDpiScaling();
+winform.show() 
+winform.plusUpdateIps.oncommand();
+
+win.loopMessage();

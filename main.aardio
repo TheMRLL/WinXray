@@ -159,7 +159,8 @@ import win.ui;
 /*DSG{{*/
 mainForm = win.form(text="winXray";right=1019;bottom=679;bgcolor=15793151;border="none")
 mainForm.add(
-caption={cls="bkplus";text="winXray 2.1";left=67;top=9;right=727;bottom=27;align="left";color=6052956;dl=1;dt=1;font=LOGFONT(h=-14);z=7};
+VPN={cls="button";text="推广";left=16;top=312;right=72;bottom=368;z=9};
+caption={cls="bkplus";text="winXray 2.3.1";left=67;top=9;right=727;bottom=27;align="left";color=6052956;dl=1;dt=1;font=LOGFONT(h=-14);z=7};
 custom={cls="custom";left=83;top=40;right=1022;bottom=679;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;z=4};
 logo={cls="bkplus";text='\uF1D9';left=35;top=7;right=64;bottom=32;color=3054125;dl=1;dt=1;font=LOGFONT(h=-18;name='FontAwesome');z=6};
 navBar={cls="bkplus";left=0;top=37;right=83;bottom=681;bgcolor=3442175;db=1;dl=1;dt=1;z=1};
@@ -286,6 +287,17 @@ mainForm.wndproc = {
 				process.openUrl("https://github.com/search?q=winXray+license%3AUnlicense+fork%3Atrue+sort%3Aupdated")
 			});
 			
+			import xray.core;
+			import chrome.path;
+			var chromePath = chrome.path();
+			if(chromePath && xray.core.socksProxyPort){
+				mainForm.popmenu.add('使用 SOCKS5 代理打开浏览器',function(id){ 
+					import process
+					process.execute(chromePath,` --proxy-server="SOCKS5://127.0.0.1:`+xray.core.socksProxyPort 
+						+`" --user-data-dir="` +io.appData("winXray/chrome-socks5")+ `" https://www.google.com`);
+				});	
+			}
+			
 			mainForm.popmenu.add();
 			mainForm.popmenu.add('退出',function(id){ 
 				mainForm.onClose = null;
@@ -333,4 +345,20 @@ if(!_ARGV.tray){
 	mainForm.show(); 
 }
 
-return win.loopMessage(); 
+mainForm.VPN.oncommand = function(id,event){
+ process.execute("http://www.winxray.com");
+}
+
+mainForm.navTools.skin(
+	background = { 
+		hover = "/res/images/btn-hover.png";
+		focus = "/res/images/btn-focus.jpg";
+		active = "/res/images/btn-active.png";
+		disabled = "/res/images/btn-disabled.png"; 
+	}
+)
+mainForm.navTools.oncommand = function(id,event){
+	
+}
+
+return win.loopMessage();

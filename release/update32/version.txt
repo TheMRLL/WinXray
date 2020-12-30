@@ -1,0 +1,8 @@
+{
+    "description":"发布 v2.3，修正刷新clash订阅连接重复添加服务器，改进订阅管理等。",
+    "format":".lzma",
+    "main":"\\winXray.exe",
+    "updater":"\\winXray.exe",
+    "url":"https://raw.githubusercontent.com/winXray/winXray/master/release/update32/",
+    "version":"2.3"
+}
