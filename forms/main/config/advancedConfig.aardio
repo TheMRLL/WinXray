@@ -3,24 +3,24 @@ import win.ui;
 /*DSG{{*/
 var winform = win.form(text="aardio form";right=938;bottom=604;bgcolor=16777215)
 winform.add(
-btnOpenFirewall={cls="plus";text="设置防火墙";left=511;top=424;right=641;bottom=454;align="left";db=1;dl=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=12}};iconText='\uF09C';notify=1;textPadding={left=30};z=7};
-btnUpdate={cls="plus";text="保 存";left=516;top=545;right=619;bottom=581;align="left";bgcolor=11580047;db=1;dl=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=22}};iconText='\uF0C7';notify=1;textPadding={left=40};z=5};
+btnOpenFirewall={cls="plus";text="设置防火墙";left=511;top=424;right=641;bottom=454;align="left";db=1;dl=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=12}};iconText='\uF09C';notify=1;textPadding={left=30};z=8};
+btnUpdate={cls="plus";text="保 存";left=516;top=545;right=619;bottom=581;align="left";bgcolor=11580047;db=1;dl=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=22}};iconText='\uF0C7';notify=1;textPadding={left=40};z=6};
 chkEnableGitConfigGithub={cls="plus";text="设置 git 客户端启用 github.com 代理提速（支持https、ssh协议）";left=302;top=463;right=818;bottom=494;align="left";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome')};iconText='\uF0C8';notify=1;textPadding={left=19};z=13};
-chkLan={cls="plus";text="允许来自局域网的连接";left=302;top=423;right=509;bottom=454;align="left";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome')};iconText='\uF0C8';notify=1;textPadding={left=19};z=1};
+chkLan={cls="plus";text="允许来自局域网的连接";left=302;top=423;right=509;bottom=454;align="left";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome')};iconText='\uF0C8';notify=1;textPadding={left=19};z=2};
 chkSystemStart={cls="plus";text="允许开机启动 winXray";left=302;top=503;right=818;bottom=534;align="left";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome')};iconText='\uF0C8';notify=1;textPadding={left=19};z=17};
 editHttpPort={cls="plus";left=304;top=163;right=384;bottom=187;align="left";bgcolor=16777215;border={bottom=1;color=-8355712};db=1;dl=1;editable="edit";font=LOGFONT(h=-16);textPadding={bottom=1};z=14};
 editLanPacUrl={cls="plus";left=306;top=364;right=725;bottom=388;align="left";bgcolor=16777215;border={bottom=1;color=-8355712};db=1;dl=1;editable="edit";font=LOGFONT(h=-16);textPadding={bottom=1};z=11};
-editPacPort={cls="plus";left=304;top=272;right=384;bottom=296;align="left";bgcolor=16777215;border={bottom=1;color=-8355712};db=1;dl=1;editable="edit";font=LOGFONT(h=-16);textPadding={bottom=1};z=2};
-editPacUrl={cls="plus";left=304;top=319;right=723;bottom=343;align="left";bgcolor=16777215;border={bottom=1;color=-8355712};db=1;dl=1;editable="edit";font=LOGFONT(h=-16);textPadding={bottom=1};z=8};
-editSocksPort={cls="plus";left=304;top=124;right=384;bottom=148;align="left";bgcolor=16777215;border={bottom=1;color=-8355712};db=1;dl=1;editable="edit";font=LOGFONT(h=-16);textPadding={bottom=1};z=3};
+editPacPort={cls="plus";left=304;top=272;right=384;bottom=296;align="left";bgcolor=16777215;border={bottom=1;color=-8355712};db=1;dl=1;editable="edit";font=LOGFONT(h=-16);textPadding={bottom=1};z=3};
+editPacUrl={cls="plus";left=304;top=319;right=723;bottom=343;align="left";bgcolor=16777215;border={bottom=1;color=-8355712};db=1;dl=1;editable="edit";font=LOGFONT(h=-16);textPadding={bottom=1};z=9};
+editSocksPort={cls="plus";left=304;top=124;right=384;bottom=148;align="left";bgcolor=16777215;border={bottom=1;color=-8355712};db=1;dl=1;editable="edit";font=LOGFONT(h=-16);textPadding={bottom=1};z=4};
 lbMaxTestServers={cls="static";text="100";left=590;top=93;right=926;bottom=119;bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-13);transparent=1;z=25};
 lbTestInterval={cls="static";text="15秒";left=590;top=56;right=788;bottom=82;bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-13);transparent=1;z=20};
-lnkVersion={cls="plus";text="正在检查新版本";left=19;top=575;right=380;bottom=606;align="left";color=8388608;db=1;dl=1;font=LOGFONT(h=-13);iconColor=2960685;iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome')};iconText='\uF021';notify=1;paddingLeft=20;z=10};
+lnkVersion={cls="plus";text="正在检查新版本";left=19;top=575;right=380;bottom=606;align="left";color=8388608;db=1;dl=1;font=LOGFONT(h=-13);iconColor=2960685;iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome')};iconText='\uF021';notify=1;paddingLeft=20;z=1};
 radioHttpGlobal={cls="plus";text="全局/PAC 默认使用HTTP代理";left=246;top=206;right=491;bottom=237;align="left";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome')};iconText='\uF111 ';notify=1;textPadding={left=19};z=21};
 radioSocksGlobal={cls="plus";text="全局/PAC 默认使用SOCKS代理";left=491;top=206;right=750;bottom=237;align="left";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome')};iconText='\uF111 ';notify=1;textPadding={left=19};z=22};
-static={cls="static";text="SOCKS 代理服务端口：";left=94;top=128;right=292;bottom=154;align="right";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);transparent=1;z=4};
-static2={cls="static";text="PAC 端口：";left=162;top=277;right=292;bottom=303;align="right";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);transparent=1;z=6};
-static3={cls="static";text="本机 PAC 地址：";left=134;top=324;right=292;bottom=350;align="right";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);transparent=1;z=9};
+static={cls="static";text="SOCKS 代理服务端口：";left=94;top=128;right=292;bottom=154;align="right";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);transparent=1;z=5};
+static2={cls="static";text="PAC 端口：";left=162;top=277;right=292;bottom=303;align="right";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);transparent=1;z=7};
+static3={cls="static";text="本机 PAC 地址：";left=134;top=324;right=292;bottom=350;align="right";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);transparent=1;z=10};
 static4={cls="static";text="局域网 PAC 地址：";left=134;top=370;right=292;bottom=396;align="right";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);transparent=1;z=12};
 static5={cls="static";text="HTTP/HTTPS 代理服务端口：";left=34;top=167;right=292;bottom=193;align="right";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);transparent=1;z=15};
 static6={cls="static";text="支持 SOCKS4、SOCKS4A、SOCKS5";left=392;top=128;right=679;bottom=154;bgcolor=16777215;color=5921370;db=1;dl=1;font=LOGFONT(h=-13);transparent=1;z=16};
@@ -302,14 +302,14 @@ fsys.update.simpleMain.onStatusChanged(function(version,description,status){
 	}
 })
 
-winform.lnkVersion.oncommand = function(id,event){ 
+/*winform.lnkVersion.oncommand = function(id,event){ 
 	
 	winform.lnkVersion.text = fsys.update.simpleMain.getReadyStatusInfo() ? "正在启动自动更新" : "正在检查新版本";
 	winform.lnkVersion.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'}
 	if(fsys.update.simpleMain.checkUpdate(true)){
 		win.quitMessage();
 	}
-}
+}*/
 
 winform.btnOpenFirewall.skin(style.plainButton)
 winform.btnOpenFirewall.oncommand = function(id,event){

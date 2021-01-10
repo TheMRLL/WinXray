@@ -4,5 +4,5 @@
     "main":"\\winXray.exe",
     "updater":"\\winXray.exe",
     "url":"https://raw.githubusercontent.com/winXray/winXray/master/release/update/",
-    "version":"2.3.0.01"
+    "version":"2.3"
 }
