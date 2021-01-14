@@ -1,4 +1,4 @@
-﻿//configJson 启动配置
+﻿//configJson 内核配置
 import config;
 import web.json;
 import inet.url;
@@ -21,6 +21,11 @@ write  = function(jsonPath,outbound,sockPort,httpPort){
 	inbounds[1].pacPort = null; 
 	inbounds[1].port = sockPort; 
 	if(inbounds[2]){ inbounds[2].port = httpPort; }
+	
+
+	if(sockPort<0){
+		..table.shift(inbounds); //当前为SSR连接
+	}
 	
 	if(#outbound.tls && !outbound.sni){
 		var host = outbound.host;
@@ -351,6 +356,50 @@ write  = function(jsonPath,outbound,sockPort,httpPort){
 			};
 			tag="proxy"
 		};
+		
+		..table.assign(current.outbounds[1],ob); 
+	} 
+	elseif(outbound.protocol=="socks"){
+		
+		var ob = {
+			mux = (outbound.concurrency !== null) ? {
+				concurrency=outbound.concurrency;
+				enabled=outbound.concurrency ? ( outbound.concurrency > 0)
+			} : {
+				concurrency=-1;
+				enabled=false
+			}; 
+			protocol="socks";
+			settings={
+				servers={
+					{
+						address=outbound.address;
+						port=outbound.port;
+					}
+				};
+			};
+			streamSettings={
+				network = outbound.network : "tcp";
+			};
+			tag="proxy"
+		};
+		 
+		if(outbound.id){
+			var user,password = ..string.match(outbound.id,"([^\:]+)\:(.+)");
+			if(user && password){
+				ob.settings.servers[1].users = {
+					user = user;
+					password = password;
+					level = outbound.level : 0;
+				}
+			}
+			else{
+				ob.settings.servers[1].users = {
+					user = outbound.id; 
+					level = outbound.level : 0;
+				}
+			}
+		}
 		
 		..table.assign(current.outbounds[1],ob); 
 	} 

@@ -3,6 +3,7 @@ import web.json;
 import inet.url;
 import win.clip;
 import crypt;
+import crypt.bin;
 
 namespace xray.outbounds;
 
@@ -31,8 +32,37 @@ exportSharedLinks = function(outbounds){
 			var ss = "ss://" + ..crypt.encodeBin( outbound.security + ":" + outbound.id + "@" + outbound.address + ":" + outbound.port) + "#" + outbound.address + ":" + outbound.port;
 			..table.push(outString,ss);
 		} 
+		elseif(outbound.protocol == "socks"){
+			var ss;
+			if(outbound.id) ss = outbound.protocol + "://" + outbound.id + "@" + outbound.address + ":" + outbound.port;
+			else ss = outbound.protocol + "://" + outbound.address + ":" + outbound.port;
+			..table.push(outString,ss);
+		} 
+		elseif(outbound.protocol == "ssr" ){
+			var ssrUrl =  outbound.address + ":" + outbound.port 
+				+ ":" + (outbound.network:"origin")+ ":" + (outbound.security:"")+ ":" + (outbound.obfs:"plain") 
+				+ ":" + ..crypt.bin.encodeUrlBase64(outbound.id:"");
+				
+			var info = {};
+
+			if(#outbound.ps)info.remarks = ..crypt.bin.encodeUrlBase64(outbound.ps);
+			if(#outbound.obfsParam)info.obfsparam = ..crypt.bin.encodeUrlBase64(outbound.obfsParam);
+			if(#outbound.networkParam)info.protoparam = ..crypt.bin.encodeUrlBase64(outbound.networkParam); 
+
+			if(#outbound.path)info.ot_path = ..crypt.bin.encodeUrlBase64(outbound.path);
+			if(#outbound.sni)info.ot_domain = ..crypt.bin.encodeUrlBase64(outbound.sni);
+			if(outbound.tls=="tls"){ info.ot_enable = "1"; }
+			 
+			if(..table.count(info)){
+				ssrUrl = ssrUrl +"/?"+ ..inet.url.stringifyParameters(info) 
+			}
+					
+			..table.push(outString,outbound.protocol + "://" + ..crypt.encodeBin(ssrUrl) );
+		}  
 		elseif(outbound.protocol == "trojan"  || outbound.protocol == "trojan-go"){
-			var trojan = outbound.protocol + "://" + outbound.id + "@" + outbound.address + ":" + outbound.port;
+			var trojan;
+			if(outbound.id) trojan = outbound.protocol + "://" + outbound.id + "@" + outbound.address + ":" + outbound.port;
+			else trojan = outbound.protocol + "://" + outbound.address + ":" + outbound.port;
 				
 			var info = {};
 			if(outbound.network!="tcp") info.type = outbound.network;
@@ -50,8 +80,10 @@ exportSharedLinks = function(outbounds){
 			..table.push(outString,trojan);
 		} 
 		elseif(outbound.protocol == "vless"){
-			var vless = "vless://" + outbound.id + "@" + outbound.address + ":" + outbound.port;
-				
+			var vless;
+			if(outbound.id) vless = "vless://" + outbound.id + "@" + outbound.address + ":" + outbound.port;
+			else vless = "vless://" + outbound.id + "@" + outbound.address + ":" + outbound.port;
+			
 			var info = {};
 			if(outbound.network!="tcp") info.type = outbound.network ;
 			if(outbound.security!="none") info.encryption = outbound.security; 
@@ -313,8 +345,8 @@ importFromString = function(str,subscribeUrl){
 			continue;
 		}
 
-		var vmess = ..string.match(line,`vmess\:\/\/([\w=+]+)`);
-		if( vmess ) {  
+		var vmess = ..string.match(line,`vmess\:\/\/([\w=+/-_]+)`);
+		if( vmess ) { 
 			var json = ..crypt.decodeBin(vmess);	
 			var outbound = ..web.json.tryParse(json);	
 			if(type(outbound)=="table"){
@@ -345,7 +377,7 @@ importFromString = function(str,subscribeUrl){
 			} 
 			
 			continue;
-		}	
+		}
 		
 		var vless = ..string.match(line,`vless\:\/\/[^\@\s]+\@[^\?\#\s\:]+\:\d+\S*`);
 		if( vless ) {
@@ -394,13 +426,13 @@ importFromString = function(str,subscribeUrl){
 		if( ss ) { 
 			var userinfo,address,port = ..string.match(ss,"^([^:]+)\@(.+)\:(\d+)")	
 			if(!(userinfo&&address&&port)){
-				var str = ..crypt.decodeBin(ss); 
+				var str = ..crypt.bin.decodeUrlBase64(ss); 
 				if(str){ ss = str; } 
 				
 				method,password,address,port = ..string.match(ss,"^(.+)\:(.+)\@(.+)\:(\d+)")
 			}
 			else {
-				userinfo = ..crypt.decodeBin(userinfo); 
+				userinfo = ..crypt.bin.decodeUrlBase64(userinfo); 
 				if(userinfo){
 					method,password = ..string.match(userinfo,"^(.+)\:(.+)$")
 				}	
@@ -518,6 +550,74 @@ importFromString = function(str,subscribeUrl){
 			
 			continue;
 		}
+
+		var ssrBase64 = ..string.match(line,`ssr\:\/\/([\w=+/-_]+)`);
+		if( ssrBase64 ) { 
+			var ssrUrl = ..crypt.bin.decodeUrlBase64(ssrBase64);	
+			if(ssrUrl){
+				var ssrInfo,ssrParam = ..string.match(ssrUrl,"(.+)\/\?(.+)")
+				var info = ..string.split(ssrInfo:ssrUrl,':');
+				var outbound = {
+					address = info[1];
+					port = info[2];
+					network = info[3];
+					security = info[4];
+					obfs = info[5]; 
+					protocol = "ssr"; 
+				}
+
+				outbound.id = ..crypt.bin.decodeUrlBase64(info[6]:"");
+				if(ssrParam){
+					var params = ..inet.url.splitParameters(ssrParam);
+					if(params){
+						outbound.ps = ..crypt.bin.decodeUrlBase64(params.remarks);
+						outbound.obfsParam = ..crypt.bin.decodeUrlBase64(params.obfsparam);
+						outbound.protoParam = ..crypt.bin.decodeUrlBase64(params.protoparam);
+
+						if(params.group){ 
+							//outbound.subscribeGroup = ..crypt.bin.decodeUrlBase64(params.group);
+						}
+
+						if(params.ot_enable && (params.ot_enable!="0")){ outbound.tls = "tls"; } 
+						outbound.path = ..crypt.bin.decodeUrlBase64(params.ot_path);
+						outbound.sni = ..crypt.bin.decodeUrlBase64(params.ot_domain);
+					}
+				}
+	
+				outbound.subscribeUrl = subscribeUrl;
+				
+				if(outbound.address && outbound.port){
+					..table.push(outbounds,outbound);
+					continue;
+				}
+			}
+		}
+
+		var socks = ..string.match(line,`socks\:\/\/[^\@\s]+\@[^\?\#\s\:]+\:\d+\S*`);
+		if( socks ) {
+			var socksUrl = ..inet.url.split(trojan) 
+			if( socksUrl.host && socksUrl.port){
+				var outbound = {
+					address = socksUrl.host;
+					port = tonumber(socksUrl.port) : 443;
+					network = "tcp";
+					protocol = "socks"
+				};
+
+				if(socksUrl.user && socksUrl.password){
+					outbound.id = socksUrl.user +":"+ socksUrl.password
+				} 
+				
+				if(socksUrl.location){
+					outbound.ps = ..inet.url.decode(socksUrl.location);
+				}
+	
+				outbound.subscribeUrl = subscribeUrl;
+				..table.push(outbounds,outbound);
+			} 
+			
+			continue;
+		}
 		
 		var clashJson = ..string.match(line,`^\s*-\s*(%\{\})\s*$`);
 		if( clashJson ) {
@@ -525,7 +625,15 @@ importFromString = function(str,subscribeUrl){
 			if(type(outbound)=="table"){
 				if(outbound.type){
 					if(outbound.type=="ssr"){
-						continue;						
+						outbound.network = 	outbound.protocol;	
+						outbound.protocol = "ssr";	
+
+						outbound.networkParam = outbound.protocol_param;
+						outbound.protocol_param =  null;
+						 
+						outbound.sni = outbound.ot_domain;
+						outbound.path = outbound.ot_path;
+						outbound.tls = outbound.ot_enable ? "tls" : null;  
 					}
 					
 					if(outbound.type=="ss"){
@@ -577,6 +685,9 @@ validAll = function(outbounds){
 	
 validOutbound = function(outbound){  
 	if(type(outbound)!="table"){ return;  }
+	
+	outbound.obfsParam = outbound.obfs_param;
+	outbound.obfs_param = null;
 	
 	if(outbound.aid){
 		outbound.alterId = outbound.aid;
@@ -793,7 +904,7 @@ updateSubscription = function(outbondSubscribeUrlMap){
 	
 	..config.proxy.save();
 	..publish("outbounds.updateConfigJson");
-	..publish("uiCommand.restartXrayCore",cfgOutbounds) 
+	..publish("uiCommand.restartV2RayCore",cfgOutbounds) 
 	..mainForm.msgOk("已刷新" + count + "个订阅服务器。",1500);
 	
 	return count;
@@ -825,8 +936,8 @@ autoUpdateSubscription = function(){
 			var http = inet.http();
 			for(url,v in outbondSubscribeUrlMap){ 
 				
-				if( string.indexOf(subscribeUrl,"github.com")
-					|| string.indexOf(subscribeUrl,"raw.githubusercontent.com") 
+				if( string.indexOf(url,"github.com")
+					|| string.indexOf(url,"raw.githubusercontent.com") 
 					){
 					outbondSubscribeUrlMap[url] = web.rest.github.getContent(url)
 				}
@@ -850,7 +961,16 @@ autoUpdateSubscription = function(){
 	)
 }
 
+var currentActiveOutbound = ..globalActiveOutbound;
+..subscribe("activeOutbound",function(address){
+	currentActiveOutbound = address;
+} )
+
 ..subscribe("thread.subscriptionUpdated",function(outbondSubscribeUrlMap){
+    if(currentActiveOutbound){
+    	return;
+    }
+    
 	var cfgOutbounds = ..config.proxy.outbounds : ..table.array();
 	
 	var count = 0; 
@@ -878,7 +998,7 @@ autoUpdateSubscription = function(){
 	..config.proxy.save();
 	
 	..publish("outbounds.updateConfigJson");
-	..publish("uiCommand.restartXrayCore")
+	..publish("uiCommand.restartV2RayCore")
 	..publish("uiCommand.print","已自动刷新" + count + "个订阅服务器。")		 
 } )
 

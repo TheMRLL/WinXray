@@ -9,6 +9,7 @@ $serverMain = ..wsock.tcp.simpleHttpServer.mainThread(
 	function(response,request,session){ 
 
 		if(request.path=="/proxy.pac"){ 
+		 
 			var pacData = ..string.load(pacPath);
 			var proxPorts = inboundPort.get();
 			if(!proxPorts[["socksProxy"]]){
@@ -16,11 +17,23 @@ $serverMain = ..wsock.tcp.simpleHttpServer.mainThread(
 				return;
 			}
 			
-			var reps = ..string.replace(pacData,"var\s+proxy\s+=\s+%''","var proxy = 'SOCKS5 "+ request.environ.SERVER_NAME +":"+proxPorts.socksProxy +";SOCKS "+ request.environ.SERVER_NAME +":"+proxPorts.socksProxy +"'"); 
-			if(useHttpProxy.get()){
+			var reps = ..string.replace(pacData,"var\s+proxy\s+=\s+%''","var proxy = 'SOCKS5 "+ request.environ.SERVER_NAME +":"+proxPorts.socksProxy 
+				+";SOCKS "+ request.environ.SERVER_NAME +":"+proxPorts.socksProxy 
+				+";PROXY "+ request.environ.SERVER_NAME +":"+proxPorts.httpProxy +"'"); 
+				
+			var useHttp = useHttpProxy.get();
+			if(!useHttp){
+				var ua = request.headers["user-agent"];
+				if( ua && ..string.find(ua,"WinHttp-Autoproxy-Service/")){
+					useHttp = true; 
+				}
+			}
+			
+			if(useHttp){
 				reps = ..string.replace(pacData,"var\s+proxy\s+=\s+%''","var proxy = 'PROXY "+ request.environ.SERVER_NAME +":"+proxPorts.httpProxy +"'"); 
 			}
 	
+			response.contentType = "application/x-ns-proxy-autoconfig";
 			response.write(reps);
 		}  
 	} 	
@@ -94,7 +107,7 @@ updateConfig = function(socksProxyPort,httpProxyPort){
 	} 
 }
 
-..subscribe("xrayCore.restarted",function(socksProxyPort,httpProxyPort){
+..subscribe("v2RayCore.restarted",function(socksProxyPort,httpProxyPort){
 	updateConfig(socksProxyPort,httpProxyPort);
 } )
 

@@ -1,4 +1,5 @@
-﻿//core 代理服务
+﻿//内核进程
+import xray.core.ssr;
 import wsock.tcp.server;
 import process.popen;
 import config;
@@ -22,12 +23,13 @@ isInboundPortChanged = function(){
 	return (inbounds[1].port!=socksProxyPort) || (inbounds[2].port!=httpProxPort)
 }
 
-var prcsXray;
+var prcsV2Ray,v2RayStarting;
 import process.job.limitKill;
 restart = function(editor,outbound){
+	
     if(!outbound){ return null,"错误的出站代理服务器配置"  }
     if(_WINXP){
-    	return null,"抱歉！Xray Core 不支持 Windows XP, 仅支持 Windows 7, Windows 10 以及更新操作系统。";  
+    	return null,"抱歉！V2Ray Core 不支持 Windows XP, 仅支持 Windows 7, Windows 10 以及更新操作系统。";  
     }
 
 	var inbounds = ..config.core.default[["inbounds"]];
@@ -38,69 +40,125 @@ restart = function(editor,outbound){
 		return null,"错误的入站HTTP代理服务器配置" 
 	}
 
-	if(prcsXray){
-		prcsXray.terminate();
-		prcsXray = null;
-	}
-
-	socksProxyPort = inbounds[1].port;  
-	httpProxPort = inbounds[2].port;
-	if( (! socksProxyPort) || socksProxyPort >=  49152 ){ socksProxyPort = ..wsock.tcp.server.getFreePort("127.0.0.1",1081,10801,10811,44821)  }
-	if( (! httpProxPort) || httpProxPort >=  49152 ){ httpProxPort = ..wsock.tcp.server.getFreePort("127.0.0.1",1082,10802,10812,44822) }
-
+	if(v2RayStarting){ return null,"不能重复启动 xray Core"  } 
+	v2RayStarting = true;
+	
 	var corePath = getPath(editor.hwnd);
-	if(!corePath){ return false,"启动失败,未找到xray.exe"; } 
-
-	import xray.core.configJson;
-	var jsonPath,err = ..xray.core.configJson.write(
-		..io.joinpath(..io.splitpath(corePath).dir,"config.json")
-		,outbound,socksProxyPort,httpProxPort);
-	if(!jsonPath){
-		return false,err:"启动失败,写入配置文件遇到错误！"; 
+	if(!corePath){ 
+		v2RayStarting = false;
+		return false,"启动失败,未找到 xray.exe"; 
+	}  
+	
+	if( outbound.protocol == "ssr" ){ 
+		if(!..xray.core.ssr.getPath(editor.hwnd)){
+			v2RayStarting = false;
+			return false,"启动失败,未找到 SSR Core";
+		}
 	}
 	
 	..publish("activeOutbound",false);
 	
 	import sysProxy;
-	..sysProxy.reset(false);	
+	..sysProxy.reset(false);
+
+	socksProxyPort = inbounds[1].port;  
+	httpProxPort = inbounds[2].port;
+	if( (! socksProxyPort) || socksProxyPort >=  49152 ){ socksProxyPort = ..wsock.tcp.server.getFreePort("127.0.0.1",1081,10801,10811,44821)  }
+	if( (! httpProxPort) || httpProxPort >=  49152 ){ httpProxPort = ..wsock.tcp.server.getFreePort("127.0.0.1",1082,10802,10812,44822) }
 	
-	var err;
-	prcsXray,err = ..process.popen(corePath,"-c=config.json" );
-	if(!prcsXray){
-		..publish("uiCommand.print",err:"启动 Xray Core 时遇到未知错误!");
+	if(prcsV2Ray){
+		// SSR 重用 xray 进程，以加快切换速度
+		if( (outbound.protocol != "ssr" )
+			|| (prcsV2Ray.socksProxyPort != -1)
+			|| (prcsV2Ray.httpProxPort != httpProxPort)
+				){
+			prcsV2Ray.terminate();
+			prcsV2Ray = null;
+		} 
+	}
+	
+	..xray.core.ssr.stop();
+	
+	var ssrProxy = outbound.protocol == "ssr";
+	if( ssrProxy ){  
+		if(!..xray.core.ssr.restart(editor,outbound,socksProxyPort)){
+			v2RayStarting = false;
+			return false,"SSR Core 启动失败";
+		}
+
+		outbound = {
+			protocol = "socks";
+			address = "127.0.0.1";
+			port = socksProxyPort;
+		} 
+	}
+
+	if( ! prcsV2Ray ){ 
 		
-		if(!..process().isWow64()){
-			if(..process.isExe(corePath)!="PE32"){
-				..io.remove(corePath);
-				if(!..io.exist(corePath)){
-					..publish("uiCommand.print","当前操作系统是32位，已删除无效的64位 Xray Core，正在下载32位 Xray Core");
-					return restart(editor,outbound)	
-				}
-				else {
-					..publish("uiCommand.print","当前操作系统是32位，但是找到的 Xray Core 是64位，请重新下载32位 Xray Core");
-				} 
-			} 	
+		import xray.core.configJson;
+		var jsonPath,err = ..xray.core.configJson.write(
+			..io.joinpath(..io.splitpath(corePath).dir,"config.json")
+			,outbound,(ssrProxy)?-1:socksProxyPort,httpProxPort);
+	
+		if(!jsonPath){
+			if( ssrProxy ){
+				..xray.core.ssr.stop();
+			}
+	
+			v2RayStarting = false;
+			return false,err:"启动失败,写入配置文件遇到错误！"; 
 		}
 		
-		return;
-	}
-	prcsXray.assignToJobObject(process.job.limitKill);
-	prcsXray.codepage = 65001;	
-	prcsXray.logResponse(editor);
-
-	inbounds[1].port = socksProxyPort;
-	inbounds[2].port = httpProxPort;
-	..config.core.save();
+		var err;
+		prcsV2Ray,err = ..process.popen(corePath,"-c=config.json" );
+		if(!prcsV2Ray){
+			if( ssrProxy ){
+				..xray.core.ssr.stop();
+			}
 	
-	..publish("uiCommand.print","已启动代理服务器，SOCKS端口:" + socksProxyPort + " HTTP端口:" + httpProxPort)
-	..publish("xrayCore.restarted",socksProxyPort,httpProxPort);
+			..publish("uiCommand.print",err:"启动 xray Core 时遇到未知错误!");
+			
+			if(!..process().isWow64()){
+				if(..process.isExe(corePath)!="PE32"){
+					..io.remove(corePath);
+					if(!..io.exist(corePath)){
+						..publish("uiCommand.print","当前操作系统是32位，已删除无效的64位 xray Core，正在下载32位 xray Core");
+						v2RayStarting = false;
+						return restart(editor,outbound)	
+					}
+					else {
+						..publish("uiCommand.print","当前操作系统是32位，但是找到的 xray Core 是64位，请重新下载32位 xray Core");
+					} 
+				} 	
+			}
+			
+			v2RayStarting = false;
+			return;
+		}
+		prcsV2Ray.assignToJobObject(process.job.limitKill);
+		prcsV2Ray.codepage = 65001;	
+		prcsV2Ray.logResponse(editor); 
+		
+		prcsV2Ray.socksProxyPort = (ssrProxy)?-1:socksProxyPort;
+		prcsV2Ray.httpProxPort = httpProxPort;
+		
+		inbounds[1].port = socksProxyPort;
+		inbounds[2].port = httpProxPort;
+		..config.core.save();
+	}
+	
+	..publish("uiCommand.print","已启动代理服务器，SOCKS端口:" + socksProxyPort + " HTTP端口:" + httpProxPort) 
+	..publish("v2RayCore.restarted",socksProxyPort,httpProxPort); 
+	v2RayStarting = false;
 	return true;
 }
 
 stop = function(){
-	if(prcsXray){
-		prcsXray.terminate();
-		prcsXray = null;
+	..xray.core.ssr.stop();
+	
+	if(prcsV2Ray){
+		prcsV2Ray.terminate();
+		prcsV2Ray = null;
 	}
 	
 	..sysProxy.reset(false);
@@ -109,19 +167,30 @@ stop = function(){
    	xray.github.setProxy(false);
 }
 
-var getXrayCoreUrl = function(){
-	import inet.http;
-	var http = ..inet.http();
-	var url = http.location("https://github.com/XTLS/Xray-core/releases/latest");
-	http.close();
+var getV2RayCoreUrl = function(){
+	var msgDlg = ..win.dlg.message(..mainForm); 
+	var form = msgDlg.create('正在获取 xray Core 最新版本',,true)
+	form.icon = '\uF1D8';
+	form.progress.startProgress(50); 
 	
-	if(!url)return;
-	
-	var tag = ..string.match(url,"[^/]+$")
-	if(!tag) return;
-	
-	return "https://github.com/XTLS/Xray-core/releases/download/" 
-		+ tag + "/xray-windows-" +	(..process().isWow64() ? "64" : "32") + ".zip",tag
+	var url,tag = ..win.invoke(function(){
+    	import process;
+		import inet.http;
+		var http = ..inet.http();
+		var url = http.location("https://github.com/XTLS/Xray-core/releases/latest");
+		http.close();
+		
+		if(!url) return;
+		
+		var tag = ..string.match(url,"[^/]+$")
+		if(!tag || (tag=="latest")) return;;
+		
+		return "https://github.com/XTLS/Xray-core/releases/download/" 
+			+ tag + "/xray-windows-" +	(..process().isWow64() ? "64" : "32") + ".zip",tag	
+	});
+	form.close();
+    
+	return url,tag;
 } 
 
 getPath = function(hwnd){
@@ -130,53 +199,120 @@ getPath = function(hwnd){
 		return path;
 	}
 		
-	var path = ..io.appData("/xray/core/xray.exe");
+	var path = ..io.appData("/winXray/core/xray.exe");
 	if(..io.exist(path)){
 		return path;
 	}
 	
-	var url = getXrayCoreUrl();
-	if(!url) return null;
+	if(self.lastDownloadingCoreFailed){
+		return;
+	}
+	
+	..mainForm.disabled = true; 
+	var url,versionTag = getV2RayCoreUrl();
+	 
+	if(!url) {
+		..publish("uiCommand.print","请下载 V2Rary Core 到以下路径:");
+		..publish("uiCommand.print",path);
+		
+		..mainForm.disabled = false;
+		self.lastDownloadingCoreFailed = true;
+		return null;
+	}
 	
 	import zlib.httpFile;
-	if( ..zlib.httpFile.download(url,"正在下载 Xray Core"
-		,..io.appData("/xray/download/")
-		,..io.appData("/xray/core/"),,hwnd) )
+	if( ..zlib.httpFile.download(url,"正在下载 xray Core"
+		,..io.appData("/winXray/download/")
+		,..io.appData("/winXray/core/"),,..mainForm.hwnd) ){
+			
+		self.lastDownloadingCoreFailed = null;
+		..mainForm.disabled = false;
 		return ..io.exist(path);
+	}
+	else {
+		..mainForm.disabled = false;
+		self.lastDownloadingCoreFailed = true;
+		
+		..publish("uiCommand.print","请到以下网址下载 xray Core:");
+		..publish("uiCommand.print",url);
+		
+		..publish("uiCommand.print","下载后请解压到以下目录内:");
+		..publish("uiCommand.print",..io.appData("/winXray/core/"));
+		
+		//import process;
+		//process.execute(..io._exepath,"/github","runas");
+	}  
+} 
+
+getCoreDir = function(hwnd){
+	var path = ..io.fullpath("/xray-core/xray.exe");
+	if(..io.exist(path)){
+		return ..io.fullpath("/xray-core/");
+	}
+		
+	var path = ..io.appData("/winXray/core/xray.exe");
+	if(..io.exist(path)){
+		return ..io.appData("/winXray/core/");;
+	}
+	
+	var path = ..io.fullpath("/xray-core/");
+	if(..io.exist(path)){
+		return path;
+	}
+	
+	return ..io.appData("/winXray/core/");
 } 
 
 updateCore = function(){
-	var coreDir = ..io.exist("/xray-core/xray.exe") ? ..io.fullpath("/xray-core/");
-	if(!coreDir){
-		coreDir = ..io.appData("/xray/core/");
+    ..mainForm.disabled = true; 
+    	
+	var coreDir = getCoreDir();
+	var url,versionTag = getV2RayCoreUrl();
+	if(!url){		
+		..mainForm.disabled = false;
+		self.lastDownloadingCoreFailed = true;
+		return null;
 	}
-	
-	var url,versionTag = getXrayCoreUrl();
-	if(!url) return null; 
 	  
 	import fsys;
 	fsys.delete(..io.appData("/xray/temp/"))
+	 
 	
 	import zlib.httpFile;
-	if( ..zlib.httpFile.download(url,"正在下载 Xray Core"
-		,..io.appData("/xray/download/")
-		,..io.appData("/xray/temp/"),,..mainForm.hwnd) ){
-			if(..io.exist(..io.appData("/xray/temp/xray.exe"))){
+	if( ..zlib.httpFile.download(url,"正在下载 xray Core"
+		,..io.appData("/winXray/download/")
+		,..io.appData("/winXray/temp/xray/"),,..mainForm.hwnd) ){
+			..mainForm.disabled = false;
+			
+			if(..io.exist(..io.appData("/winXray/temp/xray/xray.exe"))){
 				import sysProxy;
 				sysProxy.reset(false);
 
 				import process.file;
 				process.file.terminate(..io.joinpath(coreDir,"xray.exe")); 
-				fsys.copy(..io.appData("/xray/temp/xray.exe"),..io.joinpath(coreDir,"xray.exe")); 
+				process.file.terminate(..io.joinpath(coreDir,"v2ctl.exe")); 
 				
+				..io.createDir(coreDir); 
+				fsys.copy(..io.appData("/winXray/temp/xray/xray.exe"),..io.joinpath(coreDir,"xray.exe")); 
+				fsys.copy(..io.appData("/winXray/temp/xray/v2ctl.exe"),..io.joinpath(coreDir,"v2ctl.exe")); 
+				
+				self.lastDownloadingCoreFailed = null;
 				return versionTag;
-			}
-		} 	 
+			} 
+			else {
+				self.lastDownloadingCoreFailed = true;
+			} 
+	}
+	else {
+		..mainForm.disabled = false;
+		self.lastDownloadingCoreFailed = true; 
+	} 	 
 }
 
 /**intellisense(xray.core)
 socksProxyPort = SOCKS代理端口
 httpProxPort = HTTP代理端口
 isInboundPortChanged() = 是否已变更代理端口配置
-restart(.(editor,outbound) = 重启启动 Xray 服务进程
+restart(.(editor,outbound) = 重启启动 xray 服务进程
+lastDownloadingCoreFailed = 上次下载 Core 是否失败,如果希望重新下载请重新赋值为 null
 end intellisense**/

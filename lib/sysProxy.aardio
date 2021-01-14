@@ -9,11 +9,11 @@ namespace sysProxy;
 switch = function(mode){  
 	..config.proxy.mode = mode : "direct";
 	..config.proxy.save();
-	
+  
 	if(mode=="pac"){
 		var pacUrl = ..xray.pacServer.getUrl();
 		if(pacUrl){
-			..inet.conn.setProxyAutoConfig(,pacUrl );
+			..inet.conn.setProxyAutoConfig(,pacUrl ); 
 		}
 		else {
 			..xray.pacServer.restart();
@@ -48,6 +48,18 @@ switchToDirectMode  = function(){
 	switch("direct") 
 }
 
+switchHotkey  = function(){ 
+    var mode = ..config.proxy.mode;
+	if( mode != "pac"){
+		switch("pac") 
+	}
+	else {
+		switch("proxy") 
+	}
+	
+	return ..config.proxy.mode;
+}
+
 reset = function(proxy){
 	if(proxy===false){
 		if(..config.proxy.mode != "direct"){
@@ -67,7 +79,7 @@ reset = function(proxy){
 	}
 } )
 
-..subscribe("xrayCore.restarted",function(socksProxyPort,httpProxPort){ 
+..subscribe("v2RayCore.restarted",function(socksProxyPort,httpProxPort){ 
 	if(..config.proxy.mode != "direct"){
 		reset(true);
 	}
