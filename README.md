@@ -1,6 +1,11 @@
 
 
-# winXray 2.3.1        winxray.com
+# winXray 2.3.1        winxray.com 
+导语：
+   首先我很尊重winxray的原作者，我只是做了一个CTRL+C CTRL+V 的操作。感谢原作者！
+   远的说：没有Android的开源，也没有现在Android的系统的普及！
+   近的说：没有SS作者的开源，没有SSR的现在的辉煌！
+   另外，EXE文件报错病毒是属于正常情况！所有EXE桌面软件的通病！请用官方下载地址下载，才能保证您使用的软件的安全性！
 
 winXray是一个简洁稳定的 [Xray/V2Ray(vmess/vless/xtls)、Shadowsocks、Trojan](https://github.com/XTLS/Xray-core) 通用客户端（Windows系统），可自动检测并连接访问速度最快的代理服务器。服务器连接异常时可以自动更换代理服务器 - 再也不用担心服务器抽风了。winXray 也提供一键安装 XRay(V2Ray、Shadowsocks、Trojan) 服务器工具。
 
