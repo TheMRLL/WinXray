@@ -1,6 +1,6 @@
 
 
-# winXray 2.3.1        winxray.com 
+# winXray 2.4.1        winxray.com 
 导语：
    首先我很尊重winxray的原作者，我只是做了一个CTRL+C CTRL+V 的操作。感谢原作者！(winxray的老人都会看到我，之前有一个winxray的项目，有了60星！但是我看到原作者更新了，我马上就删库了，因为我打心里高兴！而这个库是我第二次上传的加恢复的，所以代码是错乱的！）
    远的说：没有Android的开源，也没有现在Android的系统的普及！
