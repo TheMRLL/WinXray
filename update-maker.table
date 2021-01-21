@@ -1,5 +1,0 @@
-{
-updateUrl="https://raw.githubusercontent.com/winXray/winXray/master/release/update/";
-description="发布 v2.1，优化服务器检测、订阅、界面等，修正中文回显错误（ fixes #3 ） 右键点服务器可查看或刷新服务器的订阅地址（ resolves #8 ）";
-outputDir="/release/update/"
-}
