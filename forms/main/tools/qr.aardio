@@ -9,7 +9,7 @@ btnQrEnode={cls="plus";text="生成二维码";left=562;top=565;right=694;bottom=
 editUrl={cls="plus";left=44;top=569;right=537;bottom=594;align="right";bgcolor=16777215;border={bottom=1;color=-8355712};db=1;dl=1;dr=1;editable="edit";font=LOGFONT(h=-16);textPadding={bottom=1};z=8};
 lbErrLevel={cls="static";text=" 0：L 可纠错7%数据码字";left=104;top=656;right=272;bottom=679;db=1;dl=1;transparent=1;z=6};
 lbVersion={cls="static";text="自动选择版本";left=466;top=656;right=672;bottom=679;db=1;dr=1;transparent=1;z=7};
-plus={cls="plus";left=28;top=49;right=708;bottom=522;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;repeat="scale";z=1};
+plus={cls="plus";left=28;top=49;right=708;bottom=522;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;notify=1;repeat="scale";z=1};
 static={cls="static";text="纠错级别:";left=13;top=624;right=97;bottom=651;align="right";db=1;dl=1;transparent=1;z=3};
 static2={cls="static";text="版本(大小):";left=353;top=624;right=437;bottom=651;align="right";db=1;dl=1;dr=1;transparent=1;z=5};
 static3={cls="static";text="winXray - 二维码生成工具";left=17;top=4;right=230;bottom=24;color=3947580;transparent=1;z=11};
@@ -62,6 +62,18 @@ winform.btnQrEnode.oncommand = function(id,event){
 winform.createQrCode = function(url){
 	winform.editUrl.text = url;
 	winform.btnQrEnode.oncommand();
+}
+
+winform.plus.skin(
+	background = { 
+		hover = "/res/images/btn-hover.png";
+		focus = "/res/images/btn-focus.jpg";
+		active = "/res/images/btn-active.png";
+		disabled = "/res/images/btn-disabled.png"; 
+	}
+)
+winform.plus.oncommand = function(id,event){
+	
 }
 
 import win.ui.simpleWindow2;

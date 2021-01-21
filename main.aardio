@@ -361,8 +361,5 @@ mainForm.button.oncommand = function(id,event){
 	process.execute("https://winxray.com");
 }
 
-mainForm.custom.oncommand = function(id,event){
-	
-}
 
 return win.loopMessage();

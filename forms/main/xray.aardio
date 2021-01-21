@@ -3,10 +3,10 @@ import fonts.fontAwesome;
 /*DSG{{*/
 var frmXray = win.form(text="winXray ";right=959;bottom=591;bgcolor=16777215)
 frmXray.add(
-btnEditPac={cls="plus";text="编辑PAC";left=332;top=366;right=438;bottom=396;align="left";db=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=12}};iconText='\uF1C4';notify=1;textPadding={left=30};z=7};
-btnImportServerFromClipBd={cls="plus";text="批量导入链接";left=459;top=366;right=592;bottom=396;align="left";db=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=12}};iconText='\uF196 ';notify=1;textPadding={left=30};z=8};
+btnEditPac={cls="plus";text="编辑PAC";left=332;top=367;right=438;bottom=397;align="left";db=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=12}};iconText='\uF1C4';notify=1;textPadding={left=30};z=7};
+btnImportServerFromClipBd={cls="plus";text="批量导入链接";left=459;top=367;right=592;bottom=397;align="left";db=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=12}};iconText='\uF196 ';notify=1;textPadding={left=30};z=8};
 btnTcping={cls="plus";text="检测并连接最快服务器";left=735;top=366;right=941;bottom=398;align="left";bgcolor=11580047;border={radius=4};db=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=18}};iconText='\uF012';notify=1;textPadding={left=42};z=3};
-chkAutoTest={cls="plus";text="异常自动重连 ";left=598;top=366;right=729;bottom=396;align="left";db=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=12}};iconText='\uF0C8';notify=1;textPadding={left=30};z=9};
+chkAutoTest={cls="plus";text="异常自动重连 ";left=598;top=367;right=729;bottom=397;align="left";db=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=12}};iconText='\uF0C8';notify=1;textPadding={left=30};z=9};
 edit={cls="edit";left=6;top=405;right=953;bottom=585;bgcolor=0;color=16777215;db=1;dl=1;dr=1;edge=1;hscroll=1;multiline=1;vscroll=1;z=2};
 listview={cls="listview";left=4;top=5;right=954;bottom=358;db=1;dl=1;dr=1;dt=1;edge=1;fullRow=1;gridLines=1;z=1};
 radioProxy={cls="radiobutton";text="全局代理";left=129;top=369;right=226;bottom=395;bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-13);z=4};
@@ -23,15 +23,20 @@ frmXray.listview.insertColumn("协议",50)
 frmXray.listview.insertColumn("备注",190) 
 frmXray.listview.insertColumn("响应速度",95) 
 frmXray.listview.insertColumn("状态",-1) 
+frmXray.listview.setExtended(0x10000/*_LVS_EX_DOUBLEBUFFER*/);
+
 frmXray.show();
 
 import config;
 import xray.core; 
 var currentOutboundIndex,currentOutboundAddress;
 var activeOutbound = function(outboundIndex,outboundAddress,enableRetry){
+	
 	if(!outboundIndex && !outboundAddress){
 		outboundIndex,outboundAddress = currentOutboundIndex,currentOutboundAddress;
-		if(!outboundIndex && !outboundAddress) return;
+		if(!outboundIndex && !outboundAddress) {
+			return;
+		}
 	}
 	
 	var outbound = config.proxy.outbounds[outboundIndex];
@@ -41,15 +46,17 @@ var activeOutbound = function(outboundIndex,outboundAddress,enableRetry){
 	
 	var currentTesting = false;
 	if( ! xray.core.isInboundPortChanged() ){
-			currentTesting = currentOutboundIndex == outboundIndex && currentOutboundAddress == outboundAddress
+		currentTesting = currentOutboundIndex == outboundIndex && currentOutboundAddress == outboundAddress
 	}
-		
+ 
+ 	..publish("activeOutbound",false); 
 	var startTesting = currentTesting;
 	if(!startTesting){
 		var started,err = xray.core.restart(frmXray.edit,outbound);
 		startTesting = started;
-		if(err){
-			frmXray.edit.print("启动 Xray 错误：",err);
+		if(!started){
+			frmXray.edit.print("启动 xray 错误",err:""); 
+			frmXray.btnTcping.disabledText = null;
 			return false;
 		}
 	}
@@ -139,7 +146,7 @@ frmXray.autoUpdateSubscription = function(timeout){
 				autoUpdateSubscriptionTimerId = null;
 				
 				import xray.outbounds;
-			xray.outbounds.autoUpdateSubscription(); 
+				xray.outbounds.autoUpdateSubscription(); 
 			},timeout:10000)  		
 		}
 } 
@@ -179,17 +186,16 @@ frmXray.onStartXrayComplete = function(outboundIndex,currentTesting,outboundAddr
 	frmXray.validOutbounds = {};
 	
 	frmXray.btnTcping.disabledText = null;
-	..publish("activeOutbound",address);
+	..publish("activeOutbound",address); 
 }
 
 subscribe("activeOutbound",function(address){
 	..globalActiveOutbound = address;
 } )
 
-frmXray.onStartXrayFailed = function(outboundIndex,enableRetry,outboundAddress){
+frmXray.onStartXrayFailed = function(outboundIndex,enableRetry,outboundAddress){ 
+	..publish("activeOutbound",false); 
 
-	..publish("activeOutbound",false);
-	
 	var outbound = ..config.proxy.outbounds[outboundIndex];
 	if(!(outbound && (outbound.address == outboundAddress))){
 		return;
@@ -226,6 +232,7 @@ frmXray.onStartXrayFailed = function(outboundIndex,enableRetry,outboundAddress){
 	} 
 	
 	frmXray.btnTcping.disabledText = null;
+	
 }
 
 var tcping = function(frmXray,outboundIndex,outbound){ 
@@ -275,7 +282,8 @@ frmXray.onTcpingFailed = function(){
 	}
 	else {
 		retryOnNetworkAliveTimerId = frmXray.setInterval( 
-			1000,function(){
+			1000,function(){ 
+
 				if(frmXray.listview.activeOutboundIndex){
 					retryOnNetworkAliveTimerId = null;
 					return 0;
@@ -302,12 +310,13 @@ frmXray.btnTcping.oncommand = function(id,event){
 	var items = frmXray.listview.items;
 	if(#items){
 		frmXray.btnTcping.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'}
-		if(!xray.core.getPath()){
-			frmXray.btnTcping.disabledText = null;
-			frmXray.msgErr("下载 xray.exe 失败")
-			return;
-		}
 		
+		xray.core.lastDownloadingCoreFailed = false;
+		if(!xray.core.getPath()){ 
+			frmXray.btnTcping.disabledText = null; 
+			return;
+		} 
+
 		var failedCount = 0;
 		frmXray.onTcpingReturn = function(outboundIndex,address,succeeded,speedText){
 			if(address!=frmXray.listview.getItemText(outboundIndex,2)){
@@ -453,7 +462,7 @@ var removeOutbounds = function(selectedItems){
 	publish("outbounds.updateConfigJson"); 
 
 	if(activeIndex && (!frmXray.listview.activeOutboundIndex) ){
-		frmXray.btnTcping.oncommand();
+		if(!xray.core.lastDownloadingCoreFailed) frmXray.btnTcping.oncommand();
 	}
 }
 
@@ -491,6 +500,8 @@ frmXray.listview.onnotify = function(id,code,ptr){
 		case  0xFFFFFFFD/*_NM_DBLCLK*/ {
 			var nm = frmXray.listview.getNotifyMessage(code,ptr);
 			if( nm ){
+				xray.core.lastDownloadingCoreFailed = false;
+				
 				frmXray.onTcpingReturn = function(outboundIndex,address,succeeded,speedText){
 					if(address==frmXray.listview.getItemText(outboundIndex,2)){
 						frmXray.listview.setItemText(speedText,outboundIndex,7);
@@ -512,6 +523,10 @@ frmXray.listview.onnotify = function(id,code,ptr){
 			var currentIdx = nm.iItem;
 			if(!currentIdx){
 				var popmenu = win.ui.popmenu(frmXray);
+				popmenu.add("新增代理服务器",function(id){ 
+					var frmOutbound = frmXray.loadForm("\forms\main\outbound.aardio"); 
+					frmOutbound.doModal() 
+				});
 				
 				popmenu.add("自剪贴板批量导入分享链接、订阅源",function(id){
 					frmXray.btnImportServerFromClipBd.oncommand();
@@ -541,7 +556,7 @@ frmXray.listview.onnotify = function(id,code,ptr){
 					function(id){
 						..config.__loadDefaultOutbounds();
 						publish("outbounds.updateConfigJson");
-						publish("uiCommand.restartXrayCore");
+						publish("uiCommand.restartV2RayCore");
 					}
 				);
 				popmenu.add();
@@ -562,6 +577,8 @@ frmXray.listview.onnotify = function(id,code,ptr){
 			if(#selectedItems==1){
 				popmenu.add('设为活动服务器( 鼠标双击 )',function(id){
 					if(currentIdx){
+						xray.core.lastDownloadingCoreFailed = false;
+						
 						frmXray.onTcpingReturn = function(outboundIndex,address,succeeded,speedText){
 							if(address==frmXray.listview.getItemText(outboundIndex,2)){
 								frmXray.listview.setItemText(speedText,outboundIndex,7);
@@ -599,6 +616,11 @@ frmXray.listview.onnotify = function(id,code,ptr){
 
 			popmenu.add();
 		
+			popmenu.add("编辑 / 新增代理服务器",function(id){ 
+				var frmOutbound = frmXray.loadForm("\forms\main\outbound.aardio");
+				frmOutbound.setOutboundConfig(config.proxy.outbounds[currentIdx]);
+				frmOutbound.doModal() 
+			});
 			
 			popmenu.add("自剪贴板批量导入分享链接、订阅源",function(id){
 				frmXray.btnImportServerFromClipBd.oncommand();
@@ -656,7 +678,7 @@ frmXray.listview.onnotify = function(id,code,ptr){
 				function(id){
 					..config.__loadDefaultOutbounds();
 					publish("outbounds.updateConfigJson");
-					publish("uiCommand.restartXrayCore");
+					publish("uiCommand.restartV2RayCore");
 				}
 			); 
 			 
@@ -689,23 +711,7 @@ frmXray.listview.onnotify = function(id,code,ptr){
 						}  
 					}
 				});
-				
-				popmenu.add('复制服务器地址',function(id){
-					if(currentIdx){
-						import win.clip;
-						win.clip.write(config.proxy.outbounds[currentIdx].address + ":" + config.proxy.outbounds[currentIdx].port); 
-						frmXray.edit.print("已复制服务器地址:",config.proxy.outbounds[currentIdx].address + ":" + config.proxy.outbounds[currentIdx].port);
-					}
-				});
-				popmenu.add('复制服务器 JSON 配置',function(id){
-					if(currentIdx){
-						import win.clip;
-						import web.json; 
-						var str = web.json.stringify(config.proxy.outbounds[currentIdx],true,false);
-						win.clip.write(str);
-						frmXray.edit.print(str);
-					}
-				});
+
 				popmenu.add();
 				
 				var toolMenu = win.ui.popmenu(frmXray)
@@ -873,7 +879,7 @@ var iml = win.imageList(16, 15);
 iml.add('GIF\56\57a \0\15\0\x80\0\0\x80\x80\x80\xff\0\xff\33\xf9\4\0\0\0\0\0\44\0\0\0\0 \0\15\0\0\2\31\x8c\x8f\xa9\xcb\xed\15\xa3\x9c\xb4N\xf0\x80\xde\56k\xbfA\\\xd7\x84 \x97Y\xea\xca\xb6\xee\11\xc7F\1\0;', 0xff00ff);
 frmXray.listview.setColumnImageList(iml);
 
-subscribe("uiCommand.restartXrayCore",function(){ 
+subscribe("uiCommand.restartV2RayCore",function(){ 
 	config.proxy.outbounds.fields = {"protocol";"address";"port";"security";"network";"ps";}
 	
 	var outbounds = config.proxy.outbounds;
@@ -884,7 +890,7 @@ subscribe("uiCommand.restartXrayCore",function(){
 	}
 	frmXray.listview.setTable(outbounds);	 
 	
-	frmXray.btnTcping.oncommand();
+	if(!xray.core.lastDownloadingCoreFailed) frmXray.btnTcping.oncommand();
 } )
 
 import process;
@@ -901,7 +907,7 @@ if(#config.proxy.outbounds){
 	
 	frmXray.setTimeout( 
 		function(){
-			publish("uiCommand.restartXrayCore");	
+			publish("uiCommand.restartV2RayCore");	
 		},1000
 	);	
 }
@@ -980,14 +986,14 @@ frmXray.btnImportServerFromClipBd.oncommand = function(id,event){
 		var outbounds = xray.outbounds.importFromString(str);
 		if(#outbounds){
 			..table.append(config.proxy.outbounds,outbounds); 
-			publish("uiCommand.restartXrayCore");
+			publish("uiCommand.restartV2RayCore");
 			publish("outbounds.updateConfigJson");
 			frmXray.msgOk("已成功导入" + #outbounds + "个服务器",1200); 
 			return; 
 		}
 	}
 
-	frmXray.msgFrown('未导入服务器！\r\n请先复制以下格式文本（自动清除其中的无效内容）：\r\n\r\n1、一行或多行（忽略无效行）分享链接或服务器JSON配置。\r\n支持 vmess://，vless://，ss://，trojan://， trojan-go:// 等通用分享链接。\r\n\r\n2、包含多个服务器配置的JSON数组,支持winXray格式以及通用格式JSON。\r\n\r\n3、单个 http:// 或 https:// 开头的通用订阅源地址。\r\n可直接使用浏览器地址栏的github文件地址（含blob或raw目录名）。\r\n也可以仅复制单斜杆开始的github文件路径。\r\n\r\n订阅源可用BASE64编码或明文返回以上1、2条规定的配置或分享链接。')
+	frmXray.msgFrown('未导入服务器！\r\n请先复制以下格式文本（自动清除其中的无效内容）：\r\n\r\n1、一行或多行（忽略无效行）分享链接或服务器JSON配置。\r\n支持 vmess://，vless://，ss://，ssr://，trojan://， trojan-go:// 等通用分享链接。\r\n\r\n2、包含多个服务器配置的JSON数组,支持winXray格式以及通用格式JSON。\r\n\r\n3、单个 http:// 或 https:// 开头的通用订阅源地址。\r\n可直接使用浏览器地址栏的github文件地址（含blob或raw目录名）。\r\n也可以仅复制单斜杆开始的github文件路径。\r\n\r\n订阅源可用BASE64编码或明文返回以上1、2条规定的配置或分享链接。')
 }
 
 var testTimerId;
@@ -1002,7 +1008,9 @@ frmXray.chkAutoTest.oncommand = function(id,event){
 	import inet.http;
 	testTimerId = frmXray.setInterval( 
 		config.proxy.testInterval*1000,function(){
-			if( frmXray.autoTesting ) return;
+			if(frmXray.btnTcping.disabled) return;
+			if( frmXray.autoTesting ) return; 
+
 			var idx = frmXray.listview.activeOutboundIndex;
 			var address = frmXray.listview.activeOutboundAddress;
 			if( !( idx&&address) ){ 
@@ -1010,7 +1018,7 @@ frmXray.chkAutoTest.oncommand = function(id,event){
 					return config.proxy.testInterval*1000;
 				}
 				
-				frmXray.btnTcping.oncommand();
+				if(!xray.core.lastDownloadingCoreFailed) frmXray.btnTcping.oncommand();
 				return; 
 			}
 			
