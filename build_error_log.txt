@@ -1,9 +1,0 @@
-﻿错误发生在文件---------------:
-C:\Users\Administrator\Desktop\winXray-master\lib\config.aardio
-错误信息---------------:
-
-{Error}:
-{Line}:#10
-{File}:C:\Users\Administrator\Desktop\winXray-master\lib\config.aardio
-{Error}:Include failed:/xray-core/winXray-default-servers.json
-{Near}:'$'
