@@ -66,7 +66,7 @@ winform.btnUpdate.oncommand = function(id,event){
 			config.proxy.outbounds = cfg : ..table.array();
 		}
 		else {
-			var outbounds = xray.outbounds.importFromString(winform.editOutbounds.text);
+			var outbounds = v2ray.outbounds.importFromString(winform.editOutbounds.text);
 			config.proxy.outbounds = outbounds : ..table.array(); 
 			winform.editOutbounds.text = web.json.stringify(outbounds,true);
 		}
@@ -100,7 +100,7 @@ winform.btnUpdate.oncommand = function(id,event){
 }
 
 
-import xray.outbounds;
+import v2ray.outbounds;
 winform.editOutbounds.enablePopMenu(function(){
 	if(tbs.selIndex==1){
 		var strEditBounds = string.trim(winform.editOutbounds.text);
@@ -109,7 +109,7 @@ winform.editOutbounds.enablePopMenu(function(){
 			{ "自剪贴板批量导入vmess、trojan、ss链接、或订阅源";
 				function(id){ 
 					
-					var outbounds = xray.outbounds.importOutboundFromClip();
+					var outbounds = v2ray.outbounds.importOutboundFromClip();
 					if(#outbounds){ 
 						var json = strEditBounds;
 						if( (!#json) || ..string.match(json,"%\[\]")){
@@ -126,7 +126,7 @@ winform.editOutbounds.enablePopMenu(function(){
 							winform.editOutbounds.text = ..web.json.stringify(cfg,true);
 						}
 						else {
-							var str = xray.outbounds.exportSharedLinks(outbounds);
+							var str = v2ray.outbounds.exportSharedLinks(outbounds);
 							if(#strEditBounds){
 								winform.editOutbounds.text = strEditBounds+ '\r\n' + str;
 							}
@@ -182,7 +182,7 @@ winform.editOutbounds.enablePopMenu(function(){
 					 
 					var count = 0;
 					for(url,v in subscribeUrls){ 
-						var outbounds = xray.outbounds.importFromString(url);
+						var outbounds = v2ray.outbounds.importFromString(url);
 						if(#outbounds){
 							for(i=#cfg;1;-1){
 								var outbound = cfg[i] 
@@ -216,7 +216,7 @@ winform.editOutbounds.enablePopMenu(function(){
 						return;
 					}
 		
-					var str = xray.outbounds.exportSharedLinks(cfg);
+					var str = v2ray.outbounds.exportSharedLinks(cfg);
 					if(str){ 
 						winform.editOutbounds.text = str;
 						winform.editOutbounds.modified = true;
@@ -231,7 +231,7 @@ winform.editOutbounds.enablePopMenu(function(){
 						return;
 					}
 		
-					var str = xray.outbounds.exportSharedLinks(cfg);
+					var str = v2ray.outbounds.exportSharedLinks(cfg);
 					if(str){ 
 						import crypt;
 						winform.editOutbounds.text = ..crypt.encodeBin(str);
@@ -283,7 +283,7 @@ winform.editOutbounds.enablePopMenu(function(){
 			menu[4] = { "转换为 JSON";
 				function(id){
 					import web.json;
-					var outbounds = xray.outbounds.importFromString(strEditBounds);
+					var outbounds = v2ray.outbounds.importFromString(strEditBounds);
 					if(outbounds){ 
 						winform.editOutbounds.text = web.json.stringify(outbounds,true);
 						winform.editOutbounds.modified = true;
