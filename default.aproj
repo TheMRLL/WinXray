@@ -1,16 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<project ver="10" name="winXray" libEmbed="true" icon="\app.ico" ui="win" output="winXray.exe" CompanyName="winXray" FileDescription="xray,xray,trojan,shadowsocks 通用客户端" LegalCopyright="Copyright (C) winXray 2020" ProductName="winXray" InternalName="winXray" FileVersion="2.3.0.16" ProductVersion="2.3.0.16" publishDir="\winXray" dstrip="false" local="false">
+<project ver="10" name="winXray" libEmbed="true" icon="\app.ico" ui="win" output="winXray.exe" CompanyName="winXray" FileDescription="v2ray,trojan,ssr,shadowsocks 通用客户端" LegalCopyright="Copyright (C) winXray" ProductName="winXray" InternalName="winXray" FileVersion="3.5.1.03" ProductVersion="3.5.1.03" publishDir="\winXray" dstrip="false" local="false">
 	<file name="main" path="main.aardio"/>
 	<folder name="窗体" path="forms" comment="" embed="true" local="false">
 		<folder name="main" path="forms\main" comment="forms\main" local="false" embed="false">
 			<file name="json.aardio" path="forms\main\json.aardio" comment="forms\main\json.aardio"/>
 			<file name="outbound.aardio" path="forms\main\outbound.aardio" comment="forms\main\outbound.aardio"/>
 			<file name="pac.aardio" path="forms\main\pac.aardio" comment="forms\main\pac.aardio"/>
-			<file name="xray.aardio" path="forms\main\xray.aardio" comment="forms\main\xray.aardio"/>
-			<folder name="config" path="forms\main\config" comment="forms\main\config">
+			<file name="Xray.aardio" path="forms\main\Xray.aardio" comment="forms\main\Xray.aardio"/>
+			<folder name="config" path="forms\main\config" comment="forms\main\config" local="false" embed="false">
 				<file name="advancedConfig.aardio" path="forms\main\config\advancedConfig.aardio" comment="forms\main\config\advancedConfig.aardio"/>
 				<file name="jsonConfig.aardio" path="forms\main\config\jsonConfig.aardio" comment="forms\main\config\jsonConfig.aardio"/>
 				<file name="subscription.aardio" path="forms\main\config\subscription.aardio" comment="forms\main\config\subscription.aardio"/>
+				<folder name="coreConfigs" path="forms\main\config\coreConfigs" comment="forms\main\config\coreConfigs">
+					<file name="default.json" path="forms\main\config\coreConfigs\default.json" comment="forms\main\config\coreConfigs\default.json"/>
+					<file name="Xray.rules.json" path="forms\main\config\coreConfigs\Xray.rules.json" comment="forms\main\config\coreConfigs\Xray.rules.json"/>
+				</folder>
 			</folder>
 			<folder name="tools" path="forms\main\tools" comment="forms\main\tools">
 				<file name="github.aardio" path="forms\main\tools\github.aardio" comment="forms\main\tools\github.aardio"/>

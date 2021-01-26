@@ -1,4 +1,4 @@
-﻿/**
+﻿﻿/**
  * genpac 2.1.0 https://github.com/JinnLynn/genpac
  * GFWList Last-Modified: 2020-10-21 00:11:38 
  */
@@ -87,7 +87,21 @@ var rules = [
             "zhongsou.com"
         ],
         [
-            "raw.githubusercontent.com",
+            "realtimesupport.clients6.google.com",
+            "apis.google.com",
+            "fonts.gstatic.com",
+            "play.google.com",
+            "ssl.gstatic.com",
+            "csi.gstatic.com",
+            "khmdb.google.com",
+            "www.google-analytics.com",
+            "www.gstatic.com",
+            "support.google.com",
+            "mw2.google.com",
+            "mw1.google.com",
+            "kh.google.com",
+            "geoauth.google.com",
+            "maps.google.com",
             "030buy.com",
             "0rz.tw",
             "1-apple.com.tw",
@@ -226,6 +240,7 @@ var rules = [
             "acevpn.com",
             "acg18.me",
             "acgkj.com",
+            "acgnx.se",
             "acmedia365.com",
             "acmetoy.com",
             "acnw.com.au",
@@ -940,6 +955,7 @@ var rules = [
             "circlethebayfortibet.org",
             "cirosantilli.com",
             "citizencn.com",
+            "citizenlab.ca",
             "citizenlab.org",
             "citizenscommission.hk",
             "citizensradio.org",
@@ -1916,6 +1932,7 @@ var rules = [
             "golang.org",
             "goldbet.com",
             "goldbetsports.com",
+            "golden-ages.org",
             "goldeneyevault.com",
             "goldenfrog.com",
             "goldjizz.com",
@@ -2209,6 +2226,7 @@ var rules = [
             "gtricks.com",
             "gts-vpn.com",
             "gtv.org",
+            "gtv1.org",
             "gu-chu-sum.org",
             "guaguass.com",
             "guaguass.org",
@@ -2400,6 +2418,7 @@ var rules = [
             "hongkongfp.com",
             "hongmeimei.com",
             "hongzhi.li",
+            "honven.xyz",
             "hootsuite.com",
             "hoovers.com",
             "hopedialogue.org",
@@ -2499,6 +2518,7 @@ var rules = [
             "iask.ca",
             "iav19.com",
             "ibiblio.org",
+            "ibit.am",
             "iblist.com",
             "iblogserv-f.net",
             "ibros.org",
@@ -2736,6 +2756,7 @@ var rules = [
             "jobso.tv",
             "joinbbs.net",
             "joinmastodon.org",
+            "joins.com",
             "journalchretien.net",
             "journalofdemocracy.org",
             "joymiihub.com",
@@ -2851,6 +2872,7 @@ var rules = [
             "kurtmunger.com",
             "kusocity.com",
             "kwcg.ca",
+            "kwok7.com",
             "kwongwah.com.my",
             "kxsw.life",
             "kyofun.com",
@@ -2868,6 +2890,7 @@ var rules = [
             "lamenhu.com",
             "lamnia.co.uk",
             "lamrim.com",
+            "landofhope.tv",
             "lanterncn.cn",
             "lantosfoundation.org",
             "laod.cn",
@@ -2903,6 +2926,7 @@ var rules = [
             "lester850.info",
             "letou.com",
             "letscorp.net",
+            "letsencrypt.org",
             "levyhsu.com",
             "lflink.com",
             "lflinkup.com",
@@ -2998,6 +3022,7 @@ var rules = [
             "lsmwebcast.com",
             "lsxszzg.com",
             "ltn.com.tw",
+            "luckydesigner.space",
             "luke54.com",
             "luke54.org",
             "lupm.org",
@@ -3527,6 +3552,7 @@ var rules = [
             "ogaoga.org",
             "ogate.org",
             "ohchr.org",
+            "ohmyrss.com",
             "oikos.com.tw",
             "oiktv.com",
             "oizoblog.com",
@@ -4024,6 +4050,7 @@ var rules = [
             "rsf-chinese.org",
             "rsf.org",
             "rsgamen.org",
+            "rsshub.app",
             "rssing.com",
             "rssmeme.com",
             "rtalabel.org",
@@ -4088,10 +4115,10 @@ var rules = [
             "scramble.io",
             "scribd.com",
             "scriptspot.com",
-            "seapuff.com",
             "search.com",
             "search.xxx",
             "searchtruth.com",
+            "searx.me",
             "seatguru.com",
             "secretchina.com",
             "secretgarden.no",
@@ -4393,6 +4420,7 @@ var rules = [
             "stoweboyd.com",
             "stranabg.com",
             "straplessdildo.com",
+            "streamate.com",
             "streamingthe.net",
             "streema.com",
             "streetvoice.com",
@@ -4569,6 +4597,7 @@ var rules = [
             "thegay.com",
             "thegioitinhoc.vn",
             "thegly.com",
+            "theguardian.com",
             "thehots.info",
             "thehousenews.com",
             "thehun.net",
@@ -5452,6 +5481,7 @@ var rules = [
             "yangjianli.com",
             "yasni.co.uk",
             "yayabay.com",
+            "ycombinator.com",
             "ydy.com",
             "yeahteentube.com",
             "yecl.net",
@@ -5502,6 +5532,7 @@ var rules = [
             "yourtrap.com",
             "yousendit.com",
             "youshun12.com",
+            "youthforfreechina.org",
             "youthnetradio.org",
             "youthwant.com.tw",
             "youtu.be",
@@ -5601,7 +5632,16 @@ var rules = [
             "zyzc9.com",
             "zzcartoon.com",
             "zzcloud.me",
-            "zzux.com"
+            "zzux.com",
+            "149.154.160.0/22", 
+            "149.154.164.0/22",
+            "149.154.172.0/22", 
+            "91.108.4.0/22",
+            "91.108.20.0/22",
+            "91.108.56.0/22",
+            "91.108.8.0/22",
+            "95.161.64.0/20",
+            "91.108.12.0/22"
         ]
     ]
 ];
@@ -5618,11 +5658,23 @@ function FindProxyForURL(url, host) {
 }
 
 function testHost(host, index) {
+    if( /^\d+\.\d+\.\d+\.\d+$/.test(host) && ( typeof isInNetEx !== "undefined" ) ){
+        for (var i = 0; i < rules[index].length; i++) {
+            for (var j = 0; j < rules[index][i].length; j++) {
+                lastRule = rules[index][i][j];
+                if(host == lastRule || host.endsWith('.' + lastRule) || ( lastRule.indexOf("/") && isInNetEx(host, lastRule) ) ){
+                    return i % 2 == 0 ? 'DIRECT' : proxy; 
+                }
+            }
+        }
+        return;       
+    }
+
     for (var i = 0; i < rules[index].length; i++) {
         for (var j = 0; j < rules[index][i].length; j++) {
             lastRule = rules[index][i][j];
             if (host == lastRule || host.endsWith('.' + lastRule))
-                return i % 2 == 0 ? 'DIRECT' : proxy;
+                return i % 2 == 0 ? 'DIRECT' : proxy; 
         }
     }
     lastRule = '';

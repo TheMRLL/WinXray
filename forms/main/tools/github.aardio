@@ -10,7 +10,8 @@ editIpCurrent={cls="edit";left=118;top=206;right=366;bottom=230;edge=1;z=5};
 plusExploreHosts={cls="plus";text='\uF07C 编辑hosts文件';left=450;top=204;right=607;bottom=235;bgcolor=-6371181;font=LOGFONT(h=-15;name='FontAwesome';charset=0);notify=1;z=7};
 plusUpdateDns={cls="plus";text='\uF0AD 更改github.com解析到选定IP / 并更新图像等服务器IP';left=77;top=158;right=563;bottom=189;bgcolor=-6371181;font=LOGFONT(h=-15;name='FontAwesome';charset=0);notify=1;z=3};
 plusUpdateIps={cls="plus";text='\uF021 获取最新IP列表 / 测速';left=345;top=108;right=607;bottom=139;bgcolor=-6371181;font=LOGFONT(h=-15;name='FontAwesome';charset=0);notify=1;z=2};
-static={cls="static";text="本工具使用github官网接口优化http协议访问官网速度（ 适用于无代理连接 ）。";left=49;top=50;right=635;bottom=86;font=LOGFONT(h=-13);transparent=1;z=4};
+static={cls="static";text="本工具优化无代理时直连 Github 官网访问当前速度最快的服务器，
+可解决无法下载更新 xray Core / SSR Core ，无法显示 Github 上的图像等问题。";left=49;top=45;right=635;bottom=93;font=LOGFONT(h=-13);transparent=1;z=4};
 static2={cls="static";text="当前指向IP:";left=27;top=208;right=111;bottom=228;align="right";transparent=1;z=6}
 )
 /*}}*/

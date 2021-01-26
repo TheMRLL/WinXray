@@ -1,26 +1,4 @@
-[
-    {
-        "address":"us.winray.xyz",
-        "flow":"xtls-rprx-direct",
-        "host":"us.winray.xyz",
-        "id":"0d841558-eade-cfa9-f3ea-b6ab735a7867",
-        "port":443,
-        "protocol":"vless",
-        "ps":"美国西雅图xtls黑科技",
-        "sni":"us.winray.xyz",
-        "tls":"xtls"
-    },
-    {
-        "address":"jp.winray.xyz",
-        "flow":"xtls-rprx-direct",
-        "host":"jp.winray.xyz",
-        "id":"1fd55a0e-67e1-a70e-acdc-86605b0b7f00",
-        "port":443,
-        "protocol":"vless",
-        "ps":"日本东京xtls黑科技",
-        "sni":"jp.winray.xyz",
-        "tls":"xtls"
-    },
+[ 
     {
         "address":"www.aech.cc",
         "alterId":64,

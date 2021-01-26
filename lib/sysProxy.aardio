@@ -22,7 +22,7 @@ switch = function(mode){
 	}
 	elseif(mode=="proxy"){ 
 		import xray.core;
-		var address = xray.core.getHttpProxyAddress(); 
+		var address = xray.core.getSystemProxyConfig(); 
 		
 		if(address){
 			..inet.conn.setProxy(,address);  
@@ -79,7 +79,7 @@ reset = function(proxy){
 	}
 } )
 
-..subscribe("v2RayCore.restarted",function(socksProxyPort,httpProxPort){ 
+..subscribe("xrayCore.restarted",function(socksProxyPort,httpProxPort){ 
 	if(..config.proxy.mode != "direct"){
 		reset(true);
 	}

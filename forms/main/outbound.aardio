@@ -5,28 +5,30 @@ import win.ui;
 /*DSG{{*/
 var winform = win.form(text="winXray - 代理服务器配置";right=999;bottom=504;bgcolor=16777215;exmode="none";min=false;mode="popup")
 winform.add(
-btnAddOutbound={cls="plus";text="新 增";left=663;top=427;right=766;bottom=463;align="left";bgcolor=14935259;db=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=22}};iconText='\uF067';notify=1;textPadding={left=40};z=17};
+btnAddOutbound={cls="plus";text="新 增";left=705;top=410;right=808;bottom=446;align="left";bgcolor=14935259;db=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=22}};iconText='\uF067';notify=1;textPadding={left=40};z=17};
 btnCopySharedLink={cls="plus";text="复制";left=829;top=471;right=901;bottom=496;align="left";clip=1;db=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=12}};iconText='\uF0C1';notify=1;textPadding={left=30};z=1};
-btnGenGuid={cls="plus";text="生成";left=914;top=232;right=986;bottom=257;align="left";clip=1;dr=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=12}};iconText='\uF0AD';notify=1;textPadding={left=30};z=19};
+btnGenGuid={cls="plus";text="生成";left=914;top=259;right=986;bottom=284;align="left";clip=1;dr=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=12}};iconText='\uF0AD';notify=1;textPadding={left=30};z=19};
 btnImportSharedLink={cls="plus";text="导入";left=912;top=471;right=984;bottom=496;align="left";clip=1;db=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=12}};iconText='\uF0C1';notify=1;textPadding={left=30};z=21};
 btnInsertField={cls="plus";text="插入更多配置字段";left=10;top=0;right=191;bottom=24;align="left";dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=12}};iconText='\uF196 ';notify=1;textPadding={left=30};z=18};
-btnSaveOutbound={cls="plus";text="保 存";left=784;top=427;right=887;bottom=463;align="left";bgcolor=11580047;db=1;disabled=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=22}};iconText='\uF0C7';notify=1;textPadding={left=40};z=16};
-cmbNetwork={cls="combobox";left=656;top=70;right=814;bottom=96;dr=1;dt=1;edge=1;items={"tcp";"kcp";"ws";"h2";"quic"};mode="dropdown";z=13};
-cmbProtocol={cls="combobox";left=656;top=28;right=814;bottom=54;dr=1;dt=1;edge=1;items={"vmess";"vless";"trojan";"trojan-go";"ssr";"shadowsocks";"socks"};mode="dropdown";z=12};
-cmbSecurity={cls="combobox";left=656;top=113;right=814;bottom=139;dr=1;dt=1;edge=1;items={"auto";"none";"chacha20-poly1305";"aes-128-gcm"};mode="dropdown";z=15};
-editAddress={cls="plus";left=656;top=156;right=878;bottom=180;align="left";bgcolor=16777215;border={bottom=1;color=-8355712};dr=1;dt=1;editable="edit";font=LOGFONT(h=-16);textPadding={bottom=1};z=2};
-editId={cls="plus";left=656;top=236;right=986;bottom=260;align="left";bgcolor=16777215;border={bottom=1;color=-8355712};clip=1;dr=1;dt=1;editable="edit";font=LOGFONT(h=-16);textPadding={right=75;bottom=1};z=20};
+btnSaveOutbound={cls="plus";text="保 存";left=826;top=410;right=929;bottom=446;align="left";bgcolor=11580047;db=1;disabled=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=22}};iconText='\uF0C7';notify=1;textPadding={left=40};z=16};
+btnUpdateCore={cls="plus";text="下载 / 更新 NaÏveProxy Core";left=637;top=61;right=979;bottom=89;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-17;name='FontAwesome');padding={left=18}};iconText='\uF0AB';notify=1;textPadding={left=50};z=23};
+cmbNetwork={cls="combobox";left=656;top=97;right=814;bottom=123;dr=1;dt=1;edge=1;items={"tcp";"kcp";"ws";"h2";"quic"};mode="dropdown";z=13};
+cmbProtocol={cls="combobox";left=656;top=28;right=814;bottom=54;dr=1;dt=1;edge=1;items={"vmess";"vless";"trojan";"trojan-go";"ssr";"shadowsocks";"naive";"socks"};mode="dropdown";z=12};
+cmbSecurity={cls="combobox";left=656;top=140;right=814;bottom=166;dr=1;dt=1;edge=1;items={"auto";"none";"chacha20-poly1305";"aes-128-gcm"};mode="dropdown";z=15};
+editAddress={cls="plus";left=656;top=183;right=878;bottom=207;align="left";bgcolor=16777215;border={bottom=1;color=-8355712};dr=1;dt=1;editable="edit";font=LOGFONT(h=-16);textPadding={bottom=1};z=2};
+editId={cls="plus";left=656;top=263;right=986;bottom=287;align="left";bgcolor=16777215;border={bottom=1;color=-8355712};clip=1;dr=1;dt=1;editable="edit";font=LOGFONT(h=-16);textPadding={right=75;bottom=1};z=20};
 editOutbound={cls="edit";left=15;top=25;right=472;bottom=462;db=1;dl=1;dr=1;dt=1;edge=1;font=LOGFONT(h=-13);hscroll=1;multiline=1;vscroll=1;z=14};
-editPort={cls="plus";left=656;top=197;right=745;bottom=221;align="left";bgcolor=16777215;border={bottom=1;color=-8355712};dr=1;dt=1;editable="edit";font=LOGFONT(h=-16);textPadding={bottom=1};z=4};
-editPs={cls="plus";left=656;top=279;right=878;bottom=303;align="left";bgcolor=16777215;border={bottom=1;color=-8355712};dr=1;dt=1;editable="edit";font=LOGFONT(h=-16);textPadding={bottom=1};z=7};
+editPort={cls="plus";left=656;top=224;right=745;bottom=248;align="left";bgcolor=16777215;border={bottom=1;color=-8355712};dr=1;dt=1;editable="edit";font=LOGFONT(h=-16);textPadding={bottom=1};z=4};
+editPs={cls="plus";left=656;top=306;right=878;bottom=330;align="left";bgcolor=16777215;border={bottom=1;color=-8355712};dr=1;dt=1;editable="edit";font=LOGFONT(h=-16);textPadding={bottom=1};z=7};
 editSharedLink={cls="plus";left=13;top=475;right=986;bottom=499;align="left";bgcolor=16777215;border={bottom=1;color=-8355712};clip=1;db=1;dl=1;dr=1;font=LOGFONT(h=-16);notify=1;textPadding={right=150;bottom=1};z=22};
-lbSecurity={cls="static";text="加密方式( security ):";left=473;top=109;right=641;bottom=135;align="right";bgcolor=16777215;dl=1;dr=1;dt=1;font=LOGFONT(h=-16);transparent=1;z=10};
-static={cls="static";text="服务器( address ):";left=481;top=151;right=641;bottom=177;align="right";bgcolor=16777215;dl=1;dr=1;dt=1;font=LOGFONT(h=-16);transparent=1;z=3};
+lbSecurity={cls="static";text="加密方式( security ):";left=473;top=136;right=641;bottom=162;align="right";bgcolor=16777215;dl=1;dr=1;dt=1;font=LOGFONT(h=-16);transparent=1;z=10};
+qrPicture={cls="plus";left=510;top=358;right=606;bottom=454;bgcolor=16777215;db=1;dr=1;notify=1;repeat="scale";z=24};
+static={cls="static";text="服务器( address ):";left=481;top=178;right=641;bottom=204;align="right";bgcolor=16777215;dl=1;dr=1;dt=1;font=LOGFONT(h=-16);transparent=1;z=3};
 static10={cls="static";text="代理协议( protocol ):";left=473;top=26;right=641;bottom=52;align="right";bgcolor=16777215;dl=1;dr=1;dt=1;font=LOGFONT(h=-16);transparent=1;z=11};
-static2={cls="static";text="端口( port ):";left=498;top=193;right=641;bottom=219;align="right";bgcolor=16777215;dr=1;dt=1;font=LOGFONT(h=-16);transparent=1;z=5};
-static3={cls="static";text="密码( id ):";left=498;top=235;right=641;bottom=261;align="right";bgcolor=16777215;dr=1;dt=1;font=LOGFONT(h=-16);transparent=1;z=6};
-static4={cls="static";text="备注( ps ):";left=498;top=277;right=641;bottom=303;align="right";bgcolor=16777215;dr=1;dt=1;font=LOGFONT(h=-16);transparent=1;z=8};
-static5={cls="static";text="传输协议( network ):";left=473;top=67;right=641;bottom=99;align="right";bgcolor=16777215;dl=1;dr=1;dt=1;font=LOGFONT(h=-16);transparent=1;z=9}
+static2={cls="static";text="端口( port ):";left=498;top=220;right=641;bottom=246;align="right";bgcolor=16777215;dr=1;dt=1;font=LOGFONT(h=-16);transparent=1;z=5};
+static3={cls="static";text="密码( id ):";left=498;top=262;right=641;bottom=288;align="right";bgcolor=16777215;dr=1;dt=1;font=LOGFONT(h=-16);transparent=1;z=6};
+static4={cls="static";text="备注( ps ):";left=498;top=304;right=641;bottom=330;align="right";bgcolor=16777215;dr=1;dt=1;font=LOGFONT(h=-16);transparent=1;z=8};
+static5={cls="static";text="传输协议( network ):";left=473;top=94;right=641;bottom=126;align="right";bgcolor=16777215;dl=1;dr=1;dt=1;font=LOGFONT(h=-16);transparent=1;z=9}
 )
 /*}}*/
 
@@ -55,6 +57,7 @@ winform.cmbProtocol.onListChange = function(){
 		}
 		winform.cmbNetwork.selIndex = 1;
 		winform.outboundConfig.network = "tcp";
+		winform.btnUpdateCore.text = '下载 / 更新支持组件： xray Core';
 	}
 	elseif(sel=="shadowsocks"){
 		winform.cmbSecurity.items = {
@@ -67,6 +70,7 @@ winform.cmbProtocol.onListChange = function(){
 		winform.cmbNetwork.items = {"tcp";}
 		winform.cmbNetwork.selIndex = 1;
 		winform.outboundConfig.network = "tcp";
+		winform.btnUpdateCore.text = '下载 / 更新支持组件： xray Core';
 	}
 	elseif(sel=="ssr"){
 		winform.cmbNetwork.items = {
@@ -81,6 +85,7 @@ winform.cmbProtocol.onListChange = function(){
 
 		winform.cmbSecurity.selIndex = 1;
 		winform.outboundConfig.security = "none";  
+		winform.btnUpdateCore.text = '下载 / 更新支持组件： SSR Core';
 	}
 	elseif(sel=="vless"){
 		winform.cmbSecurity.items = {
@@ -94,6 +99,34 @@ winform.cmbProtocol.onListChange = function(){
 		}
 		winform.cmbNetwork.selIndex = 1;
 		winform.outboundConfig.network = "tcp";
+		winform.btnUpdateCore.text = '下载 / 更新支持组件： Xray Core';
+	}
+	elseif(sel=="naive"){
+		winform.cmbNetwork.items = {
+			"https";"quic";
+		}
+		winform.cmbNetwork.selIndex = 1;
+		winform.outboundConfig.network = "https";
+		
+		winform.cmbSecurity.items = {}
+		winform.outboundConfig.security = null;  
+		
+		if(!string.indexOf(winform.editId.text:"",":")){
+			winform.editId.text = "username:password";
+		}
+		winform.btnUpdateCore.text = '下载 / 更新支持组件： NaïveProxy Core';
+	}
+	elseif(sel=="socks"){
+		winform.cmbSecurity.items = { }	
+		winform.outboundConfig.security = null;
+		
+		winform.cmbNetwork.items = {"tcp";}
+		winform.cmbNetwork.selIndex = 1;
+		winform.outboundConfig.network = "tcp"; 
+		if(!string.indexOf(winform.editId.text:"",":")){
+			winform.editId.text = "username:password";
+		}
+		winform.btnUpdateCore.text = '下载 / 更新支持组件： xray Core';
 	}
 	else {
 		winform.cmbSecurity.items = { }	
@@ -102,6 +135,7 @@ winform.cmbProtocol.onListChange = function(){
 		winform.cmbNetwork.items = {"tcp";}
 		winform.cmbNetwork.selIndex = 1;
 		winform.outboundConfig.network = "tcp";
+		winform.btnUpdateCore.text = '下载 / 更新支持组件： xray Core';
 	} 
 
 	table.define(winform.outboundConfig);
@@ -376,9 +410,11 @@ winform.btnSaveOutbound.oncommand = function(id,event){
 	}
 	
 	table.assign(winform.origOutboundConfig,winform.outboundConfig);
+	winform.endModal();
+	
 	publish("uiCommand.restartxrayCore");
 	publish("outbounds.updateConfigJson");
-	winform.endModal();
+	
 }
 
 import config;
@@ -396,9 +432,10 @@ winform.btnAddOutbound.oncommand = function(id,event){
 	}
 	
 	table.push(config.proxy.outbounds,winform.outboundConfig); 
-	publish("uiCommand.restartxrayCore");
-	publish("outbounds.updateConfigJson");
 	winform.endModal();
+
+	publish("uiCommand.restartxrayCore");
+	publish("outbounds.updateConfigJson"); 
 }
 
 import win.guid;
@@ -408,28 +445,11 @@ winform.btnGenGuid.oncommand = function(id,event){
 }
 winform.btnGenGuid.skin(style.link)
 
-
-winform.setOutboundConfig = function(cfg){
-	
-	winform.btnAddOutbound.skin(style.button);
-	winform.btnSaveOutbound.skin(style.primaryButton);
-	winform.btnSaveOutbound.disabled = false;
-
-	winform.origOutboundConfig = cfg;
-	winform.outboundConfig = table.clone(cfg);
-	winform.editOutbound.text = web.json.stringify(winform.outboundConfig,true,false);
-	onEditChange();
-}
-winform.setOutboundConfig({
-	port = 443;
-	protocol = "vmess";
-	network = "tcp";
-});
-
 winform.btnSaveOutbound.skin(style.button)
 winform.btnAddOutbound.skin(style.primaryButton)
 winform.btnSaveOutbound.disabled = true;
 
+import qrencode.bitmap;
 import xray.outbounds;
 winform.updateSharedLink = function(modified){ 
 	var cfg = winform.outboundConfig;
@@ -440,6 +460,13 @@ winform.updateSharedLink = function(modified){
 	}
 	
 	winform.editSharedLink.text = link;
+	
+	if(#link){ 
+		var qrBmp = qrencode.bitmap(link,0,0);
+		if(qrBmp){ 
+			winform.qrPicture.setBackground(qrBmp.copyBitmap(winform.qrPicture.width));   
+		} 
+	}
 }
 
 import win.clip;
@@ -474,6 +501,102 @@ winform.btnCopySharedLink.oncommand = function(id,event){
 		win.clip.write(lnk);
 		winform.msgOk("分享链接已复制到剪贴板",1500);
 	} 	
+}
+
+
+winform.setOutboundConfig = function(cfg){
+    winform.cmbProtocol.selText = cfg.protocol;
+	winform.cmbProtocol.onListChange();
+	
+	winform.btnAddOutbound.skin(style.button);
+	winform.btnSaveOutbound.skin(style.primaryButton);
+	winform.btnSaveOutbound.disabled = false;
+
+	winform.origOutboundConfig = cfg;
+	winform.outboundConfig = table.clone(cfg);
+	winform.editOutbound.text = web.json.stringify(winform.outboundConfig,true,false);
+	onEditChange();
+}
+winform.setOutboundConfig({
+	port = 443;
+	protocol = "vmess";
+	network = "tcp";
+});
+winform.btnAddOutbound.skin(style.primaryButton);
+winform.btnSaveOutbound.skin(style.button);
+winform.btnSaveOutbound.disabled = true;
+
+winform.btnUpdateCore.skin(style.plainButton)
+winform.btnUpdateCore.oncommand = function(id,event){ 
+	winform.btnUpdateCore.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'};
+	var sel = winform.cmbProtocol.selText;
+	
+	if(sel=="ssr"){
+		import xray.core.ssr;
+		var versionTag = xray.core.ssr.updateCore();
+		if( versionTag ){
+			publish("uiCommand.restartxrayCore");
+			winform.btnUpdateCore.disabledText = null;
+			winform.msgOk("SSR Core（ ShadowsocksR-native ） 已更新到：" + versionTag,1500)
+		}
+		else {
+			winform.btnUpdateCore.disabledText = null;
+		} 	
+	}
+	elseif(sel=="vless"){
+		import xray.core.xray;
+		var versionTag = xray.core.xray.updateCore();
+		if( versionTag ){
+			publish("uiCommand.restartxrayCore");
+			winform.btnUpdateCore.disabledText = null;
+			winform.msgOk("已下载最新 XRay Core 版本：" + versionTag+ '\nxray 内核已切换为：XRay Core',1500)
+		}
+		else {
+			winform.btnUpdateCore.disabledText = null;
+			winform.msgErr("XRay Core 下载失败！");
+		} 	
+	}
+	elseif(sel=="naive"){
+		import xray.core.naive;
+		var versionTag = xray.core.naive.updateCore();
+		if( versionTag ){
+			publish("uiCommand.restartxrayCore");
+			winform.btnUpdateCore.disabledText = null;
+			winform.msgOk("NaÏveProxy Core 已更新到：" + versionTag,1500)
+		}
+		else {
+			winform.btnUpdateCore.disabledText = null;
+			winform.msgErr("NaÏveProxy Core 下载失败！");
+		} 		
+	}	
+	else {
+		import xray.core;
+		var versionTag = xray.core.updateCore();
+		if( versionTag ){
+			publish("uiCommand.restartxrayCore");
+			winform.btnUpdateCore.disabledText = null;
+			winform.msgOk("已下载最新 xray Core 版本：" + versionTag + '\nxray 内核已切换为： xray Core',1500)
+		}
+		else {
+			winform.btnUpdateCore.disabledText = null;
+			winform.msgErr("xray Core 下载失败！");
+		} 
+	}
+}
+
+winform.qrPicture.skin(
+	foreground = { 
+		hover = 0x10FFFF00; 
+		active = 0x20EEEE00; 
+	}
+)
+winform.qrPicture.oncommand = function(id,event){
+    var lnk = string.trim(winform.editSharedLink.text);
+    if(#lnk){
+    	var frmChild = winform.loadForm("\forms\main\tools\qr.aardio");
+		frmChild.createQrCode(lnk);
+		frmChild.show();	
+    }	
 }
 
 winform.show();

@@ -3,18 +3,22 @@ import win.ui;
 /*DSG{{*/
 var winform = win.form(text="aardio form";right=912;bottom=793;bgcolor=16777215)
 winform.add(
-advancedConfig={cls="\forms\main\config\advancedConfig.aardio";left=9;top=29;right=902;bottom=739;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;edge=1;z=10};
+advancedConfig={cls="\forms\main\config\advancedConfig.aardio";left=9;top=29;right=902;bottom=739;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;edge=1;z=11};
 btnUpdate={cls="plus";text="更新服务器配置";left=687;top=753;right=856;bottom=784;align="left";bgcolor=11580047;db=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=22}};iconText='\uF0C7';notify=1;textPadding={left=40};z=5};
-editCoreConfig={cls="edit";left=9;top=29;right=902;bottom=739;db=1;dl=1;dr=1;dt=1;edge=1;hide=1;hscroll=1;multiline=1;vscroll=1;z=8};
+btnUpdateNaiveCore={cls="plus";text="下载 / 更新 NaÏveProxy Core";left=444;top=4;right=705;bottom=32;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-17;name='FontAwesome');padding={left=18}};iconText='\uF1A0';notify=1;textPadding={left=50};z=16};
+btnUpdateRules={cls="plus";text="下载 / 更新 路由规则";left=703;top=4;right=901;bottom=32;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-19;name='FontAwesome');padding={left=18}};iconText='\uF041';notify=1;textPadding={left=50};z=14};
+btnUpdateSsrCore={cls="plus";text="下载 / 更新 SSR Core";left=222;top=2;right=420;bottom=30;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-17;name='FontAwesome');padding={left=18}};iconText='\uF1D8';notify=1;textPadding={left=50};z=15};
+btnUpdateXrayCore={cls="plus";text="下载 / 更新 Xray Core";left=15;top=2;right=213;bottom=30;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-19;name='FontAwesome');padding={left=18}};iconText='\uF0E7';notify=1;textPadding={left=50};z=12};
+editCoreConfig={cls="edit";left=9;top=72;right=902;bottom=739;db=1;dl=1;dr=1;dt=1;edge=1;hide=1;hscroll=1;multiline=1;vscroll=1;z=6};
 editOutbounds={cls="edit";left=9;top=29;right=902;bottom=739;db=1;dl=1;dr=1;dt=1;edge=1;hscroll=1;multiline=1;vscroll=1;z=7};
-lbTip={cls="static";text="可在下面输入多行服务器分享链接，或JSON数组( 点击字段名会显示用法说明 )：";left=11;top=9;right=899;bottom=29;color=3947580;dl=1;dr=1;dt=1;font=LOGFONT(h=-13);transparent=1;z=6};
+lbTip={cls="static";text="可在下面输入多行服务器分享链接，或JSON数组( 点击字段名会显示用法说明 )：";left=11;top=9;right=899;bottom=29;color=3947580;dl=1;dr=1;dt=1;font=LOGFONT(h=-13);transparent=1;z=8};
 navAdvancedConfig={cls="plus";text="代理端口 / 高级配置";left=359;top=750;right=493;bottom=782;border={top=1;color=-16744448};db=1;dl=1;z=9};
-navCoreConfig={cls="plus";text="Xray配置 ( JSON )";left=162;top=750;right=293;bottom=782;border={top=1;color=-16744448};db=1;dl=1;z=2};
+navCoreConfig={cls="plus";text="Core 配置 ( JSON )";left=162;top=750;right=293;bottom=782;border={top=1;color=-16744448};db=1;dl=1;z=2};
 navOutbounds={cls="plus";text="服务器配置( JSON )";left=31;top=750;right=162;bottom=782;border={top=1;color=-16744448};db=1;dl=1;z=1};
-navRight={cls="plus";left=493;top=750;right=762;bottom=751;bgcolor=16777215;border={color=-16744448};db=1;dl=1;dr=1;forecolor=32768;linearGradient=180;z=3};
-navSubscription={cls="plus";text="订阅";left=293;top=750;right=359;bottom=782;border={top=1;color=-16744448};db=1;dl=1;z=12};
-plus={cls="plus";left=9;top=750;right=31;bottom=751;border={color=-16744448};db=1;dl=1;forecolor=32768;z=4};
-subscription={cls="\forms\main\config\subscription.aardio";left=9;top=29;right=902;bottom=739;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;edge=1;z=11}
+navRight={cls="plus";left=493;top=750;right=762;bottom=751;bgcolor=16777215;border={top=1;color=-16744448};db=1;dl=1;dr=1;linearGradient=180;z=3};
+navSubscription={cls="plus";text="订阅";left=293;top=750;right=359;bottom=782;border={top=1;color=-16744448};db=1;dl=1;z=10};
+plus={cls="plus";left=9;top=750;right=31;bottom=751;border={top=1;color=-16744448};db=1;dl=1;z=4};
+subscription={cls="\forms\main\config\subscription.aardio";left=9;top=29;right=902;bottom=739;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;edge=1;z=13}
 )
 /*}}*/
 
@@ -41,45 +45,27 @@ tbs.skin({
 });
 
 tbs.onSelchange = function(idx,strip,form){
+    winform.btnUpdateSsrCore.hide = idx!=2;
+	/*winform.btnUpdatexrayCore.hide = idx!=2;*/
+	winform.btnUpdateXrayCore.hide = idx!=2;
+	winform.btnUpdateRules.hide = idx!=2;
+	winform.btnUpdateNaiveCore.hide = idx!=2;
+	winform.editCoreConfig.hide = idx!=2; 
+	winform.editOutbounds.hide = idx!=1;	
+	winform.subscription.hide = idx!=3;
+	winform.advancedConfig.hide = idx!=4;
+	winform.btnUpdate.hide = idx>2;
+	winform.lbTip.hide = idx!=1; 
+	
 	if(idx==1){
-		winform.editOutbounds.hide = false;
-		winform.advancedConfig.hide = true;
-		winform.editCoreConfig.hide = true;
-		winform.subscription.hide = true;
-
-		winform.lbTip.text = `可在下面输入多行服务器分享链接，或JSON数组( 点击字段名会显示用法说明 )：`;
-		winform.btnUpdate.text = "更新服务器配置";
-		winform.btnUpdate.hide = false;
+		winform.btnUpdate.text = "更新服务器配置"; 
 	}
-	elseif(idx==2) {
-		winform.editCoreConfig.hide = false;
-		winform.editOutbounds.hide = true;
-		winform.advancedConfig.hide = true;
-		winform.subscription.hide = true;
-		
-		winform.lbTip.text = `inbounds[0]，inbounds[1]必须为入站socks、http 代理，outbounds[0] 会转换为出站服务器数组： `
-		winform.btnUpdate.text = "更新Xray配置 "
-		winform.btnUpdate.hide = false;
+	elseif(idx==2) {  
+		winform.btnUpdate.text = "更新内核配置 " 
 	}	
-	elseif(idx==3) {
-		
-		winform.subscription.hide = false;
-		winform.editOutbounds.hide = true;
-		winform.advancedConfig.hide = true;
-		winform.editCoreConfig.hide = true; 
-
-		winform.lbTip.text = `` 
-		winform.btnUpdate.hide = true;
+	elseif(idx==3) { 
 		winform.subscription.loadSubscriptionsOnce();
-	}	
-	else {
-		winform.advancedConfig.hide = false;
-		winform.editOutbounds.hide = true; 
-		winform.subscription.hide = true;
-		winform.editCoreConfig.hide = true;
-		winform.lbTip.text = ``
-		winform.btnUpdate.hide = true;
-	}	
+	}
 }
 tbs.selIndex = 1;
 
@@ -110,7 +96,7 @@ winform.btnUpdate.oncommand = function(id,event){
 		
 		config.proxy.save();
 		winform.editOutbounds.modified = false;
-		publish("uiCommand.restartXrayCore",cfg)    	
+		publish("uiCommand.restartxrayCore",cfg)    	
 	}
 	elseif(tbs.selIndex==2) {
 		var cfg,err = web.json.tryParse(winform.editCoreConfig.text);
@@ -152,7 +138,8 @@ winform.btnUpdate.oncommand = function(id,event){
 		
 		config.core.default = cfg;
 		config.core.save();
-		publish("uiCommand.restartXrayCore",cfg)   
+		
+		publish("uiCommand.restartxrayCore",cfg);   
 		publish("config.core.changed");
 	} 
 
@@ -213,7 +200,7 @@ winform.editOutbounds.enablePopMenu(function(){
 						return; 
 					}
 		
-					winform.msgFrown('未导入服务器！\r\n请先复制以下格式文本（自动清除其中的无效内容）：\r\n\r\n1、一行或多行（忽略无效行）分享链接或服务器JSON配置。\r\n支持 vmess://，vless://，ss://，trojan://， trojan-go:// 等通用分享链接。\r\n\r\n2、包含多个服务器配置的JSON数组。\r\n\r\n3、单个 http:// 或 https:// 开头的通用订阅源地址。\r\n订阅源地址支持直接使用github项目文件地址（网址含raw或blob目录名）。\r\n订阅源可以BASE64编码或明文返回以上1、2条规定的配置或分享链接。')
+					winform.msgFrown('未导入服务器！\r\n请先复制以下格式文本（自动清除其中的无效内容）：\r\n\r\n1、一行或多行（忽略无效行）分享链接或服务器JSON配置。\r\n支持 vmess://，vless://，ss://，ssr://，trojan://， trojan-go:// 等通用分享链接。\r\n\r\n2、包含多个服务器配置的JSON数组。\r\n\r\n3、单个 http:// 或 https:// 开头的通用订阅源地址。\r\n订阅源地址支持直接使用github项目文件地址（网址含raw或blob目录名）。\r\n订阅源可以BASE64编码或明文返回以上1、2条规定的配置或分享链接。')
 				} 
 			};  
 		}
@@ -396,7 +383,7 @@ winform.editOutbounds.enablePopMenu(function(){
 				winform.btnUpdate.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'}
 				..config.__loadDefaultOutbounds();
 				winform.editOutbounds.modified = false;
-				publish("uiCommand.restartXrayCore",cfg);
+				publish("uiCommand.restartxrayCore",cfg);
 				
 				winform.btnUpdate.disabledText = null;
 			} 
@@ -448,11 +435,6 @@ winform.editOutbounds.enablePopMenu(function(){
 						winform.editOutbounds.selText = '"security":"auto",'
 					} 
 				};
-				{ "启用TLS:tls";
-					function(id){
-						winform.editOutbounds.selText = '"tls":"xtls",'
-					} 
-				};
 				{ "允许忽略证书:allowInsecure";
 					function(id){
 						winform.editOutbounds.selText = '"allowInsecure":true,'
@@ -465,7 +447,7 @@ winform.editOutbounds.enablePopMenu(function(){
 				};
 				{ "启用TLS:tls";
 					function(id){
-						winform.editOutbounds.selText = '"tls":"xtls",'
+						winform.editOutbounds.selText = '"tls":"tls",'
 					} 
 				};
 				{ "流控:flow";
@@ -533,12 +515,28 @@ winform.editOutbounds.enablePopMenu(function(){
 
 winform.editCoreConfig.enablePopMenu({ 
 	{ /*---分隔线---*/ };
-	{ "重置为默认 Xray 配置";
+	{ "重置为默认内核配置";
 		function(id){  
-			config.__resetDefaultCore();
+			winform.editCoreConfig.text = ..string.load("\forms\main\config\coreConfigs\default.json") 
+			winform.editCoreConfig.msgOk('已重置为默认内核配置。\n请在下面点击：『更新内核配置』启用新的配置。',1300)
+		} 
+	}; 
+	{ "重置为启用路由规则默认内核配置";
+		function(id){  
+			winform.editCoreConfig.text = ..string.load("\forms\main\config\coreConfigs\xray.rules.json")
+			import xray.core.rules;
+			var versionTag = xray.core.rules.check();
+			if(versionTag) winform.editCoreConfig.msgOk('已重置为启用路由规则默认内核配置，\n已下载路由规则数据最新版本：' + versionTag+ '\n\n请在下面点击：『更新内核配置』启用新的配置。',2000)
+			else winform.msgOk('已重置为启用路由规则默认内核配置，\n请在下面点击：『更新内核配置』启用新的配置。',1300)
+		} 
+	};  
+	{ "恢复到当前正在使用的内核配置";
+		function(id){   
 			winform.editCoreConfig.text = web.json.stringify( 
 				config.core.default,true
 			)
+
+			winform.editCoreConfig.msgOk('已恢复到当前正在使用的内核配置',1300)
 		} 
 	}; 
 } )
@@ -579,7 +577,7 @@ var editOutboundsTip = {
 	address = {"代理服务器地址";"值可以是域名或者IP地址"};
 	alterId = {"额外ID";"仅用于VMESS协议，与服务器一致即可"};
 	aid = {"额外ID(alterId)";"数值,仅用于VMESS协议，与服务器一致即可"};
-	network = {"传输协议(network)";"可选值为tcp,ws等"};
+	network = {"传输协议(network)";"可选值为tcp,ws等，也可以放 SSR 的 protocol 值"};
 	net = {"传输协议(network)";"可选值为tcp,ws等"};
 	type = {"伪装类型";"默认的可选值为none,http等,kcp或quic此字段表示header.type，可选值为 none,srtp,utp,wechat-video,dtls,wireguard"}; 
 	ps = {"备注";"备注"}; 
@@ -594,6 +592,9 @@ var editOutboundsTip = {
 	security = {"加密方式";"可省略,vmess协议默认为auto,vless协议默认为none"};
 	sni = {"TLS服务器名";"TLS客户端请求中的服务器名字段,如果不指定则默认取host或address字段值。"}; 
 	flow = {"流控";"目前仅用于选择 XTLS 的算法,省略时默认值为xtls-rprx-direct"}; 
+	obfs = {"混淆插件";"可选值：plain,http_simple,http_post,tls1.2_ticket_auth ..."}; 
+	obfsParam = {"混淆参数";"SSR 里的 obfs_param"}; 
+	networkParam = {"SSR网络协议参数";"SSR 里的 protocol_param"}; 
 	concurrency = {"Mux多路复用:最大并发连接数";"最小值1，最大值1024，特殊值-1，不加载mux模块。缺省由winXray根据连接协议自动设定此值。"}; 
 }
 
@@ -615,10 +616,107 @@ winform.editOutbounds.wndproc = function(hwnd,message,wParam,lParam){
 	} 
 }
 
+winform.editCoreConfig.oncommand = function(id,event){
+	if( event === 0x100/*_EN_SETFOCUS*/){
+		winform.editCoreConfig.showInfoTip("提示",'inbounds[0] 必须为入站 SOCKS 代理，\ninbounds[1] 必须为入站 HTTP 代理，\noutbounds[0] 会转换为出站服务器数组。')
+	}
+}
+
 winform.editOutbounds.limit = 0;
 winform.editCoreConfig.limit = 0;
 
-winform.enableDpiScaling();
+winform.btnUpdateSsrCore.skin(style.plainButton)
+winform.btnUpdateSsrCore.oncommand = function(id,event){
+	winform.btnUpdateSsrCore.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'};
+	
+	import xray.core.ssr;
+	var versionTag = xray.core.ssr.updateCore();
+	if( versionTag ){
+		publish("uiCommand.restartxrayCore");
+		winform.btnUpdateSsrCore.disabledText = null;
+		winform.msgOk("SSR Core（ ShadowsocksR-native ） 已更新到：" + versionTag,1500)
+	}
+	else {
+		winform.btnUpdateSsrCore.disabledText = null;
+	} 	
+}
+
+/*winform.btnUpdatexrayCore.skin(style.plainButton)
+winform.btnUpdatexrayCore.oncommand = function(id,event){
+    winform.btnUpdateXrayCore.disabled = true;
+	winform.btnUpdatexrayCore.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'};
+	
+	import V2ray.core;
+	var versionTag = V2ray.core.updateCore();
+	if( versionTag ){
+		publish("uiCommand.restartV2rayCore");
+		winform.btnUpdatexrayCore.disabledText = null;
+		winform.msgOk("已下载最新 V2ray Core 版本：" + versionTag + '\nxray 内核已切换为： V2ray Core',1500)
+	}
+	else {
+		winform.btnUpdatexrayCore.disabledText = null;
+		winform.msgErr("V2ray Core 下载失败！");
+	} 
+	
+	winform.btnUpdateXrayCore.disabled = false;
+}
+*/
+winform.btnUpdateXrayCore.skin(style.plainButton)
+winform.btnUpdateXrayCore.oncommand = function(id,event){
+    
+    winform.btnUpdatexrayCore.disabled = true;
+	winform.btnUpdateXrayCore.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'};
+	
+	import xray.core.xray;
+	var versionTag = xray.core.xray.updateCore();
+	if( versionTag ){
+		publish("uiCommand.restartxrayCore");
+		winform.btnUpdateXrayCore.disabledText = null;
+		winform.msgOk("已下载最新 XRay Core 版本：" + versionTag+ '\nxray 内核已切换为：XRay Core',1500)
+	}
+	else {
+		winform.btnUpdateXrayCore.disabledText = null;
+		winform.msgErr("XRay Core 下载失败！");
+	} 
+	
+	winform.btnUpdatexrayCore.disabled = false;
+}
+
+winform.btnUpdateRules.skin(style.plainButton)
+winform.btnUpdateRules.oncommand = function(id,event){
+     
+	winform.btnUpdateRules.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'};
+	 
+	import xray.core.rules;
+	var versionTag = xray.core.rules.update();
+	if( versionTag ){
+		publish("uiCommand.restartxrayCore");
+		winform.btnUpdateRules.disabledText = null;
+		winform.msgOk('已下载路由规则到最新版本：' + versionTag+ '\n请在下面的配置编辑器点击右键,然后点击：\n『重置为启用路由规则默认内核配置』',2000)
+	}
+	else {
+		winform.btnUpdateRules.disabledText = null;
+		winform.msgErr("路由规则下载失败！");
+	}  
+}
+
+winform.btnUpdateNaiveCore.skin(style.plainButton)
+winform.btnUpdateNaiveCore.oncommand = function(id,event){
+	winform.btnUpdateNaiveCore.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'};
+	
+	import xray.core.naive;
+	var versionTag = xray.core.naive.updateCore();
+	if( versionTag ){
+		publish("uiCommand.restartxrayCore");
+		winform.btnUpdateNaiveCore.disabledText = null;
+		winform.msgOk("NaÏveProxy Core 已更新到：" + versionTag,1500)
+	}
+	else {
+		winform.btnUpdateNaiveCore.disabledText = null;
+		winform.msgErr("NaÏveProxy Core 下载失败！");
+	} 		
+}
+
 winform.show();
 win.loopMessage();
 return winform;
