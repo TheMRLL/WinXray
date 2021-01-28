@@ -5,10 +5,11 @@ var winform = win.form(text="aardio form";right=912;bottom=793;bgcolor=16777215)
 winform.add(
 advancedConfig={cls="\forms\main\config\advancedConfig.aardio";left=9;top=29;right=902;bottom=739;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;edge=1;z=11};
 btnUpdate={cls="plus";text="更新服务器配置";left=687;top=753;right=856;bottom=784;align="left";bgcolor=11580047;db=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=22}};iconText='\uF0C7';notify=1;textPadding={left=40};z=5};
-btnUpdateNaiveCore={cls="plus";text="下载 / 更新 NaÏveProxy Core";left=444;top=4;right=705;bottom=32;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-17;name='FontAwesome');padding={left=18}};iconText='\uF1A0';notify=1;textPadding={left=50};z=16};
-btnUpdateRules={cls="plus";text="下载 / 更新 路由规则";left=703;top=4;right=901;bottom=32;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-19;name='FontAwesome');padding={left=18}};iconText='\uF041';notify=1;textPadding={left=50};z=14};
-btnUpdateSsrCore={cls="plus";text="下载 / 更新 SSR Core";left=222;top=2;right=420;bottom=30;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-17;name='FontAwesome');padding={left=18}};iconText='\uF1D8';notify=1;textPadding={left=50};z=15};
-btnUpdateXrayCore={cls="plus";text="下载 / 更新 Xray Core";left=15;top=2;right=213;bottom=30;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-19;name='FontAwesome');padding={left=18}};iconText='\uF0E7';notify=1;textPadding={left=50};z=12};
+btnUpdatev2rayCore={cls="plus";text="下载 / 更新 v2ray Core";left=227;top=5;right=425;bottom=33;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-19;name='FontAwesome');padding={left=18}};iconText='\uF27D';notify=1;textPadding={left=50};z=13};
+btnUpdateNaiveCore={cls="plus";text="下载 / 更新 NaÏveProxy Core";left=448;top=7;right=709;bottom=35;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-17;name='FontAwesome');padding={left=18}};iconText='\uF1A0';notify=1;textPadding={left=50};z=17};
+btnUpdateRules={cls="plus";text="下载 / 更新 路由规则";left=227;top=39;right=425;bottom=67;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-19;name='FontAwesome');padding={left=18}};iconText='\uF041';notify=1;textPadding={left=50};z=15};
+btnUpdateSsrCore={cls="plus";text="下载 / 更新 SSR Core";left=16;top=39;right=214;bottom=67;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-17;name='FontAwesome');padding={left=18}};iconText='\uF1D8';notify=1;textPadding={left=50};z=16};
+btnUpdatexrayCore={cls="plus";text="下载 / 更新 xray Core";left=16;top=5;right=223;bottom=33;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-19;name='FontAwesome');padding={left=18}};iconText='\uF0E7';notify=1;textPadding={left=50};z=12};
 editCoreConfig={cls="edit";left=9;top=72;right=902;bottom=739;db=1;dl=1;dr=1;dt=1;edge=1;hide=1;hscroll=1;multiline=1;vscroll=1;z=6};
 editOutbounds={cls="edit";left=9;top=29;right=902;bottom=739;db=1;dl=1;dr=1;dt=1;edge=1;hscroll=1;multiline=1;vscroll=1;z=7};
 lbTip={cls="static";text="可在下面输入多行服务器分享链接，或JSON数组( 点击字段名会显示用法说明 )：";left=11;top=9;right=899;bottom=29;color=3947580;dl=1;dr=1;dt=1;font=LOGFONT(h=-13);transparent=1;z=8};
@@ -18,7 +19,7 @@ navOutbounds={cls="plus";text="服务器配置( JSON )";left=31;top=750;right=16
 navRight={cls="plus";left=493;top=750;right=762;bottom=751;bgcolor=16777215;border={top=1;color=-16744448};db=1;dl=1;dr=1;linearGradient=180;z=3};
 navSubscription={cls="plus";text="订阅";left=293;top=750;right=359;bottom=782;border={top=1;color=-16744448};db=1;dl=1;z=10};
 plus={cls="plus";left=9;top=750;right=31;bottom=751;border={top=1;color=-16744448};db=1;dl=1;z=4};
-subscription={cls="\forms\main\config\subscription.aardio";left=9;top=29;right=902;bottom=739;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;edge=1;z=13}
+subscription={cls="\forms\main\config\subscription.aardio";left=9;top=29;right=902;bottom=739;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;edge=1;z=14}
 )
 /*}}*/
 
@@ -46,8 +47,8 @@ tbs.skin({
 
 tbs.onSelchange = function(idx,strip,form){
     winform.btnUpdateSsrCore.hide = idx!=2;
-	/*winform.btnUpdatexrayCore.hide = idx!=2;*/
-	winform.btnUpdateXrayCore.hide = idx!=2;
+	winform.btnUpdatexrayCore.hide = idx!=2;
+	winform.btnUpdatev2rayCore.hide = idx!=2;
 	winform.btnUpdateRules.hide = idx!=2;
 	winform.btnUpdateNaiveCore.hide = idx!=2;
 	winform.editCoreConfig.hide = idx!=2; 
@@ -357,8 +358,8 @@ winform.editOutbounds.enablePopMenu(function(){
 					config.proxy.outbounds,true,false,true
 				)
 				
-				string.save("/xray-core/winXray-default-servers.json",str );
-				winform.msgOk("已存为默认服务器列表 /xray-core/winXray-default-servers.json",1000)
+				string.save("/xray-core/winv2ray-default-servers.json",str );
+				winform.msgOk("已存为默认服务器列表 /xray-core/winv2ray-default-servers.json",1000)
 			} 
 		}); 
 				
@@ -595,7 +596,7 @@ var editOutboundsTip = {
 	obfs = {"混淆插件";"可选值：plain,http_simple,http_post,tls1.2_ticket_auth ..."}; 
 	obfsParam = {"混淆参数";"SSR 里的 obfs_param"}; 
 	networkParam = {"SSR网络协议参数";"SSR 里的 protocol_param"}; 
-	concurrency = {"Mux多路复用:最大并发连接数";"最小值1，最大值1024，特殊值-1，不加载mux模块。缺省由winXray根据连接协议自动设定此值。"}; 
+	concurrency = {"Mux多路复用:最大并发连接数";"最小值1，最大值1024，特殊值-1，不加载mux模块。缺省由winv2ray根据连接协议自动设定此值。"}; 
 }
 
 winform.editOutbounds.wndproc = function(hwnd,message,wParam,lParam){
@@ -641,42 +642,42 @@ winform.btnUpdateSsrCore.oncommand = function(id,event){
 	} 	
 }
 
-/*winform.btnUpdatexrayCore.skin(style.plainButton)
+winform.btnUpdatexrayCore.skin(style.plainButton)
 winform.btnUpdatexrayCore.oncommand = function(id,event){
-    winform.btnUpdateXrayCore.disabled = true;
+    winform.btnUpdatev2rayCore.disabled = true;
 	winform.btnUpdatexrayCore.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'};
 	
-	import V2ray.core;
-	var versionTag = V2ray.core.updateCore();
-	if( versionTag ){
-		publish("uiCommand.restartV2rayCore");
-		winform.btnUpdatexrayCore.disabledText = null;
-		winform.msgOk("已下载最新 V2ray Core 版本：" + versionTag + '\nxray 内核已切换为： V2ray Core',1500)
-	}
-	else {
-		winform.btnUpdatexrayCore.disabledText = null;
-		winform.msgErr("V2ray Core 下载失败！");
-	} 
-	
-	winform.btnUpdateXrayCore.disabled = false;
-}
-*/
-winform.btnUpdateXrayCore.skin(style.plainButton)
-winform.btnUpdateXrayCore.oncommand = function(id,event){
-    
-    winform.btnUpdatexrayCore.disabled = true;
-	winform.btnUpdateXrayCore.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'};
-	
-	import xray.core.xray;
-	var versionTag = xray.core.xray.updateCore();
+	import xray.core;
+	var versionTag = xray.core.updateCore();
 	if( versionTag ){
 		publish("uiCommand.restartxrayCore");
-		winform.btnUpdateXrayCore.disabledText = null;
-		winform.msgOk("已下载最新 XRay Core 版本：" + versionTag+ '\nxray 内核已切换为：XRay Core',1500)
+		winform.btnUpdatexrayCore.disabledText = null;
+		winform.msgOk("已下载最新 xray Core 版本：" + versionTag + '\nxray 内核已切换为： xray Core',1500)
 	}
 	else {
-		winform.btnUpdateXrayCore.disabledText = null;
-		winform.msgErr("XRay Core 下载失败！");
+		winform.btnUpdatexrayCore.disabledText = null;
+		winform.msgErr("xray Core 下载失败！");
+	} 
+	
+	winform.btnUpdatev2rayCore.disabled = false;
+}
+
+winform.btnUpdatev2rayCore.skin(style.plainButton)
+winform.btnUpdatev2rayCore.oncommand = function(id,event){
+    
+    winform.btnUpdatexrayCore.disabled = true;
+	winform.btnUpdatev2rayCore.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'};
+	
+	import xray.core.v2ray;
+	var versionTag = xray.core.v2ray.updateCore();
+	if( versionTag ){
+		publish("uiCommand.restartxrayCore");
+		winform.btnUpdatev2rayCore.disabledText = null;
+		winform.msgOk("已下载最新 v2ray Core 版本：" + versionTag+ '\nxray 内核已切换为：v2ray Core',1500)
+	}
+	else {
+		winform.btnUpdatev2rayCore.disabledText = null;
+		winform.msgErr("v2ray Core 下载失败！");
 	} 
 	
 	winform.btnUpdatexrayCore.disabled = false;

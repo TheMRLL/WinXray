@@ -191,7 +191,7 @@ var getxrayCoreUrl = function(){
     	import process;
 		import inet.http;
 		var http = ..inet.http();
-		var url = http.location("https://github.com/v2fly/v2ray-core/releases/latest");
+		var url = http.location("https://github.com/XTLS/Xray-core/releases/latest");
 		http.close();
 		
 		if(!url) return;
@@ -199,7 +199,7 @@ var getxrayCoreUrl = function(){
 		var tag = ..string.match(url,"[^/]+$")
 		if(!tag || (tag=="latest")) return;;
 		
-		return "https://github.com/v2fly/v2ray-core/releases/download/" 
+		return "https://github.com/XTLS/Xray-core/releases/download/" 
 			+ tag + "/xray-windows-" +	(..process().isWow64() ? "64" : "32") + ".zip",tag	
 	});
 	form.close();
@@ -218,14 +218,14 @@ getPath = function(hwnd){
 		return path;
 	}
 
-	var path = ..io.fullpath("/xray-core/xray.exe");
+	var path = ..io.fullpath("/v2ray-core/v2ray.exe");
 	if(..io.exist(path)){
-		..io.rename("/xray-core/","/xray-core/") 
+		..io.rename("/v2ray-core/","/xray-core/") 
 	}
 
-	var path = ..io.fullpath("/xray-core/xray.exe");
+	var path = ..io.fullpath("/xray-core/v2ray.exe");
 	if(..io.exist(path)){
-		..io.rename("/xray-core/xray.exe","/xray-core/xray.exe")
+		..io.rename("/xray-core/v2ray.exe","/xray-core/xray.exe")
 		return ..io.fullpath("/xray-core/xray.exe");
 	}
 	
@@ -315,11 +315,11 @@ updateCore = function(){
 
 				import process.file;
 				process.file.terminate(..io.joinpath(coreDir,"xray.exe")); 
-				/*process.file.terminate(..io.joinpath(coreDir,"v2ctl.exe"));*/ 
+				//process.file.terminate(..io.joinpath(coreDir,"v2ctl.exe")); 
 				
 				..io.createDir(coreDir); 
 				fsys.copy(..io.appData("/winXray/temp/xray/xray.exe"),..io.joinpath(coreDir,"xray.exe")); 
-				/*fsys.copy(..io.appData("/winXray/temp/xray/v2ctl.exe"),..io.joinpath(coreDir,"v2ctl.exe"));*/ 
+				//fsys.copy(..io.appData("/winXray/temp/xray/v2ctl.exe"),..io.joinpath(coreDir,"v2ctl.exe")); 
 				
 				self.lastDownloadingCoreFailed = null;
 				return versionTag;
