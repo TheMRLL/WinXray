@@ -3,9 +3,7 @@
 # winXray V 2.5.1(修复了点击更新内核报错的问题！)      winxray.com 
 导语：
      请用管网地址下载：https://winxray.com/%E4%B8%8B%E8%BD%BD%E4%B8%AD%E5%BF%83
-      github下载页面：https://github.com/TheMRLL/winxray/releases 
-                            
-
+    
 winXray是一个简洁稳定的 [Xray/V2Ray(vmess/vless/xtls)、Shadowsocks、ShadowsocksR、Trojan](https://github.com/XTLS/Xray-core) 通用客户端（Windows系统），可自动检测并连接访问速度最快的代理服务器。服务器连接异常时可以自动更换代理服务器 - 再也不用担心服务器抽风了。winXray 也提供一键安装 XRay(V2Ray、Shadowsocks、Trojan) 服务器工具。
 
   
