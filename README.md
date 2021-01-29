@@ -2,7 +2,7 @@
 
 # winXray V 2.5.1(修复了点击更新内核报错的问题！)      winxray.com 
 导语：
-     请用管网地址下载：https://winxray.com/%E4%B8%8B%E8%BD%BD%E4%B8%AD%E5%BF%83
+     请用官网地址下载：https://winxray.com/%E4%B8%8B%E8%BD%BD%E4%B8%AD%E5%BF%83
     
 ![测速图片](./screenshots/QQ图片20210129164350.png)
 
