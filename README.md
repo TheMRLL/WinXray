@@ -1,11 +1,9 @@
 ﻿
-
-      winXray V 2.5.1（修复了点击更新内核报错的问题！）winxray.com:Xray的windows客户端！
+      winXray V 2.5.1（修复了点击更新内核报错的问题！）winxray:Xray的windows客户端！
 导语：
 
      请用官网地址下载：https://winxray.com
-     
-     由于软件的特殊性，winxray没有任何群。不要相信任何winxray群里的消息，以免受骗！winxray已经和原作者走的是两个不同的内核（原作者走的是V2ray核心，我走的Xray核心）！
+     由于软件的特殊性，winxray没有任何群！不要相信任何人，以免受骗！
      
 ![测速图片](./screenshots/QQ图片20210129164350.png)
 
