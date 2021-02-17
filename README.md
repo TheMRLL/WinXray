@@ -6,8 +6,6 @@
      
 ![测速图片](./screenshots/QQ图片20210129164350.png)
 
-![下载破万](./screenshots/QQ图片20210216004724.png)
-
    WinXray是一个简洁稳定的 [Xray/V2Ray(vmess/vless/xtls)、Shadowsocks、Trojan、Trojan-go](https://github.com/XTLS/Xray-core)、SSR、NaïveProxy、 等等 通用客户端（Windows系统），可自动检测并连接访问速度最快的代理服务器。服务器连接异常时可以自动更换代理服务器 - 再也不用担心服务器抽风了。winXray 也提供一键安装 XRay(V2Ray、Shadowsocks、Trojan) 服务器工具。
 
   
