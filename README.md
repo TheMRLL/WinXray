@@ -33,4 +33,6 @@ winXray支持批量导入 vless、vmess、ss、trojan、trojan-go …… 等格�
 
 局域网同理，苹果手机，安卓手机都可以添加代理实现！
 
+![苹果安卓同理](./screenshots/手机无需软件.png)
+
 <img src="./screenshots/telegram.gif" width="1031" alt="Telegram 端口配置">
