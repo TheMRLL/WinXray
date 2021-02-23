@@ -345,7 +345,7 @@ write  = function(jsonPath,outbound,sockPort,httpPort){
 						address=outbound.address;
 						level=outbound.level : 0;
 						method=outbound.security;
-						ota=false;
+						ota=!!outbound.ota;
 						password=outbound.id;
 						port=outbound.port;
 					}
@@ -384,7 +384,7 @@ write  = function(jsonPath,outbound,sockPort,httpPort){
 			tag="proxy"
 		};
 		 
-		if(outbound.id){
+		if(#outbound.id){
 			var user,password = ..string.match(outbound.id,"([^\:]+)\:(.+)");
 			if(user && password){
 				ob.settings.servers[1].users = {
@@ -397,6 +397,44 @@ write  = function(jsonPath,outbound,sockPort,httpPort){
 				ob.settings.servers[1].users = {
 					user = outbound.id; 
 					level = outbound.level : 0;
+				}
+			}
+		}
+		
+		..table.assign(current.outbounds[1],ob); 
+	} 
+	elseif(outbound.protocol=="https" || outbound.protocol=="http"){
+		
+		var ob = { 
+			protocol="http";
+			settings={
+				servers={
+					{
+						address=outbound.address;
+						port=outbound.port;
+					}
+				};
+			};
+			streamSettings={
+				security = outbound.protocol=="https"  ? "tls" : "none";  
+				tlsSettings = (outbound.protocol=="https") ? {
+					allowInsecure = !!outbound.allowInsecure;
+				} : null;
+			};
+			tag="proxy"
+		};
+		 
+		if(#outbound.id){
+			var user,password = ..string.match(outbound.id,"([^\:]+)\:(.+)");
+			if(user && password){
+				ob.settings.servers[1].users = {
+					user = user;
+					password = password; 
+				}
+			}
+			else{
+				ob.settings.servers[1].users = {
+					user = outbound.id;  
 				}
 			}
 		}

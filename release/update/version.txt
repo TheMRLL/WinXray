@@ -1,8 +1,8 @@
 {
-    "description":"修复了点击更新内核报错的问题！",
+    "description":"更新了Xray内核到1.3.0版本！添加了http/https出站代理！",
     "format":".lzma",
     "main":"\\WinXray.exe",
     "updater":"\\WinXray.exe",
     "url":"https://raw.githubusercontent.com/TheMRLL/winXray/main/release/update/",
-    "version":"2.5.01"
+    "version":"2.6"
 }

@@ -135,6 +135,38 @@ exportSharedLinks = function(outbounds){
   
 			..table.push(outString,..inet.url.stringify(urlInfo));
 		} 
+		elseif((outbound.protocol == "https") || (outbound.protocol == "http")){
+			var urlInfo = {
+				host = outbound.address;
+				port = outbound.port;
+				scheme = "proxy";
+				location = outbound.ps;
+			}
+
+			if(outbound.protocol == "http"){
+				urlInfo.extraInfo ={
+					["tls"] = "none"
+				}
+			}
+			elseif(outbound.allowInsecure){
+				urlInfo.extraInfo ={
+					["allowInsecure"] = 1
+				}
+			}
+			
+			if(outbound.id){
+				var u,p = ..string.match(outbound.id,"([^\:]+)\:([^\:]+)")
+				if(u && p){
+					urlInfo.user = u;
+					urlInfo.password = p;
+				}
+				else {
+					urlInfo.user = outbound.id;
+				} 
+			} 
+  
+			..table.push(outString,..inet.url.stringify(urlInfo));
+		} 
 	}	
 	
 	return ..string.join(outString,'\r\n');
@@ -357,7 +389,9 @@ importFromString = function(str,subscribeUrl){
 					
 					if(info.security) outbound.tls = info.security;
 					if(info.flow) outbound.flow = info.flow;
-					if(info.allowInsecure!==null) outbound.allowInsecure = info.allowInsecure;
+					if(info.allowInsecure!==null) {
+						outbound.allowInsecure = (info.allowInsecure!=="0" ||info.allowInsecure!=="false" ) 
+					}
 					if(info.disableSessionResumption) outbound.disableSessionResumption = info.disableSessionResumption;
 					if(info.alpn) outbound.alpn = info.alpn;	 
 				}
@@ -434,7 +468,9 @@ importFromString = function(str,subscribeUrl){
 					
 					if(info.security) outbound.tls = info.security;
 					if(info.flow) outbound.flow = info.flow;
-					if(info.allowInsecure!==null) outbound.allowInsecure = info.allowInsecure;
+					if(info.allowInsecure!==null) {
+						outbound.allowInsecure = (info.allowInsecure!=="0" ||info.allowInsecure!=="false" ) 
+					}
 					if(info.disableSessionResumption) outbound.disableSessionResumption = info.disableSessionResumption;
 					if(info.alpn) outbound.alpn = info.alpn;	 
 				}
@@ -556,8 +592,10 @@ importFromString = function(str,subscribeUrl){
 					var info = ..inet.url.splitParameters(trojanUrl.extraInfo);
 					outbound.sni = info.sni || info.peer;
 					outbound.host = info.host;
-					outbound.path = info.path;
-					outbound.allowInsecure = info.allowinsecure;
+					outbound.path = info.path; 
+					if(info.allowInsecure!==null) {
+						outbound.allowInsecure = (info.allowInsecure!=="0" ||info.allowInsecure!=="false" ) 
+					}
 					
 					if(info.type && info.type!=="original"){
 						outbound.network = info.type;
@@ -622,10 +660,10 @@ importFromString = function(str,subscribeUrl){
 			}
 		}
 
-		var socks = ..string.match(line,`socks\:\/\/\S+`);
-		if( socks ) {
-			var socksUrl = ..inet.url.split(trojan) 
-			if( socksUrl.host && socksUrl.port){
+		var socks = ..string.match(line,`socks\:(\/\/\S+)`); 
+		if( socks ) { 
+			var socksUrl = ..inet.url.split("socks5:"+socks) 
+			if( socksUrl.host && socksUrl.port){ 
 				var outbound = {
 					address = socksUrl.host;
 					port = tonumber(socksUrl.port);
@@ -635,10 +673,47 @@ importFromString = function(str,subscribeUrl){
 
 				if(socksUrl.user && socksUrl.password){
 					outbound.id = socksUrl.user +":"+ socksUrl.password
-				} 
+				}  
 				
 				if(socksUrl.location){
 					outbound.ps = ..inet.url.decode(socksUrl.location);
+				}
+	
+				outbound.subscribeUrl = subscribeUrl;
+				..table.push(outbounds,outbound);
+			} 
+			
+			continue;
+		}
+
+		var proxy = ..string.match(line,`proxy\:\/\/\S+`); 
+		if( proxy ) { 
+			var proxyUrl = ..inet.url.split(proxy) 
+			if( proxyUrl.host && proxyUrl.port){ 
+				var outbound = {
+					address = proxyUrl.host;
+					port = tonumber(proxyUrl.port);
+					network = "tcp";
+					protocol = "https"
+				};
+
+				if(proxyUrl.user && proxyUrl.password){
+					outbound.id = proxyUrl.user +":"+ proxyUrl.password
+				} 
+
+				if(proxyUrl.extraInfo){
+					var info = ..inet.url.splitParameters(proxyUrl.extraInfo);
+					if(info.tls==="none") {
+						outbound.protocol = "http";
+					}
+
+					if(info.allowInsecure){
+						outbound.allowInsecure = (info.allowInsecure!=="0" ||info.allowInsecure!=="false" ) 
+					}
+				}
+				
+				if(proxyUrl.location){
+					outbound.ps = ..inet.url.decode(proxyUrl.location);
 				}
 	
 				outbound.subscribeUrl = subscribeUrl;

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<project ver="10" name="winXray" libEmbed="true" icon="\app.ico" ui="win" output="WinXray.exe" CompanyName="WinXray" FileDescription="v2ray,trojan,ssr,shadowsocks,NaïveProxy 通用客户端" LegalCopyright="Copyright (C) winXray" ProductName="WinXray" InternalName="WinXray" FileVersion="2.5.1.01" ProductVersion="2.5.1.01" publishDir="\winXray" dstrip="false" local="false">
+<project ver="10" name="WinXray" libEmbed="true" icon="\app.ico" ui="win" output="WinXray.exe" CompanyName="WinXray" FileDescription="Xray,trojan,ssr,shadowsocks,NaïveProxy 通用客户端" LegalCopyright="Copyright (C) winXray" ProductName="WinXray" InternalName="WinXray" FileVersion="2.6" ProductVersion="2.6" publishDir="\WinXray" dstrip="false" local="false" ignored="false">
 	<file name="main" path="main.aardio"/>
-	<folder name="窗体" path="forms" comment="" embed="true" local="false">
+	<folder name="窗体" path="forms" comment="" embed="true" local="false" ignored="false">
 		<folder name="main" path="forms\main" comment="forms\main">
 			<file name="json.aardio" path="forms\main\json.aardio" comment="forms\main\json.aardio"/>
 			<file name="outbound.aardio" path="forms\main\outbound.aardio" comment="forms\main\outbound.aardio"/>
@@ -25,8 +25,7 @@
 			</folder>
 		</folder>
 	</folder>
-	<folder name="xrayCore" path="xray-core" comment="" embed="false" local="false">
-		<file name="config.json" path="xray-core\config.json" comment="xray-core\config.json"/>
+	<folder name="xrayCore" path="xray-core" comment="" embed="false" local="false" ignored="false">
 		<file name="LICENSE" path="xray-core\LICENSE" comment="xray-core\LICENSE"/>
 		<file name="winXray-default-servers.json" path="xray-core\winXray-default-servers.json" comment="xray-core\winXray-default-servers.json"/>
 		<file name="xray.exe" path="xray-core\xray.exe" comment="xray-core\xray.exe"/>
