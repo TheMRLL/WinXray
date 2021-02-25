@@ -2,9 +2,9 @@
       winXray V 2.6（更新了Xray内核到1.3.0版本！添加了http/https出站代理！）winxray:Xray的windows客户端！
 导语：
      请用官网地址下载：https://winxray.com
-     由于软件的特殊性，winxray没有任何群！不要相信任何人，以免受骗！winxray祝各位新年快乐！由于最近喷子很多，我选择了关闭问题反馈！请使用官网下载和一定要使用经过自己思考的免费节点！我保证winxray不会做任何损害公众利益的事情。winxray存在之本就是：安全，隐私，高速！
+     winxray存在之本就是：安全，隐私，高速！
      
-![测速图片](./screenshots/QQ图片20210129164350.png)
+![曝光攻击winxray的IP](./screenshots/DD.png)
 
    WinXray是一个简洁稳定的 [Xray/V2Ray(vmess/vless/xtls)、Shadowsocks、Trojan、Trojan-go](https://github.com/XTLS/Xray-core)、SSR、NaïveProxy、 等等 通用客户端（Windows系统），可自动检测并连接访问速度最快的代理服务器。服务器连接异常时可以自动更换代理服务器 - 再也不用担心服务器抽风了。winXray 也提供一键安装 XRay(V2Ray、Shadowsocks、Trojan) 服务器工具。
 
