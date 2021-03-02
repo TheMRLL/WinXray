@@ -41,16 +41,16 @@ updateCore = function(){
 	}
 	  
 	import fsys;
-	fsys.delete( ..io.appData("/winXray/temp/xray/") );
+	fsys.delete( ..io.appData("/WinXray/temp/xray/") );
 	 
 	
 	import zlib.httpFile;
 	if( ..zlib.httpFile.download(url,"正在下载 Xray Core，版本：" + versionTag
-		,..io.appData("/winXray/download/")
-		,..io.appData("/winXray/temp/xray/"),,..mainForm.hwnd) ){
+		,..io.appData("/WinXray/download/")
+		,..io.appData("/WinXray/temp/xray/"),,..mainForm.hwnd) ){
 			..mainForm.disabled = false;
 			
-			if(..io.exist(..io.appData("/winXray/temp/xray/xray.exe"))){
+			if(..io.exist(..io.appData("/WinXray/temp/xray/xray.exe"))){
 				import sysProxy;
 				sysProxy.reset(false);
 
@@ -60,7 +60,7 @@ updateCore = function(){
 				fsys.delete(..io.joinpath(coreDir,"v2ctl.exe"));
 				
 				..io.createDir(coreDir); 
-				fsys.copy(..io.appData("/winXray/temp/xray/xray.exe"),..io.joinpath(coreDir,"xray.exe"));  
+				fsys.copy(..io.appData("/WinXray/temp/xray/xray.exe"),..io.joinpath(coreDir,"xray.exe"));  
 				
 				self.lastDownloadingCoreFailed = null;
 				return versionTag;

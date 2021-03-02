@@ -114,7 +114,7 @@ downloadCore = function(){
 	
 	import zlib.httpFile;
 	if( ..zlib.httpFile.download(url,"正在下载 NaïveProxy " 
-		,..io.appData("/winXray/download/naive")
+		,..io.appData("/WinXray/download/naive")
 		,coreDir,,..mainForm.hwnd) ){
 
 		..fsys.enum( coreDir, "naive.exe",
@@ -151,7 +151,7 @@ getPath = function(hwnd){
 		return path;
 	}
 		
-	var path = ..io.appData("/winXray/naive-core/naive.exe");
+	var path = ..io.appData("/WinXray/naive-core/naive.exe");
 	if(..io.exist(path)){
 		return path;
 	}
@@ -169,9 +169,9 @@ getCoreDir = function(hwnd){
 		return ..io.fullpath("/xray-core/naive-core/");
 	}
 		
-	var path = ..io.appData("/winXray/naive-core/naive.exe");
+	var path = ..io.appData("/WinXray/naive-core/naive.exe");
 	if(..io.exist(path)){
-		return ..io.appData("/winXray/naive-core/");;;
+		return ..io.appData("/WinXray/naive-core/");;;
 	}
 	
 	var path = ..io.fullpath("/xray-core/xray.exe");
@@ -179,9 +179,9 @@ getCoreDir = function(hwnd){
 		return ..io.fullpath("/xray-core/naive-core/");
 	}
 		
-	var path = ..io.appData("/winXray/core/xray.exe");
+	var path = ..io.appData("/WinXray/core/xray.exe");
 	if(..io.exist(path)){
-		return ..io.appData("/winXray/naive-core/");
+		return ..io.appData("/WinXray/naive-core/");
 	}
 	
 	var path = ..io.fullpath("/xray-core/");
@@ -189,7 +189,7 @@ getCoreDir = function(hwnd){
 		return ..io.fullpath("/xray-core/naive-core/");
 	}
 		
-	return ..io.appData("/winXray/naive-core/");
+	return ..io.appData("/WinXray/naive-core/");
 } 
 
 updateCore = function(){
@@ -208,12 +208,12 @@ updateCore = function(){
  
 	import zlib.httpFile;
 	if( ..zlib.httpFile.download(url,"正在下载 NaïveProxy，版本：" + versionTag
-		,..io.appData("/winXray/download/naive/")
-		,..io.appData("/winXray/temp/naive/"),,..mainForm.hwnd) ){
+		,..io.appData("/WinXray/download/naive/")
+		,..io.appData("/WinXray/temp/naive/"),,..mainForm.hwnd) ){
 			..mainForm.disabled = false;
 			
 			var naivePath;
-			fsys.enum( ..io.appData("/winXray/temp/naive/"), "naive.exe",
+			fsys.enum( ..io.appData("/WinXray/temp/naive/"), "naive.exe",
 				function(dir,filename,fullpath,findData){ 
 					if(filename){ 
 			           	naivePath = fullpath; 

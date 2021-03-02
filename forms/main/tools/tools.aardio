@@ -3,18 +3,18 @@ import win.ui;
 /*DSG{{*/
 var winform = win.form(text="aardio form";right=938;bottom=638;bgcolor=16777215)
 winform.add(
-btnAardio={cls="plus";text="aardio 桌面软件快速开发（ 开发环境仅 6.5MB ）";left=26;top=533;right=460;bottom=575;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-27;name='FontAwesome');padding={left=18}};iconText='\uF17A';notify=1;textPadding={left=50};z=3};
+btnAardio={cls="plus";text="WinXray推荐服务器商(适用高阶用户)";left=26;top=533;right=460;bottom=575;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-27;name='FontAwesome');padding={left=18}};iconText='\uF233';notify=1;textPadding={left=50};z=3};
 btnCreateLnk={cls="plus";text="创建桌面图标";left=26;top=391;right=205;bottom=433;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-23;name='FontAwesome');padding={left=18}};iconText='\uF108';notify=1;textPadding={left=50};z=10};
 btnDeleteIconCache={cls="plus";text="修复桌面图标空白";left=26;top=439;right=269;bottom=481;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-23;name='FontAwesome');padding={left=18}};iconText='\uF0AD';notify=1;textPadding={left=50};z=16};
 btnDnsFlush={cls="plus";text="清空 DNS 缓存";left=26;top=155;right=412;bottom=197;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-27;name='FontAwesome');padding={left=18}};iconText='\uF021';notify=1;textPadding={left=50};z=5};
 btnGitHub={cls="plus";text="Github 网速优化";left=26;top=250;right=262;bottom=292;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-27;name='FontAwesome');padding={left=18}};iconText='\uF09B';notify=1;textPadding={left=50};z=2};
 btnQrCode={cls="plus";text="二维码生成工具";left=26;top=297;right=262;bottom=339;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-27;name='FontAwesome');padding={left=18}};iconText='\uF029';notify=1;textPadding={left=50};z=14};
-btnSshInstall={cls="plus";text="一键安装 xray 服务端";left=393;top=14;right=601;bottom=56;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-27;name='FontAwesome');padding={left=11}};iconText='\uF17C';notify=1;textPadding={left=40};z=9};
+btnSshInstall={cls="plus";text="一键安装 Xray 服务端";left=393;top=14;right=601;bottom=56;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-27;name='FontAwesome');padding={left=11}};iconText='\uF17C';notify=1;textPadding={left=40};z=9};
 btnSshInstallKey={cls="plus";text="安装SSH密钥";left=606;top=15;right=755;bottom=57;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-24;name='FontAwesome');padding={left=11}};iconText='\uF084';notify=1;textPadding={left=40};z=11};
 btnTestSpeed={cls="plus";text="当前代理服务器测速";left=26;top=61;right=244;bottom=103;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-24;name='FontAwesome');padding={left=18}};iconText='\uF0ED';notify=1;textPadding={left=50};z=12};
-btnUpdateSystemTime={cls="plus";text="同步系统时间（ 修正 xray 连接报错 ）";left=26;top=108;right=412;bottom=150;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-27;name='FontAwesome');padding={left=18}};iconText='\uF017';notify=1;textPadding={left=50};z=4};
+btnUpdateSystemTime={cls="plus";text="同步系统时间(修正 Xray 连接报错)";left=26;top=108;right=412;bottom=150;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-27;name='FontAwesome');padding={left=18}};iconText='\uF017';notify=1;textPadding={left=50};z=4};
 btnUuid={cls="plus";text="UUID 生成工具";left=26;top=344;right=262;bottom=386;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-27;name='FontAwesome');padding={left=18}};iconText='\uF13E';notify=1;textPadding={left=50};z=15};
-btnWubiLex={cls="plus";text="WIN10 五笔助手（仅830KB，自带五笔86、98、091、新世纪、郑码……）";left=26;top=486;right=661;bottom=528;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-24;name='FontAwesome');padding={left=18}};iconText='\uF11C';notify=1;textPadding={left=50};z=6};
+btnWubiLex={cls="plus";text="WinXray推荐大型机场(适用普通用户)";left=26;top=486;right=661;bottom=528;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-24;name='FontAwesome');padding={left=18}};iconText='\uF233';notify=1;textPadding={left=50};z=6};
 btnYoutube={cls="plus";text="Youtube 视频下载工具";left=26;top=203;right=262;bottom=245;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-27;name='FontAwesome');padding={left=18}};iconText='\uF167';notify=1;textPadding={left=50};z=1};
 editSshHost={cls="plus";left=158;top=23;right=386;bottom=47;align="left";bgcolor=16777215;border={bottom=1;color=-8355712};dl=1;dt=1;editable="edit";font=LOGFONT(h=-16);textPadding={bottom=1};z=7};
 lbCurrentProxyLocation={cls="static";left=245;top=74;right=729;bottom=101;color=32768;dl=1;dt=1;transparent=1;z=13};
@@ -53,7 +53,7 @@ winform.btnGitHub.oncommand = function(id,event){
 
 winform.btnAardio.skin(style.plainButton)
 winform.btnAardio.oncommand = function(id,event){
-	process.openUrl("http://www.aardio.com")
+	process.openUrl("https://cloud.iuvpn.com")
 }
 
 winform.btnUpdateSystemTime.skin(style.plainButton)
@@ -69,7 +69,7 @@ winform.btnUpdateSystemTime.oncommand = function(id,event){
 		winform.btnUpdateSystemTime.text = '时间已同步'
 		winform.setTimeout( 
 			function(){
-				winform.btnUpdateSystemTime.text = '同步系统时间（ 修正 xray 连接报错 ）'
+				winform.btnUpdateSystemTime.text = '同步系统时间（ 修正 Xray 连接报错 ）'
 			},2000) 
 	}
 	else {
@@ -95,7 +95,7 @@ winform.btnDnsFlush.oncommand = function(id,event){
 import process;
 winform.btnWubiLex.skin(style.plainButton)
 winform.btnWubiLex.oncommand = function(id,event){
-	process.openUrl("http://wubi.aardio.com/");
+	process.openUrl("https://vpn.iuvpn.com");
 }
 
 winform.editSshHost.setCueBannerText("root@0.0.0.0:22")
@@ -155,13 +155,13 @@ winform.btnCreateLnk.oncommand = function(id,event){
 	
 	import fsys.lnk;  
 	var lnk = fsys.lnk(); 
-	lnk.description = "winXray(xray/V2Ray、Shadowsocks、Trojan通用客户端 )"  
+	lnk.description = "WinXray(Xray/V2Ray、Shadowsocks、Trojan通用客户端 )"  
 	
 	lnk.path = io._exepath //设置目标路径
 	lnk.setIcon(io._exepath,0); //设置图标
 	
 	lnk.save(
-		io.getSpecial(0/*_CSIDL_DESKTOP*/,"winXray.lnk" )
+		io.getSpecial(0/*_CSIDL_DESKTOP*/,"WinXray.lnk" )
 	) 
 	
 	::Shell32.SHChangeNotify(0x8000000/*_SHCNE_ASSOCCHANGED*/,0,0,0);
@@ -223,7 +223,7 @@ winform.btnTestSpeed.oncommand = function(id,event){
 	
 	import process
 	process.execute(chromePath,` --proxy-server="SOCKS5://127.0.0.1:`+xray.core.socksProxyPort 
-		+`" --user-data-dir="` +io.appData("winXray/chrome-socks5")+ `" --app="https://speed.cloudflare.com/"`);
+		+`" --user-data-dir="` +io.appData("WinXray/chrome-socks5")+ `" --app="https://speed.cloudflare.com/"`);
 	winform.btnTestSpeed.disabledText = null;
 }
 

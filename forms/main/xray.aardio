@@ -1,7 +1,7 @@
 import win.ui;
 import fonts.fontAwesome;
 /*DSG{{*/
-var frmXray = win.form(text="winXray ";right=959;bottom=591;bgcolor=16777215)
+var frmXray = win.form(text="WinXray ";right=959;bottom=591;bgcolor=16777215)
 frmXray.add(
 btnEditPac={cls="plus";text="编辑PAC";left=332;top=367;right=438;bottom=397;align="left";db=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=12}};iconText='\uF1C4';notify=1;textPadding={left=30};z=7};
 btnImportServerFromClipBd={cls="plus";text="批量导入链接";left=459;top=367;right=592;bottom=397;align="left";db=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=12}};iconText='\uF196 ';notify=1;textPadding={left=30};z=8};
@@ -70,16 +70,17 @@ var activeOutbound = function(outboundIndex,outboundAddress,enableRetry){
 				import web.rest.client;
 				var restClient = web.rest.client(,httpProxyAddress);
 				restClient._http.setTimeouts(1000,2000,2000);
-				restClient.get("https://www.google.com/generate_204");
+				var ret = restClient.get("https://www.google.com/generate_204");
 				var lastStatusCode = restClient.lastStatusCode;
+				
 				if( lastStatusCode == 204 ){
-					frmXray.onStartXrayComplete(outboundIndex,currentTesting,outboundAddress);
+					frmXray.onStartXrayComplete(outboundIndex,currentTesting,outboundAddress); 
 					return;	
 				}
 				restClient.close();
 				
 				if(currentTesting){
-					sleep(500);
+					sleep(100);
 				}
 				
 				import inet.http;
@@ -89,14 +90,14 @@ var activeOutbound = function(outboundIndex,outboundAddress,enableRetry){
 				}
 				
 				if(currentTesting){
-					sleep(500);
+					sleep(100);
 				}
 				
 				import wsock.tcp.socks5Client;
 				
 				var client;
 				for(i=1;2;1){
-					sleep(500);
+					sleep(200);
 					client = wsock.tcp.socks5Client("127.0.0.1",sockProxyPort); 
 					if(client)break;
 				}
@@ -126,7 +127,7 @@ Accept-Charset:utf-8;
 				};
 				frmXray.onStartXrayFailed(outboundIndex,enableRetry,outboundAddress);
 			},frmXray,outboundIndex,outboundAddress, 
-			xray.core.socksProxyPort,xray.core.getHttpProxyAddress(),enableRetry,currentTesting
+			xray.core.socksProxyPort,xray.core.getSystemProxyConfig(),enableRetry,currentTesting
 		)
 
 		return true;
@@ -556,7 +557,7 @@ frmXray.listview.onnotify = function(id,code,ptr){
 					function(id){
 						..config.__loadDefaultOutbounds();
 						publish("outbounds.updateConfigJson");
-						publish("uiCommand.restartV2RayCore");
+						publish("uiCommand.restartxrayCore");
 					}
 				);
 				popmenu.add();
@@ -593,29 +594,10 @@ frmXray.listview.onnotify = function(id,code,ptr){
 						activeOutbound(currentIdx,frmXray.listview.getItemText(currentIdx,2),false)
 					}
 				});
+
+				popmenu.add();
 			}
 			 
-		
-			var autoConnect = config.proxy.outbounds[currentIdx].autoConnect!==false; 
-			var id = popmenu.add('允许自动测速并连接',function(id){
-				if(currentIdx){
-					for(i=#selectedItems;1;-1){ 
-						var item = selectedItems[i];
-						if(autoConnect === false){
-							config.proxy.outbounds[item].autoConnect = null;
-							frmXray.listview.setItemText("",item,7);
-						}
-						else {
-							config.proxy.outbounds[item].autoConnect = false;
-							frmXray.listview.setItemText("禁止测速",item,7);
-						}
-					}
-				}
-			});
-			popmenu.check(id,autoConnect,0/*_MF_BYCOMMAND*/); 
-
-			popmenu.add();
-		
 			popmenu.add("编辑 / 新增代理服务器",function(id){ 
 				var frmOutbound = frmXray.loadForm("\forms\main\outbound.aardio");
 				frmOutbound.setOutboundConfig(config.proxy.outbounds[currentIdx]);
@@ -657,6 +639,25 @@ frmXray.listview.onnotify = function(id,code,ptr){
 			});	
 			 
 			popmenu.add()
+
+			var autoConnect = config.proxy.outbounds[currentIdx].autoConnect!==false; 
+			var id = popmenu.add('允许自动测速并连接',function(id){
+				if(currentIdx){
+					for(i=#selectedItems;1;-1){ 
+						var item = selectedItems[i];
+						if(autoConnect === false){
+							config.proxy.outbounds[item].autoConnect = null;
+							frmXray.listview.setItemText("",item,7);
+						}
+						else {
+							config.proxy.outbounds[item].autoConnect = false;
+							frmXray.listview.setItemText("禁止测速",item,7);
+						}
+					}
+				}
+			});
+			popmenu.check(id,autoConnect,0/*_MF_BYCOMMAND*/); 
+			popmenu.add()
 			
 			popmenu.add('删除服务器',function(id){
 				removeOutbounds(selectedItems);
@@ -678,9 +679,9 @@ frmXray.listview.onnotify = function(id,code,ptr){
 				function(id){
 					..config.__loadDefaultOutbounds();
 					publish("outbounds.updateConfigJson");
-					publish("uiCommand.restartV2RayCore");
+					publish("uiCommand.restartxrayCore");
 				}
-			); 
+			);  
 			 
 			if(#selectedItems==1){	
 		 
@@ -745,8 +746,16 @@ frmXray.listview.onnotify = function(id,code,ptr){
 						process.execute("cmd.exe","/k tracert " + config.proxy.outbounds[currentIdx].address);
 					}
 				});
+
+				if(config.proxy.outbounds[currentIdx].port == 443 && config.proxy.outbounds[currentIdx].tls){
+					toolMenu.add('浏览 HTTPS 主页 ...',function(id){
+						if(currentIdx){
+							process.openUrl("https" ++ "://" + config.proxy.outbounds[currentIdx].address); 
+						}
+					});	 
+				}
 				
-				popmenu.add("服务器检测工具",toolMenu)
+				popmenu.add("服务器工具",toolMenu)
 				
 				popmenu.add('SSH 登录服务器',function(id){
 					if(currentIdx){
@@ -759,16 +768,7 @@ frmXray.listview.onnotify = function(id,code,ptr){
 							+ config.proxy.outbounds[currentIdx].address + ":" 
 							+ (config.proxy.outbounds[currentIdx].sshPort||22));
 					}
-				});
-				
-				if(config.proxy.outbounds[currentIdx].port == 443 && config.proxy.outbounds[currentIdx].tls){
-					popmenu.add('浏览 HTTPS 主页 ...',function(id){
-						if(currentIdx){
-							process.openUrl("https" ++ "://" + config.proxy.outbounds[currentIdx].address); 
-						}
-					});	
-					popmenu.add();
-				}
+				});  
 			}
 			popmenu.popup(x,y,true);
 		}
@@ -879,7 +879,7 @@ var iml = win.imageList(16, 15);
 iml.add('GIF\56\57a \0\15\0\x80\0\0\x80\x80\x80\xff\0\xff\33\xf9\4\0\0\0\0\0\44\0\0\0\0 \0\15\0\0\2\31\x8c\x8f\xa9\xcb\xed\15\xa3\x9c\xb4N\xf0\x80\xde\56k\xbfA\\\xd7\x84 \x97Y\xea\xca\xb6\xee\11\xc7F\1\0;', 0xff00ff);
 frmXray.listview.setColumnImageList(iml);
 
-subscribe("uiCommand.restartV2RayCore",function(){ 
+subscribe("uiCommand.restartxrayCore",function(){ 
 	config.proxy.outbounds.fields = {"protocol";"address";"port";"security";"network";"ps";}
 	
 	var outbounds = config.proxy.outbounds;
@@ -907,7 +907,7 @@ if(#config.proxy.outbounds){
 	
 	frmXray.setTimeout( 
 		function(){
-			publish("uiCommand.restartV2RayCore");	
+			publish("uiCommand.restartxrayCore");	
 		},1000
 	);	
 }
@@ -986,14 +986,14 @@ frmXray.btnImportServerFromClipBd.oncommand = function(id,event){
 		var outbounds = xray.outbounds.importFromString(str);
 		if(#outbounds){
 			..table.append(config.proxy.outbounds,outbounds); 
-			publish("uiCommand.restartV2RayCore");
+			publish("uiCommand.restartxrayCore");
 			publish("outbounds.updateConfigJson");
 			frmXray.msgOk("已成功导入" + #outbounds + "个服务器",1200); 
 			return; 
 		}
 	}
 
-	frmXray.msgFrown('未导入服务器！\r\n请先复制以下格式文本（自动清除其中的无效内容）：\r\n\r\n1、一行或多行（忽略无效行）分享链接或服务器JSON配置。\r\n支持 vmess://，vless://，ss://，ssr://，trojan://， trojan-go:// 等通用分享链接。\r\n\r\n2、包含多个服务器配置的JSON数组,支持winXray格式以及通用格式JSON。\r\n\r\n3、单个 http:// 或 https:// 开头的通用订阅源地址。\r\n可直接使用浏览器地址栏的github文件地址（含blob或raw目录名）。\r\n也可以仅复制单斜杆开始的github文件路径。\r\n\r\n订阅源可用BASE64编码或明文返回以上1、2条规定的配置或分享链接。')
+	frmXray.msgFrown('未导入服务器！\r\n请先复制以下格式文本（自动清除其中的无效内容）：\r\n\r\n1、一行或多行（忽略无效行）分享链接或服务器JSON配置。\r\n支持 vmess://，vless://，ss://，ssr://，trojan://， trojan-go:// 等通用分享链接。\r\n\r\n2、包含多个服务器配置的JSON数组,支持WinXray格式以及通用格式JSON。\r\n\r\n3、单个 http:// 或 https:// 开头的通用订阅源地址。\r\n可直接使用浏览器地址栏的github文件地址（含blob或raw目录名）。\r\n也可以仅复制单斜杆开始的github文件路径。\r\n\r\n订阅源可用BASE64编码或明文返回以上1、2条规定的配置或分享链接。')
 }
 
 var testTimerId;

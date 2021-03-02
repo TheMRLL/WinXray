@@ -1,13 +1,13 @@
 ﻿//config 配置文件 
 import fsys.config;
-config  = fsys.config( io.appData("/winXray/") ); 
+config  = fsys.config( io.appData("/WinXray/") ); 
 
 namespace config {
-	__appName = "winXray"; 
+	__appName = "WinXray"; 
 	__loadDefaultOutbounds = function(){
 		import xray.outbounds;
-		var serverData =  ..string.load("/xray-core/winXray-default-servers.json") 
-			: $"/xray-core/winXray-default-servers.json"
+		var serverData =  ..string.load("/xray-core/WinXray-default-servers.json") 
+			: $"/xray-core/WinXray-default-servers.json"
 		
 		proxy.outbounds = ..xray.outbounds.importFromString(..string.removeBom(serverData));
 		..publish("outbounds.updateConfigJson",)

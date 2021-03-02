@@ -3,7 +3,7 @@ import win.dlg.message;
 import fonts.fontAwesome;
 import win.ui;
 /*DSG{{*/
-var winform = win.form(text="winXray - 代理服务器配置";right=999;bottom=504;bgcolor=16777215;exmode="none";min=false;mode="popup")
+var winform = win.form(text="WinXray - 代理服务器配置";right=999;bottom=504;bgcolor=16777215;exmode="none";min=false;mode="popup")
 winform.add(
 btnAddOutbound={cls="plus";text="新 增";left=705;top=410;right=808;bottom=446;align="left";bgcolor=14935259;db=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=22}};iconText='\uF067';notify=1;textPadding={left=40};z=17};
 btnCopySharedLink={cls="plus";text="复制";left=829;top=471;right=901;bottom=496;align="left";clip=1;db=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=12}};iconText='\uF0C1';notify=1;textPadding={left=30};z=1};
@@ -204,7 +204,7 @@ var editOutboundTip = {
 	obfs = {"混淆插件";"可选值：plain,http_simple,http_post,tls1.2_ticket_auth ..."}; 
 	obfsParam = {"混淆参数";"SSR 里的 obfs_param"}; 
 	networkParam = {"SSR网络协议参数";"SSR 里的 protocol_param"}; 
-	concurrency = {"Mux多路复用:最大并发连接数";"最小值1，最大值1024，特殊值-1，不加载mux模块。缺省由winXray根据连接协议自动设定此值。"}; 
+	concurrency = {"Mux多路复用:最大并发连接数";"最小值1，最大值1024，特殊值-1，不加载mux模块。缺省由WinXray根据连接协议自动设定此值。"}; 
 }
 
 winform.editOutbound.wndproc = function(hwnd,message,wParam,lParam){
@@ -488,7 +488,7 @@ winform.btnImportSharedLink.oncommand = function(id,event){
 		}
 	}
 
-	winform.msgFrown('未导入服务器！\r\n请先复制以下格式文本（自动清除其中的无效内容）：\r\n\r\n1、分享链接或服务器JSON配置。\r\n支持 vmess://，vless://，ss://，ssr://，trojan://， trojan-go:// 等通用分享链接。\r\n\r\n2、服务器配置的JSON数组,支持winXray格式以及通用格式JSON。\r\n其他 BASE64 编码或明文返回以上1、2条规定的配置或分享链接。')
+	winform.msgFrown('未导入服务器！\r\n请先复制以下格式文本（自动清除其中的无效内容）：\r\n\r\n1、分享链接或服务器JSON配置。\r\n支持 vmess://，vless://，ss://，ssr://，trojan://， trojan-go:// 等通用分享链接。\r\n\r\n2、服务器配置的JSON数组,支持WinXray格式以及通用格式JSON。\r\n其他 BASE64 编码或明文返回以上1、2条规定的配置或分享链接。')
 }
  
 winform.btnCopySharedLink.skin(style.link)

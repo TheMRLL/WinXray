@@ -40,18 +40,18 @@ update = function(){
 	}
 	  
 	import fsys;
-	fsys.delete( ..io.appData("/winXray/temp/rules/") );
+	fsys.delete( ..io.appData("/WinXray/temp/rules/") );
 	 
 	import zlib.httpFile;
 	if( ..zlib.httpFile.download(url,"正在下载最新路由规则，版本：" + versionTag
-		,..io.appData("/winXray/download/")
-		,..io.appData("/winXray/temp/rules/"),,..mainForm.hwnd) ){
+		,..io.appData("/WinXray/download/")
+		,..io.appData("/WinXray/temp/rules/"),,..mainForm.hwnd) ){
 			..mainForm.disabled = false;
 			
-			if(..io.exist(..io.appData("/winXray/temp/rules/geoip.dat"))){
+			if(..io.exist(..io.appData("/WinXray/temp/rules/geoip.dat"))){
 				
 				..io.createDir(coreDir); 
-				fsys.copy(..io.appData("/winXray/temp/rules/*.*"),coreDir);   
+				fsys.copy(..io.appData("/WinXray/temp/rules/*.*"),coreDir);   
 				return versionTag;
 			}  
 	}

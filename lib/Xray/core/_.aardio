@@ -213,7 +213,7 @@ getPath = function(hwnd){
 		return path;
 	}
 		
-	var path = ..io.appData("/winXray/core/xray.exe");
+	var path = ..io.appData("/WinXray/core/xray.exe");
 	if(..io.exist(path)){
 		return path;
 	}
@@ -247,8 +247,8 @@ getPath = function(hwnd){
 	
 	import zlib.httpFile;
 	if( ..zlib.httpFile.download(url,"正在下载 xray Core"
-		,..io.appData("/winXray/download/")
-		,..io.appData("/winXray/core/"),,..mainForm.hwnd) ){
+		,..io.appData("/WinXray/download/")
+		,..io.appData("/WinXray/core/"),,..mainForm.hwnd) ){
 			
 		self.lastDownloadingCoreFailed = null;
 		..mainForm.disabled = false;
@@ -262,7 +262,7 @@ getPath = function(hwnd){
 		..publish("uiCommand.print",url);
 		
 		..publish("uiCommand.print","下载后请解压到以下目录内:");
-		..publish("uiCommand.print",..io.appData("/winXray/core/"));
+		..publish("uiCommand.print",..io.appData("/WinXray/core/"));
 		
 		//import process;
 		//process.execute(..io._exepath,"/github","runas");
@@ -275,9 +275,9 @@ getCoreDir = function(hwnd){
 		return ..io.fullpath("/xray-core/");
 	}
 		
-	var path = ..io.appData("/winXray/core/xray.exe");
+	var path = ..io.appData("/WinXray/core/xray.exe");
 	if(..io.exist(path)){
-		return ..io.appData("/winXray/core/");;
+		return ..io.appData("/WinXray/core/");;
 	}
 	
 	var path = ..io.fullpath("/xray-core/");
@@ -285,7 +285,7 @@ getCoreDir = function(hwnd){
 		return path;
 	}
 	
-	return ..io.appData("/winXray/core/");
+	return ..io.appData("/WinXray/core/");
 } 
 
 updateCore = function(){
@@ -300,16 +300,16 @@ updateCore = function(){
 	}
 	  
 	import fsys;
-	fsys.delete( ..io.appData("/winXray/temp/xray/") );
+	fsys.delete( ..io.appData("/WinXray/temp/xray/") );
 	 
 	
 	import zlib.httpFile;
 	if( ..zlib.httpFile.download(url,"正在下载 xray Core，版本：" + versionTag
-		,..io.appData("/winXray/download/")
-		,..io.appData("/winXray/temp/xray/"),,..mainForm.hwnd) ){
+		,..io.appData("/WinXray/download/")
+		,..io.appData("/WinXray/temp/xray/"),,..mainForm.hwnd) ){
 			..mainForm.disabled = false;
 			
-			if(..io.exist(..io.appData("/winXray/temp/xray/xray.exe"))){
+			if(..io.exist(..io.appData("/WinXray/temp/xray/xray.exe"))){
 				import sysProxy;
 				sysProxy.reset(false);
 
@@ -318,8 +318,8 @@ updateCore = function(){
 				//process.file.terminate(..io.joinpath(coreDir,"v2ctl.exe")); 
 				
 				..io.createDir(coreDir); 
-				fsys.copy(..io.appData("/winXray/temp/xray/xray.exe"),..io.joinpath(coreDir,"xray.exe")); 
-				//fsys.copy(..io.appData("/winXray/temp/xray/v2ctl.exe"),..io.joinpath(coreDir,"v2ctl.exe")); 
+				fsys.copy(..io.appData("/WinXray/temp/xray/xray.exe"),..io.joinpath(coreDir,"xray.exe")); 
+				//fsys.copy(..io.appData("/WinXray/temp/xray/v2ctl.exe"),..io.joinpath(coreDir,"v2ctl.exe")); 
 				
 				self.lastDownloadingCoreFailed = null;
 				return versionTag;

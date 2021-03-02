@@ -2,7 +2,7 @@ import win.ui;
 import win.ui.atom;
 import fonts.fontAwesome;
 /*DSG{{*/
-var winform = win.form(text="winXray - 二维码生成工具";right=730;bottom=678;bgcolor=16777215;border="none";exmode="none";mode="popup")
+var winform = win.form(text="WinXray - 二维码生成工具";right=730;bottom=678;bgcolor=16777215;border="none";exmode="none";mode="popup")
 winform.add(
 bk={cls="bk";left=-6;top=-2;right=734;bottom=27;bgcolor=12632256;z=10};
 btnQrEnode={cls="plus";text="生成二维码";left=562;top=565;right=694;bottom=595;align="left";bgcolor=14935259;db=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=22}};iconText='\uF1C4';notify=1;textPadding={left=40};z=9};
@@ -12,7 +12,7 @@ lbVersion={cls="static";text="自动选择版本";left=466;top=656;right=672;bot
 plus={cls="plus";left=28;top=49;right=708;bottom=522;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;repeat="scale";z=1};
 static={cls="static";text="纠错级别:";left=13;top=624;right=97;bottom=651;align="right";db=1;dl=1;transparent=1;z=3};
 static2={cls="static";text="版本(大小):";left=353;top=624;right=437;bottom=651;align="right";db=1;dl=1;dr=1;transparent=1;z=5};
-static3={cls="static";text="winXray - 二维码生成工具";left=17;top=4;right=230;bottom=24;color=3947580;transparent=1;z=11};
+static3={cls="static";text="WinXray - 二维码生成工具";left=17;top=4;right=230;bottom=24;color=3947580;transparent=1;z=11};
 tbErrLevel={cls="trackbar";left=96;top=611;right=290;bottom=641;bgcolor=16777215;db=1;dl=1;max=3;min=0;z=2};
 tbVersion={cls="trackbar";left=439;top=611;right=703;bottom=641;bgcolor=16777215;db=1;dr=1;max=40;min=0;z=4}
 )

@@ -2,7 +2,7 @@ import win.ui;
 import win.ui.atom;
 import fonts.fontAwesome;
 /*DSG{{*/
-var winform = win.form(text="winXray - 代理自动配置文件(PAC)";right=912;bottom=802;bgcolor=16777215)
+var winform = win.form(text="WinXray - 代理自动配置文件(PAC)";right=912;bottom=802;bgcolor=16777215)
 winform.add(
 btnAddDomain={cls="plus";text="添加";left=625;top=25;right=723;bottom=56;align="left";bgcolor=14935259;dr=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=22}};iconText='\uF1C4';notify=1;textPadding={left=40};z=16};
 btnDeleteDomain={cls="plus";text="移除";left=740;top=25;right=838;bottom=56;align="left";bgcolor=14935259;dr=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=22}};iconText='\uF1C4';notify=1;textPadding={left=40};z=17};

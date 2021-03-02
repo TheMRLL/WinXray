@@ -41,16 +41,16 @@ updateCore = function(){
 	}
 	  
 	import fsys;
-	fsys.delete( ..io.appData("/winXray/temp/v2ray/") );
+	fsys.delete( ..io.appData("/WinXray/temp/v2ray/") );
 	 
 	
 	import zlib.httpFile;
 	if( ..zlib.httpFile.download(url,"正在下载 V2Ray Core，版本：" + versionTag
-		,..io.appData("/winXray/download/")
-		,..io.appData("/winXray/temp/v2ray/"),,..mainForm.hwnd) ){
+		,..io.appData("/WinXray/download/")
+		,..io.appData("/WinXray/temp/v2ray/"),,..mainForm.hwnd) ){
 			..mainForm.disabled = false;
 			
-			if(..io.exist(..io.appData("/winXray/temp/v2ray/v2ray.exe"))){
+			if(..io.exist(..io.appData("/WinXray/temp/v2ray/v2ray.exe"))){
 				import sysProxy;
 				sysProxy.reset(false);
 
@@ -59,8 +59,8 @@ updateCore = function(){
 				process.file.terminate(..io.joinpath(coreDir,"v2ctl.exe")); 
 				
 				..io.createDir(coreDir); 
-				fsys.copy(..io.appData("/winXray/temp/v2ray/v2ray.exe"),..io.joinpath(coreDir,"v2ray.exe")); 
-				fsys.copy(..io.appData("/winXray/temp/v2ray/v2ctl.exe"),..io.joinpath(coreDir,"v2ctl.exe")); 
+				fsys.copy(..io.appData("/WinXray/temp/v2ray/v2ray.exe"),..io.joinpath(coreDir,"v2ray.exe")); 
+				fsys.copy(..io.appData("/WinXray/temp/v2ray/v2ctl.exe"),..io.joinpath(coreDir,"v2ctl.exe")); 
 				
 				self.lastDownloadingCoreFailed = null;
 				return versionTag;
