@@ -1,12 +1,12 @@
 ﻿
-      winXray V 2.6（更新了Xray内核到1.3.0版本！添加了http/https出站代理！）winxray:Xray的windows客户端！
+      winXray V 2.7（配置添加了异常检测时间设置，取消了网站推广按钮并工具栏添加了WinXray推荐！）winxray:Xray的windows客户端！
 导语：
      请用官网地址下载：https://winxray.com
      winxray存在之本就是：安全，隐私，高速！
      
 ![xray](./screenshots/Xray.png)
 
-   WinXray是一个简洁稳定的 [Xray/V2Ray(vmess/vless/xtls)、Shadowsocks、Trojan、Trojan-go](https://github.com/XTLS/Xray-core)、SSR、NaïveProxy、 等等 通用客户端（Windows系统），可自动检测并连接访问速度最快的代理服务器。服务器连接异常时可以自动更换代理服务器 - 再也不用担心服务器抽风了。winXray 也提供一键安装 XRay(V2Ray、Shadowsocks、Trojan) 服务器工具。
+   WinXray是一个支持 [Xray/V2Ray(vmess/vless/xtls)、Shadowsocks、Trojan、Trojan-go](https://github.com/XTLS/Xray-core)、SSR、NaïveProxy、 等等 网络代理的通用客户端（Windows系统），可自动检测并连接访问速度最快的代理服务器。服务器连接异常时可以自动更换代理服务器 - 再也不用担心服务器抽风了。winXray 也提供一键安装 XRay(V2Ray、Shadowsocks、Trojan) 服务器工具。
 
   
 之前我用过很多代理客户端，经常用一会就挂掉了，有些测试很久才找到下一个可用的服务器，有时怎么切换都不行，一定要把整个软件退出重启才能恢复。而且在WIN10上都有相同的BUG:PAC代理用一段时间就会卡死( winXray已经通过自行实现PAC服务器解决了这个问题 )，其实这些软件里提供的很多功能我并不需要，我只想愉快地用下 google 找点技术资料提升工作效率。但是在网上找了很久都没找到适合的软件，于是决定自己动手写一个，还好用 aardio 写软件的速度很快 - 大概用了几个小时就完成了 winXray 的主要代码，改进了几个版本以后就很稳定了，**我自己用了 winXray  几个月再也没有遇到 google 抽风访问不了的问题**。    
