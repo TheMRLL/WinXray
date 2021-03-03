@@ -1,5 +1,5 @@
 ﻿
-      WinXray V 2.7（配置添加了异常检测时间设置，取消了网站推广按钮并工具栏添加了WinXray推荐！）winxray:Xray的windows客户端！
+      WinXray V 2.8（添加及更改IOC图标！添加推荐按钮！）winxray:Xray的windows客户端！
 导语：
      请用官网地址下载：https://winxray.com
      winxray存在之本就是：安全，隐私，高速！
