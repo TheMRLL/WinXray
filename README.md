@@ -1,5 +1,5 @@
 ﻿
-      WinXray V 2.8（添加及更改IOC图标！添加推荐按钮！）winxray:Xray的windows客户端！
+      WinXray V 2.9（添加UWP模式！修改VMESS协议下MUX关闭！）winxray:Xray的windows客户端！
 导语：
      请用官网地址下载：https://winxray.com
      winxray存在之本就是：安全，隐私，高速！
