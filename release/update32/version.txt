@@ -1,8 +1,0 @@
-{
-    "description":"发布 v3.5.1，比较多细节优化，并支持 NaïveProxy，修正一处 BUG。",
-    "format":".lzma",
-    "main":"\\winXray.exe",
-    "updater":"\\winXray.exe",
-    "url":"https://raw.githubusercontent.com/winXray/winXray/master/release/update/",
-    "version":"3.5.01"
-}
