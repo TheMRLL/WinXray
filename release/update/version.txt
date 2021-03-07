@@ -1,8 +1,8 @@
 {
-    "description":"添加及更改IOC图标！添加推荐按钮！",
+    "description":"添加UWP模式！修改VMESS协议下MUX关闭！",
     "format":".lzma",
     "main":"\\WinXray.exe",
     "updater":"\\WinXray.exe",
     "url":"https://raw.githubusercontent.com/TheMRLL/winxray/main/release/update/",
-    "version":"2.8"
+    "version":"2.9"
 }

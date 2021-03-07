@@ -40,7 +40,7 @@ $serverMain = ..wsock.tcp.simpleHttpServer.mainThread(
 );
 $serverMain.threadNum = 50; 
 
-var pacPath = ..io.appData("/winXray/pac.txt");
+var pacPath = ..io.appData("/WinXray/pac.txt");
 resetPac = function(){
 	..string.save(pacPath,$"/pac.txt" )
 }
@@ -61,7 +61,7 @@ savePacText = function(json){
 var inboundPort = ..thread.var();
 var useHttpProxy = ..thread.var();
 restart = function(){
-	useHttpProxy.set(..config.proxy.useHttpGlobal);
+	useHttpProxy.set(!..config.proxy.useSocksPac);
 
 	$serverMain.threadGlobal = {
 		inboundPort = inboundPort;
@@ -107,7 +107,7 @@ updateConfig = function(socksProxyPort,httpProxyPort){
 	} 
 }
 
-..subscribe("v2RayCore.restarted",function(socksProxyPort,httpProxyPort){
+..subscribe("xrayCore.restarted",function(socksProxyPort,httpProxyPort){
 	updateConfig(socksProxyPort,httpProxyPort);
 } )
 

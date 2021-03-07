@@ -53,7 +53,7 @@ winform.btnGitHub.oncommand = function(id,event){
 
 winform.btnAardio.skin(style.plainButton)
 winform.btnAardio.oncommand = function(id,event){
-	process.openUrl("https://cloud.iuvpn.com")
+	process.openUrl("https://vps.iuvpn.com")
 }
 
 winform.btnUpdateSystemTime.skin(style.plainButton)

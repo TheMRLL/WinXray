@@ -34,7 +34,7 @@ exportSharedLinks = function(outbounds){
 		} 
 		elseif(outbound.protocol == "socks"){
 			var ss;
-			if(outbound.id) ss = outbound.protocol + "://" + outbound.id + "@" + outbound.address + ":" + outbound.port;
+			if(outbound.id) ss = outbound.protocol + "://" + ..inet.url.encode(outbound.id) + "@" + outbound.address + ":" + outbound.port;
 			else ss = outbound.protocol + "://" + outbound.address + ":" + outbound.port;
 			..table.push(outString,ss);
 		} 
@@ -61,7 +61,7 @@ exportSharedLinks = function(outbounds){
 		}  
 		elseif(outbound.protocol == "trojan"  || outbound.protocol == "trojan-go"){
 			var trojan;
-			if(outbound.id) trojan = outbound.protocol + "://" + outbound.id + "@" + outbound.address + ":" + outbound.port;
+			if(outbound.id) trojan = outbound.protocol + "://" + ..inet.url.encode(outbound.id) + "@" + outbound.address + ":" + outbound.port;
 			else trojan = outbound.protocol + "://" + outbound.address + ":" + outbound.port;
 				
 			var info = {};
@@ -81,8 +81,8 @@ exportSharedLinks = function(outbounds){
 		} 
 		elseif(outbound.protocol == "vless"){
 			var vless;
-			if(outbound.id) vless = "vless://" + outbound.id + "@" + outbound.address + ":" + outbound.port;
-			else vless = "vless://" + outbound.id + "@" + outbound.address + ":" + outbound.port;
+			if(outbound.id) vless = "vless://" + ..inet.url.encode(outbound.id) + "@" + outbound.address + ":" + outbound.port;
+			else vless = "vless://" + outbound.address + ":" + outbound.port;
 			
 			var info = {};
 			if(outbound.network!="tcp") info.type = outbound.network ;
@@ -107,6 +107,65 @@ exportSharedLinks = function(outbounds){
 				vless = vless + "#" + ..inet.url.encode(outbound.ps);
 			} 
 			..table.push(outString,vless);
+		} 
+		elseif(outbound.protocol == "naive"){
+			var urlInfo = {
+				host = outbound.address;
+				port = outbound.port;
+				scheme = "naive+"+outbound.network;
+				location = outbound.ps;
+			}
+			
+			if(outbound.headers){
+				urlInfo.extraInfo ={
+					["extra-headers"] = outbound.headers
+				}
+			}
+			
+			if(outbound.id){
+				var u,p = ..string.match(outbound.id,"([^\:]+)\:([^\:]+)")
+				if(u && p){
+					urlInfo.user = u;
+					urlInfo.password = p;
+				}
+				else {
+					urlInfo.user = outbound.id;
+				} 
+			} 
+  
+			..table.push(outString,..inet.url.stringify(urlInfo));
+		} 
+		elseif((outbound.protocol == "https") || (outbound.protocol == "http")){
+			var urlInfo = {
+				host = outbound.address;
+				port = outbound.port;
+				scheme = "proxy";
+				location = outbound.ps;
+			}
+
+			if(outbound.protocol == "http"){
+				urlInfo.extraInfo ={
+					["tls"] = "none"
+				}
+			}
+			elseif(outbound.allowInsecure){
+				urlInfo.extraInfo ={
+					["allowInsecure"] = 1
+				}
+			}
+			
+			if(outbound.id){
+				var u,p = ..string.match(outbound.id,"([^\:]+)\:([^\:]+)")
+				if(u && p){
+					urlInfo.user = u;
+					urlInfo.password = p;
+				}
+				else {
+					urlInfo.user = outbound.id;
+				} 
+			} 
+  
+			..table.push(outString,..inet.url.stringify(urlInfo));
 		} 
 	}	
 	
@@ -217,6 +276,7 @@ importFromString = function(str,subscribeUrl){
 		form.progress.startProgress(50); 
 		
 		subscribeUrl = str;
+		
 		if(..string.match(subscribeUrl,"^\s*/\N+\s*$") ){
 			if(!..string.find(subscribeUrl,"/<blob>|<raw>")){
 				subscribeUrl = ..inet.url.append("https://raw.githubusercontent.com",subscribeUrl);
@@ -241,7 +301,7 @@ importFromString = function(str,subscribeUrl){
 				return inet.http().get(subscribeUrl);
 			},subscribeUrl 
 		)
-		
+	
 		form.close();
 		if(!str){
 			return;
@@ -282,8 +342,8 @@ importFromString = function(str,subscribeUrl){
 		var crc32 = ..string.crc32(str);
 		_subscriptionResponseCache[subscribeUrl] = crc32;
 	}
-	
-	if(..string.match(str,"^[\w=+/-_]+$")){
+
+	if(..string.match(str,"^\s*[\w=+/-_]+\s*$")){
 		str = ..crypt.decodeBin(str);
 		if(!str) return;
 	}
@@ -302,7 +362,7 @@ importFromString = function(str,subscribeUrl){
 			continue;
 		}
 		
-		var vmess2 = ..string.match(line,`vmess\:\/\/[^\@\s]+\@[^\?\#\s\:]+\:\d+\S*`);
+		var vmess2 = ..string.match(line,`vmess\:\/\/[^\@\s]+\@[^\?\#\s\:]+<\:\d+>*\S*`);
 		if( vmess2 ) {
 			var vmessUrl = ..inet.url.split(vmess2) 
 			if(vmessUrl.user && vmessUrl.host && vmessUrl.port){
@@ -329,7 +389,9 @@ importFromString = function(str,subscribeUrl){
 					
 					if(info.security) outbound.tls = info.security;
 					if(info.flow) outbound.flow = info.flow;
-					if(info.allowInsecure!==null) outbound.allowInsecure = info.allowInsecure;
+					if(info.allowInsecure!==null) {
+						outbound.allowInsecure = (info.allowInsecure!=="0" ||info.allowInsecure!=="false" ) 
+					}
 					if(info.disableSessionResumption) outbound.disableSessionResumption = info.disableSessionResumption;
 					if(info.alpn) outbound.alpn = info.alpn;	 
 				}
@@ -379,7 +441,7 @@ importFromString = function(str,subscribeUrl){
 			continue;
 		}
 		
-		var vless = ..string.match(line,`vless\:\/\/[^\@\s]+\@[^\?\#\s\:]+\:\d+\S*`);
+		var vless = ..string.match(line,`vless\:\/\/\S+`);
 		if( vless ) {
 			var vlessUrl = ..inet.url.split(vless) 
 			if(vlessUrl.user && vlessUrl.host && vlessUrl.port){
@@ -406,7 +468,9 @@ importFromString = function(str,subscribeUrl){
 					
 					if(info.security) outbound.tls = info.security;
 					if(info.flow) outbound.flow = info.flow;
-					if(info.allowInsecure!==null) outbound.allowInsecure = info.allowInsecure;
+					if(info.allowInsecure!==null) {
+						outbound.allowInsecure = (info.allowInsecure!=="0" ||info.allowInsecure!=="false" ) 
+					}
 					if(info.disableSessionResumption) outbound.disableSessionResumption = info.disableSessionResumption;
 					if(info.alpn) outbound.alpn = info.alpn;	 
 				}
@@ -472,10 +536,10 @@ importFromString = function(str,subscribeUrl){
 			continue;
 		}
 
-		var trojan = ..string.match(line,`trojan\:\/\/[^\@\s]+\@[^\?\#\s\:]+\:\d+\S*`);
+		var trojan = ..string.match(line,`trojan\:\/\/\S+`);
 		if( trojan ) {
 			var trojanUrl = ..inet.url.split(trojan) 
-			if(trojanUrl.user && trojanUrl.host && trojanUrl.port){
+			if(trojanUrl.user && trojanUrl.host){
 				var outbound = {
 					address = trojanUrl.host;
 					port = tonumber(trojanUrl.port) : 443; 
@@ -512,10 +576,10 @@ importFromString = function(str,subscribeUrl){
 			continue;
 		}
 
-		var trojan = ..string.match(line,`trojan-go\:\/\/[^\@\s]+\@[^\?\#\s\:]+\:\d+\S*`);
+		var trojan = ..string.match(line,`trojan-go\:\/\/\S+`);
 		if( trojan ) {
 			var trojanUrl = ..inet.url.split(trojan) 
-			if(trojanUrl.user && trojanUrl.host && trojanUrl.port){
+			if(trojanUrl.user && trojanUrl.host){
 				var outbound = {
 					address = trojanUrl.host;
 					port = tonumber(trojanUrl.port) : 443; 
@@ -528,7 +592,10 @@ importFromString = function(str,subscribeUrl){
 					var info = ..inet.url.splitParameters(trojanUrl.extraInfo);
 					outbound.sni = info.sni || info.peer;
 					outbound.host = info.host;
-					outbound.path = info.path;
+					outbound.path = info.path; 
+					if(info.allowInsecure!==null) {
+						outbound.allowInsecure = (info.allowInsecure!=="0" ||info.allowInsecure!=="false" ) 
+					}
 					
 					if(info.type && info.type!=="original"){
 						outbound.network = info.type;
@@ -593,23 +660,93 @@ importFromString = function(str,subscribeUrl){
 			}
 		}
 
-		var socks = ..string.match(line,`socks\:\/\/[^\@\s]+\@[^\?\#\s\:]+\:\d+\S*`);
-		if( socks ) {
-			var socksUrl = ..inet.url.split(trojan) 
-			if( socksUrl.host && socksUrl.port){
+		var socks = ..string.match(line,`socks\:(\/\/\S+)`); 
+		if( socks ) { 
+			var socksUrl = ..inet.url.split("socks5:"+socks) 
+			if( socksUrl.host && socksUrl.port){ 
 				var outbound = {
 					address = socksUrl.host;
-					port = tonumber(socksUrl.port) : 443;
+					port = tonumber(socksUrl.port);
 					network = "tcp";
 					protocol = "socks"
 				};
 
 				if(socksUrl.user && socksUrl.password){
 					outbound.id = socksUrl.user +":"+ socksUrl.password
-				} 
+				}  
 				
 				if(socksUrl.location){
 					outbound.ps = ..inet.url.decode(socksUrl.location);
+				}
+	
+				outbound.subscribeUrl = subscribeUrl;
+				..table.push(outbounds,outbound);
+			} 
+			
+			continue;
+		}
+
+		var proxy = ..string.match(line,`proxy\:\/\/\S+`); 
+		if( proxy ) { 
+			var proxyUrl = ..inet.url.split(proxy) 
+			if( proxyUrl.host && proxyUrl.port){ 
+				var outbound = {
+					address = proxyUrl.host;
+					port = tonumber(proxyUrl.port);
+					network = "tcp";
+					protocol = "https"
+				};
+
+				if(proxyUrl.user && proxyUrl.password){
+					outbound.id = proxyUrl.user +":"+ proxyUrl.password
+				} 
+
+				if(proxyUrl.extraInfo){
+					var info = ..inet.url.splitParameters(proxyUrl.extraInfo);
+					if(info.tls==="none") {
+						outbound.protocol = "http";
+					}
+
+					if(info.allowInsecure){
+						outbound.allowInsecure = (info.allowInsecure!=="0" ||info.allowInsecure!=="false" ) 
+					}
+				}
+				
+				if(proxyUrl.location){
+					outbound.ps = ..inet.url.decode(proxyUrl.location);
+				}
+	
+				outbound.subscribeUrl = subscribeUrl;
+				..table.push(outbounds,outbound);
+			} 
+			
+			continue;
+		}
+
+		var naive,naiveNetwork = ..string.match(line,`(naive\+(\w+)\:\/\/\S+)`);
+		if( naive ) {
+			var naiveUrl = ..inet.url.split(naive) 
+			if( naiveUrl.host ){
+				var outbound = {
+					address = naiveUrl.host;
+					port = tonumber(naiveUrl.port) : 443; 
+					id = naiveUrl.user;
+					network = naiveNetwork;
+					protocol = "naive"
+				};
+				
+				if(naiveUrl.user && naiveUrl.password){
+					outbound.id = naiveUrl.user +":"+ naiveUrl.password
+				} 
+				
+				if(naiveUrl.extraInfo){
+					var info = ..inet.url.splitParameters(naiveUrl.extraInfo);
+					if(info["extra-headers"]){
+						outbound.headers = info["extra-headers"];
+					}
+				} 
+				if(naiveUrl.location){
+					outbound.ps = ..inet.url.decode(naiveUrl.location);
 				}
 	
 				outbound.subscribeUrl = subscribeUrl;
@@ -904,7 +1041,7 @@ updateSubscription = function(outbondSubscribeUrlMap){
 	
 	..config.proxy.save();
 	..publish("outbounds.updateConfigJson");
-	..publish("uiCommand.restartV2RayCore",cfgOutbounds) 
+	..publish("uiCommand.restartxrayCore",cfgOutbounds) 
 	..mainForm.msgOk("已刷新" + count + "个订阅服务器。",1500);
 	
 	return count;
@@ -998,7 +1135,7 @@ var currentActiveOutbound = ..globalActiveOutbound;
 	..config.proxy.save();
 	
 	..publish("outbounds.updateConfigJson");
-	..publish("uiCommand.restartV2RayCore")
+	..publish("uiCommand.restartxrayCore")
 	..publish("uiCommand.print","已自动刷新" + count + "个订阅服务器。")		 
 } )
 

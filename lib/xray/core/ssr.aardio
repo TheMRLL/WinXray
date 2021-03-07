@@ -93,8 +93,8 @@ downloadCore = function(){
 	}
 	
 	import zlib.httpFile;
-	if( ..zlib.httpFile.download(url,"正在下载 SSR Core（ShadowsocksR-native）"
-		,..io.appData("/winXray/download/ssr")
+	if( ..zlib.httpFile.download(url,"正在下载 SSR Core（ShadowsocksR-native）" 
+		,..io.appData("/WinXray/download/ssr")
 		,coreDir,,..mainForm.hwnd) ){
 			
 		..mainForm.disabled = false;
@@ -121,7 +121,7 @@ getPath = function(hwnd){
 		return path;
 	}
 		
-	var path = ..io.appData("/winXray/ssr-core/ssr-client.exe");
+	var path = ..io.appData("/WinXray/ssr-core/ssr-client.exe");
 	if(..io.exist(path)){
 		return path;
 	}
@@ -140,9 +140,9 @@ getCoreDir = function(hwnd){
 		return ..io.fullpath("/xray-core/ssr-core/");
 	}
 		
-	var path = ..io.appData("/winXray/ssr-core/ssr-client.exe");
+	var path = ..io.appData("/WinXray/ssr-core/ssr-client.exe");
 	if(..io.exist(path)){
-		return ..io.appData("/winXray/ssr-core/");;;
+		return ..io.appData("/WinXray/ssr-core/");;;
 	}
 	
 	var path = ..io.fullpath("/xray-core/xray.exe");
@@ -150,7 +150,7 @@ getCoreDir = function(hwnd){
 		return ..io.fullpath("/xray-core/ssr-core/");
 	}
 		
-	var path = ..io.appData("/winXray/core/xray.exe");
+	var path = ..io.appData("/WinXray/core/xray.exe");
 	if(..io.exist(path)){
 		return ..io.appData("/winXray/ssr-core/");
 	}
@@ -175,10 +175,10 @@ updateCore = function(){
 	}
 	
 	import fsys;
-	fsys.delete(..io.appData("/xray/temp/"))
+	fsys.delete(..io.appData("/xray/temp/ssr/"))
  
 	import zlib.httpFile;
-	if( ..zlib.httpFile.download(url,"正在下载 SSR Core（ShadowsocksR-native）"
+	if( ..zlib.httpFile.download(url,"正在下载 SSR Core（ShadowsocksR-native），版本：" + versionTag
 		,..io.appData("/winXray/download/ssr/")
 		,..io.appData("/winXray/temp/ssr/"),,..mainForm.hwnd) ){
 			..mainForm.disabled = false;

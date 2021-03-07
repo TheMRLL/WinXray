@@ -1,18 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<project ver="10" name="WinXray" libEmbed="true" icon="\app.ico" ui="win" output="WinXray.exe" CompanyName="WinXray" FileDescription="网络代理通用客户端" LegalCopyright="Copyright (C) WinXray" ProductName="WinXray" InternalName="WinXray" FileVersion="2.8" ProductVersion="2.8" publishDir="\WinXray" dstrip="false" local="false" ignored="false">
+<project ver="10" name="WinXray" libEmbed="true" icon="\forms\ico\app.ico" ui="win" output="WinXray.exe" CompanyName="WinXray" FileDescription="网络代理通用客户端" LegalCopyright="Copyright (C) WinXray" ProductName="WinXray" InternalName="WinXray" FileVersion="2.9" ProductVersion="2.9" publishDir="\WinXray" dstrip="false" local="false" ignored="false">
 	<file name="main" path="main.aardio"/>
 	<folder name="窗体" path="forms" comment="" embed="true" local="false" ignored="false">
-		<folder name="ico" path="forms\ico" comment="forms\ico" local="false" embed="false" ignored="false">
+		<folder name="ico" path="forms\ico" comment="forms\ico">
 			<file name="app-direct.ico" path="forms\ico\app-direct.ico" comment="forms\ico\app-direct.ico"/>
 			<file name="app-pac.ico" path="forms\ico\app-pac.ico" comment="forms\ico\app-pac.ico"/>
 			<file name="app.ico" path="forms\ico\app.ico" comment="forms\ico\app.ico"/>
 		</folder>
-		<folder name="main" path="forms\main" comment="forms\main" local="false" embed="false" ignored="false">
+		<folder name="main" path="forms\main" comment="forms\main">
 			<file name="json.aardio" path="forms\main\json.aardio" comment="forms\main\json.aardio"/>
 			<file name="outbound.aardio" path="forms\main\outbound.aardio" comment="forms\main\outbound.aardio"/>
 			<file name="pac.aardio" path="forms\main\pac.aardio" comment="forms\main\pac.aardio"/>
 			<file name="xray.aardio" path="forms\main\xray.aardio" comment="forms\main\xray.aardio"/>
-			<folder name="config" path="forms\main\config" comment="forms\main\config" local="false" embed="false" ignored="false">
+			<folder name="config" path="forms\main\config" comment="forms\main\config">
 				<file name="advancedConfig.aardio" path="forms\main\config\advancedConfig.aardio" comment="forms\main\config\advancedConfig.aardio"/>
 				<file name="jsonConfig.aardio" path="forms\main\config\jsonConfig.aardio" comment="forms\main\config\jsonConfig.aardio"/>
 				<file name="subscription.aardio" path="forms\main\config\subscription.aardio" comment="forms\main\config\subscription.aardio"/>
@@ -26,6 +26,7 @@
 				<file name="qr.aardio" path="forms\main\tools\qr.aardio" comment="forms\main\tools\qr.aardio"/>
 				<file name="tools.aardio" path="forms\main\tools\tools.aardio" comment="forms\main\tools\tools.aardio"/>
 				<file name="uuid.aardio" path="forms\main\tools\uuid.aardio" comment="forms\main\tools\uuid.aardio"/>
+				<file name="uwpExemption.aardio" path="forms\main\tools\uwpExemption.aardio" comment="forms\main\tools\uwpExemption.aardio"/>
 				<file name="youtube.aardio" path="forms\main\tools\youtube.aardio" comment="forms\main\tools\youtube.aardio"/>
 			</folder>
 		</folder>

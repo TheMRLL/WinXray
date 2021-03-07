@@ -1,0 +1,76 @@
+﻿//v2ray 内核
+import xray.core;
+namespace xray.core.v2ray;
+
+var getV2RayCoreUrl = function(){
+	var msgDlg = ..win.dlg.message(..mainForm); 
+	var form = msgDlg.create('正在获取 V2Ray Core 最新版本',,true)
+	form.icon = '\uF1D8';
+	form.progress.startProgress(50); 
+	
+	var url,tag = ..win.invoke(function(){
+    	import process;
+		import inet.http;
+		var http = ..inet.http();
+		var url = http.location("https://github.com/v2fly/v2ray-core/releases/latest");
+		http.close();
+		
+		if(!url) return;
+		
+		var tag = ..string.match(url,"[^/]+$")
+		if(!tag || (tag=="latest")) return;;
+		
+		return "https://github.com/v2fly/v2ray-core/releases/download/" 
+			+ tag + "/v2ray-windows-" +	(..process().isWow64() ? "64" : "32") + ".zip",tag	
+	});
+	form.close();
+    
+	return url,tag;
+} 	
+
+
+updateCore = function(){
+    ..mainForm.disabled = true; 
+    	
+	var coreDir = ..xray.core.getCoreDir();
+	var url,versionTag = getV2RayCoreUrl();
+	if(!url){		
+		..mainForm.disabled = false;
+		self.lastDownloadingCoreFailed = true;
+		return null;
+	}
+	  
+	import fsys;
+	fsys.delete( ..io.appData("/WinXray/temp/v2ray/") );
+	 
+	
+	import zlib.httpFile;
+	if( ..zlib.httpFile.download(url,"正在下载 V2Ray Core，版本：" + versionTag
+		,..io.appData("/WinXray/download/")
+		,..io.appData("/WinXray/temp/v2ray/"),,..mainForm.hwnd) ){
+			..mainForm.disabled = false;
+			
+			if(..io.exist(..io.appData("/WinXray/temp/v2ray/v2ray.exe"))){
+				import sysProxy;
+				sysProxy.reset(false);
+
+				import process.file;
+				process.file.terminate(..io.joinpath(coreDir,"v2ray.exe")); 
+				process.file.terminate(..io.joinpath(coreDir,"v2ctl.exe")); 
+				
+				..io.createDir(coreDir); 
+				fsys.copy(..io.appData("/WinXray/temp/v2ray/v2ray.exe"),..io.joinpath(coreDir,"v2ray.exe")); 
+				fsys.copy(..io.appData("/WinXray/temp/v2ray/v2ctl.exe"),..io.joinpath(coreDir,"v2ctl.exe")); 
+				
+				self.lastDownloadingCoreFailed = null;
+				return versionTag;
+			} 
+			else {
+				self.lastDownloadingCoreFailed = true;
+			} 
+	}
+	else {
+		..mainForm.disabled = false;
+		self.lastDownloadingCoreFailed = true; 
+	} 	 
+}
