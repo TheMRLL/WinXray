@@ -218,14 +218,14 @@ getPath = function(hwnd){
 		return path;
 	}
 
-	var path = ..io.fullpath("/v2ray-core/v2ray.exe");
+	var path = ..io.fullpath("/xray-core/xray.exe");
 	if(..io.exist(path)){
-		..io.rename("/v2ray-core/","/xray-core/") 
+		..io.rename("/xray-core/","/xray-core/") 
 	}
 
-	var path = ..io.fullpath("/xray-core/v2ray.exe");
+	var path = ..io.fullpath("/xray-core/xray.exe");
 	if(..io.exist(path)){
-		..io.rename("/xray-core/v2ray.exe","/xray-core/xray.exe")
+		..io.rename("/xray-core/xray.exe","/xray-core/xray.exe")
 		return ..io.fullpath("/xray-core/xray.exe");
 	}
 	
@@ -237,7 +237,7 @@ getPath = function(hwnd){
 	var url,versionTag = getxrayCoreUrl();
 	 
 	if(!url) {
-		..publish("uiCommand.print","请下载 V2Rary Core 到以下路径:");
+		..publish("uiCommand.print","请下载 xray Core 到以下路径:");
 		..publish("uiCommand.print",path);
 		
 		..mainForm.disabled = false;
@@ -264,8 +264,8 @@ getPath = function(hwnd){
 		..publish("uiCommand.print","下载后请解压到以下目录内:");
 		..publish("uiCommand.print",..io.appData("/WinXray/core/"));
 		
-		//import process;
-		//process.execute(..io._exepath,"/github","runas");
+		import process;
+		process.execute(..io._exepath,"/github","runas");
 	}  
 } 
 

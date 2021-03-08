@@ -1,8 +1,8 @@
 {
-    "description":"添加UWP模式！修改VMESS协议下MUX关闭！",
+    "description":"修复完善UWP模式！更新到了Xray内核到1.3.1版本！提高了LOGO分辨率！",
     "format":".lzma",
     "main":"\\WinXray.exe",
     "updater":"\\WinXray.exe",
     "url":"https://raw.githubusercontent.com/TheMRLL/winxray/main/release/update/",
-    "version":"2.9"
+    "version":"3.0"
 }
