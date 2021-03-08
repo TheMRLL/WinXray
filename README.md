@@ -1,5 +1,5 @@
 ﻿
-      WinXray V 2.9（添加UWP模式！修改VMESS协议下MUX关闭！）winxray:Xray的windows客户端！
+      WinXray V 3.0（修复完善UWP模式！更新到了Xray内核到1.3.1版本！提高了LOGO分辨率！）
 导语：
      请用官网地址下载：https://winxray.com
      winxray存在之本就是：安全，隐私，高速！
