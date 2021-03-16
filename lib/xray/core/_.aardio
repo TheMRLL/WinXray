@@ -264,8 +264,8 @@ getPath = function(hwnd){
 		..publish("uiCommand.print","下载后请解压到以下目录内:");
 		..publish("uiCommand.print",..io.appData("/WinXray/core/"));
 		
-		import process;
-		process.execute(..io._exepath,"/github","runas");
+		//import process;
+		//process.execute(..io._exepath,"/github","runas");
 	}  
 } 
 
