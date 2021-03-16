@@ -1,5 +1,5 @@
 ﻿
-      WinXray V 3.0（修复完善UWP模式！更新到了Xray内核到1.3.1版本！提高了LOGO分辨率！）
+      WinXray V 3.1（修复右键新增/编辑代理服务器切换协议报错的问题以及优化代码！）
 导语：
      请用官网地址下载：https://www.winxray.com
      winxray存在之本就是：安全，隐私，高速！
