@@ -302,9 +302,9 @@ var insertFieldMenu = {
 			winform.addOutboundField("headers",{method="GET"});
 		} 
 	};
-	{ "SSR混淆插件:obfs";
+	{ "SS混淆插件:obfs";
 		function(id){
-			winform.addOutboundField("obfs","");
+			winform.addOutboundField("obfs","plain","");
 		} 
 	};
 	{ "SSR混淆参数:obfsParam";

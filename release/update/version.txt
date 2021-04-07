@@ -1,8 +1,8 @@
 {
-    "description":"修复右键新增/编辑代理服务器切换协议报错的问题以及优化代码！",
+    "description":"默认Xray核心更新到1.4.2版本! 更快更安全！",
     "format":".lzma",
     "main":"\\WinXray.exe",
     "updater":"\\WinXray.exe",
     "url":"https://raw.githubusercontent.com/TheMRLL/winxray/main/release/update/",
-    "version":"3.1"
+    "version":"3.2"
 }

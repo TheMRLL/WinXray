@@ -379,6 +379,7 @@ write  = function(jsonPath,outbound,sockPort,httpPort){
 			};
 			streamSettings={
 				network = outbound.network : "tcp";
+				obfs = outbound.obfs : "";
 			};
 			tag="proxy"
 		};
