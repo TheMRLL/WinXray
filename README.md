@@ -1,8 +1,8 @@
 ﻿
-      WinXray V 3.1（修复右键新增/编辑代理服务器切换协议报错的问题以及优化代码！）
+      WinXray V 3.2（默认Xray核心更新到1.4.2版本! 更快更安全！）
 导语：
      请用官网地址下载：https://www.winxray.com
-     winxray存在之本就是：安全，隐私，高速！
+     winxray存在之本就是：安全，隐私，极速！
      
 ![xray](./screenshots/Xray.png)
 
