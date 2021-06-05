@@ -1,5 +1,7 @@
 ﻿
-      WinXray V 3.2（默认Xray核心更新到1.4.2版本! 更快更安全！）
+      WinXray V3.3 为提升速度，本版本开启了MUX！修复了右键本机ping无反应的问题，另在编辑代理服务器添加传输协议WS！
+10fca8b
+
 导语：
      请用官网地址下载：https://www.winxray.com
      winxray存在之本就是：安全，隐私，极速！
