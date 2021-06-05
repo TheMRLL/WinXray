@@ -53,11 +53,11 @@ winform.cmbProtocol.onProtocolChange = function(){
 		winform.outboundConfig.security = "auto";
 		
 		winform.cmbNetwork.items = {
-			"tcp";"kcp";"h2";"quic";
+			"tcp";"ws";"kcp";"h2";"quic";
 		}
 		winform.cmbNetwork.selIndex = 1;
 		winform.outboundConfig.network = "tcp";
-		winform.btnUpdateCore.text = '下载 / 更新支持组件： xray Core';
+		winform.btnUpdateCore.text = '下载 / 更新支持组件： Xray Core';
 		winform.editId.setCueBannerText("请输入 GUID");
 	}
 	elseif(sel=="shadowsocks"){
@@ -98,7 +98,7 @@ winform.cmbProtocol.onProtocolChange = function(){
 		winform.outboundConfig.security = "none";
 		
 		winform.cmbNetwork.items = {
-			"tcp";"kcp";"h2";"quic";
+			"tcp";"kcp";"h2";"quic";"ws";
 		}
 		winform.cmbNetwork.selIndex = 1;
 		winform.outboundConfig.network = "tcp";

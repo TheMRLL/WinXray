@@ -1,8 +1,8 @@
 {
-    "description":"默认Xray核心更新到1.4.2版本! 更快更安全！",
+    "description":"为提升速度，本版本开启了MUX！修复了右键本机ping无反应的问题，另在编辑代理服务器添加传输协议WS！",
     "format":".lzma",
     "main":"\\WinXray.exe",
     "updater":"\\WinXray.exe",
     "url":"https://raw.githubusercontent.com/TheMRLL/winxray/main/release/update/",
-    "version":"3.2"
+    "version":"3.3"
 }

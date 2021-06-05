@@ -195,8 +195,8 @@ write  = function(jsonPath,outbound,sockPort,httpPort){
 				concurrency=outbound.concurrency;
 				enabled=outbound.concurrency ? ( outbound.concurrency > 0)
 			} : {
-				concurrency=-1;
-				enabled=false
+				concurrency=8;
+				enabled=true
 			}; 
 			protocol="vmess";
 			settings={
