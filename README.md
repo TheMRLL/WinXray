@@ -1,6 +1,6 @@
 ﻿
-      WinXray V3.3 为提升速度，本版本开启了MUX！修复了右键本机ping无反应的问题，另在编辑代理服务器添加传输协议WS！
-10fca8b
+      WinXray V3.4 默认Xray内核升级到了1.4.3！
+      
 
 导语：
      请用官网地址下载：https://www.winxray.com
