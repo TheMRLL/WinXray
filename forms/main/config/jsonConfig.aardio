@@ -1,27 +1,25 @@
 import fonts.fontAwesome;
 import win.ui;
 /*DSG{{*/
-var winform = win.form(text="aardio form";right=938;bottom=638;bgcolor=16777215)
+var winform = win.form(text="aardio form";right=912;bottom=793;bgcolor=16777215)
 winform.add(
-advancedConfig={cls="\forms\main\config\advancedConfig.aardio";left=9;top=20;right=930;bottom=594;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;edge=1;z=12};
-btnUpdate={cls="plus";text="更新服务器配置";left=699;top=604;right=868;bottom=635;align="left";bgcolor=11580047;db=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=22}};iconText='\uF0C7';notify=1;textPadding={left=40};z=6};
+advancedConfig={cls="\forms\main\config\advancedConfig.aardio";left=9;top=29;right=902;bottom=739;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;edge=1;z=11};
+btnUpdate={cls="plus";text="更新服务器配置";left=687;top=753;right=856;bottom=784;align="left";bgcolor=11580047;db=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=22}};iconText='\uF0C7';notify=1;textPadding={left=40};z=5};
 btnUpdateNaiveCore={cls="plus";text="下载 / 更新 NaÏveProxy Core";left=448;top=7;right=709;bottom=35;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-17;name='FontAwesome');padding={left=18}};iconText='\uF1A0';notify=1;textPadding={left=50};z=17};
 btnUpdateRules={cls="plus";text="下载 / 更新 路由规则";left=227;top=39;right=425;bottom=67;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-19;name='FontAwesome');padding={left=18}};iconText='\uF041';notify=1;textPadding={left=50};z=15};
 btnUpdateSsrCore={cls="plus";text="下载 / 更新 SSR Core";left=16;top=39;right=214;bottom=67;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-17;name='FontAwesome');padding={left=18}};iconText='\uF1D8';notify=1;textPadding={left=50};z=16};
-btnUpdatev2rayCore={cls="plus";text="下载 / 更新 V2ray Core";left=227;top=5;right=425;bottom=33;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-19;name='FontAwesome');padding={left=18}};iconText='\uF27D';notify=1;textPadding={left=50};z=14};
-btnUpdatexrayCore={cls="plus";text="下载 / 更新 Xray Core";left=16;top=5;right=223;bottom=33;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-19;name='FontAwesome');padding={left=18}};iconText='\uF0E7';notify=1;textPadding={left=50};z=13};
-editCoreConfig={cls="edit";left=9;top=72;right=930;bottom=594;db=1;dl=1;dr=1;dt=1;edge=1;hide=1;hscroll=1;multiline=1;vscroll=1;z=7};
-editOutbounds={cls="edit";left=9;top=29;right=930;bottom=594;db=1;dl=1;dr=1;dt=1;edge=1;hscroll=1;multiline=1;vscroll=1;z=8};
-lbTip={cls="static";text="可在下面输入多行服务器分享链接，或JSON数组( 点击字段名会显示用法说明 )：";left=11;top=9;right=899;bottom=29;color=3947580;dl=1;dr=1;dt=1;font=LOGFONT(h=-13);transparent=1;z=9};
-lbTipForCoreJson={cls="static";text="tag 指定为 proxy,http_proxy 的节点属于自动维护节点 - 不可删除";left=468;top=45;right=849;bottom=68;color=4964352;dl=1;dt=1;transparent=1;z=19};
-navAdvancedConfig={cls="plus";text="代理端口 / 高级配置";left=359;top=600;right=493;bottom=632;border={top=1;color=-16744448};db=1;dl=1;z=10};
-navCoreConfig={cls="plus";text="Core 配置 ( JSON )";left=162;top=600;right=293;bottom=632;border={top=1;color=-16744448};db=1;dl=1;z=3};
-navOutbounds={cls="plus";text="服务器配置( JSON )";left=31;top=600;right=162;bottom=632;border={top=1;color=-16744448};db=1;dl=1;z=2};
-navRight={cls="plus";left=493;top=600;right=762;bottom=601;bgcolor=16777215;border={top=1;color=-16744448};db=1;dl=1;dr=1;linearGradient=180;z=4};
-navSubscription={cls="plus";text="订阅";left=293;top=600;right=359;bottom=632;border={top=1;color=-16744448};db=1;dl=1;z=11};
-navUwpExemption={cls="plus";text="UWP 应用配置";left=499;top=600;right=633;bottom=632;border={top=1;color=-16744448};db=1;dl=1;notify=1;z=18};
-plus={cls="plus";left=9;top=600;right=31;bottom=601;border={top=1;color=-16744448};db=1;dl=1;z=5};
-subscription={cls="\forms\main\config\subscription.aardio";left=9;top=19;right=930;bottom=594;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;edge=1;z=1}
+btnUpdatev2rayCore={cls="plus";text="下载 / 更新 V2ray Core";left=227;top=5;right=425;bottom=33;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-19;name='FontAwesome');padding={left=18}};iconText='\uF27D';notify=1;textPadding={left=50};z=13};
+btnUpdatexrayCore={cls="plus";text="下载 / 更新 Xray Core";left=16;top=5;right=223;bottom=33;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-19;name='FontAwesome');padding={left=18}};iconText='\uF0E7';notify=1;textPadding={left=50};z=12};
+editCoreConfig={cls="edit";left=9;top=72;right=902;bottom=739;db=1;dl=1;dr=1;dt=1;edge=1;hide=1;hscroll=1;multiline=1;vscroll=1;z=6};
+editOutbounds={cls="edit";left=9;top=29;right=902;bottom=739;db=1;dl=1;dr=1;dt=1;edge=1;hscroll=1;multiline=1;vscroll=1;z=7};
+lbTip={cls="static";text="可在下面输入多行服务器分享链接，或JSON数组( 点击字段名会显示用法说明 )：";left=11;top=9;right=899;bottom=29;color=3947580;dl=1;dr=1;dt=1;font=LOGFONT(h=-13);transparent=1;z=8};
+navAdvancedConfig={cls="plus";text="代理端口 / 高级配置";left=359;top=750;right=493;bottom=782;border={top=1;color=-16744448};db=1;dl=1;z=9};
+navCoreConfig={cls="plus";text="Core 配置 ( JSON )";left=162;top=750;right=293;bottom=782;border={top=1;color=-16744448};db=1;dl=1;z=2};
+navOutbounds={cls="plus";text="服务器配置( JSON )";left=31;top=750;right=162;bottom=782;border={top=1;color=-16744448};db=1;dl=1;z=1};
+navRight={cls="plus";left=493;top=750;right=762;bottom=751;bgcolor=16777215;border={top=1;color=-16744448};db=1;dl=1;dr=1;linearGradient=180;z=3};
+navSubscription={cls="plus";text="订阅";left=293;top=750;right=359;bottom=782;border={top=1;color=-16744448};db=1;dl=1;z=10};
+plus={cls="plus";left=9;top=750;right=31;bottom=751;border={top=1;color=-16744448};db=1;dl=1;z=4};
+subscription={cls="\forms\main\config\subscription.aardio";left=9;top=29;right=902;bottom=739;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;edge=1;z=14}
 )
 /*}}*/
 
@@ -59,7 +57,6 @@ tbs.onSelchange = function(idx,strip,form){
 	winform.advancedConfig.hide = idx!=4;
 	winform.btnUpdate.hide = idx>2;
 	winform.lbTip.hide = idx!=1; 
-	winform.lbTipForCoreJson.hide = true; 
 	
 	if(idx==1){
 		winform.btnUpdate.text = "更新服务器配置"; 
@@ -109,62 +106,33 @@ winform.btnUpdate.oncommand = function(id,event){
 			winform.btnUpdate.disabledText = null;
 			return;
 		}
-		
-		var proxyOutboundInCore;
-		for(k,ob in cfg.outbounds){
-			if(ob.tag == "proxy"){
-				proxyOutboundInCore = ob;
-			} 
-		}
-		
-		if( type(proxyOutboundInCore) !="table"  ){
-			winform.msgErr(`outbounds 数组中未找到默认出站节点 {tag:"proxy"}`);
-			winform.btnUpdate.disabledText = null;
-			return; 
-		}
-		
-		var socksInbounds,httpInbounds;
-		for(k,ib in cfg.inbounds){
-			if(ib.tag == "proxy"){
-				socksInbounds = ib;
-			} 
-			elseif(ib.tag == "http_proxy"){
-				httpInbounds = ib;
-			} 
-		}
-			
-		if( type(socksInbounds) !="table"  ){
-			winform.msgErr(`inbounds 数组中未找到SOCKS协议入站节点 {tag:"proxy"}`);
-			winform.btnUpdate.disabledText = null;
-			return; 
-		}
-		
-		if( type(httpInbounds) !="table"  ){
-			winform.msgErr(`inbounds 数组中未找到HTTP协议入站节点 {tag:"http_proxy"}`);
-			winform.btnUpdate.disabledText = null;
-			return; 
-		}
-	
-		if(type(socksInbounds[["listen"]])!="string"){
-			winform.msgErr(`出站节点 {tag:"proxy"} listen字段必须指定IP或0.0.0.0`);
+
+		if(cfg.outbounds[[1]][["tag"]]!="proxy"){
+			winform.msgErr(`outbounds[0]必须指定为{"tag":"proxy"}`);
 			winform.btnUpdate.disabledText = null;
 			return; 
 		}
 
-		if(type(socksInbounds[["port"]])!="number"){
-			winform.msgErr(`出站节点 {tag:"proxy"} port字段必须用数值指定监听端口`);
+		if(type(cfg.inbounds[[1]][["listen"]])!="string"){
+			winform.msgErr(`inbounds[0].listen必须指定为SOCKS代理监听IP或0.0.0.0`);
+			winform.btnUpdate.disabledText = null;
+			return; 
+		}
+
+		if(type(cfg.inbounds[[1]][["port"]])!="number"){
+			winform.msgErr(`inbounds[0].port必须指定为SOCKS代理监听端口`);
 			winform.btnUpdate.disabledText = null;
 			return; 
 		} 
 
-		if(type(httpInbounds[["listen"]])!="string"){
-			winform.msgErr(`出站节点 {tag:"http_proxy"} listen字段必须指定IP或0.0.0.0`);
+		if(type(cfg.inbounds[[2]][["listen"]])!="string"){
+			winform.msgErr(`inbounds[1].listen必须指定为HTTP代理监听IP或0.0.0.0`);
 			winform.btnUpdate.disabledText = null;
 			return; 
 		}
 
-		if(type(httpInbounds[["port"]])!="number"){ 
-			winform.msgErr(`出站节点 {tag:"http_proxy"} port字段必须用数值指定监听端口`);
+		if(type(cfg.inbounds[[2]][["port"]])!="number"){
+			winform.msgErr(`inbounds[1].port必须指定为HTTP代理监听端口`);
 			winform.btnUpdate.disabledText = null;
 			return; 
 		} 
@@ -390,8 +358,8 @@ winform.editOutbounds.enablePopMenu(function(){
 					config.proxy.outbounds,true,false,true
 				)
 				
-				string.save("/xray-core/WinXray-default-servers.json",str );
-				winform.msgOk("已存为默认服务器列表 /xray-core/WinXray-default-servers.json",1000)
+				string.save("/xray-core/winv2ray-default-servers.json",str );
+				winform.msgOk("已存为默认服务器列表 /xray-core/winv2ray-default-servers.json",1000)
 			} 
 		}); 
 				
@@ -550,13 +518,13 @@ winform.editCoreConfig.enablePopMenu({
 	{ /*---分隔线---*/ };
 	{ "重置为默认内核配置";
 		function(id){  
-			winform.editCoreConfig.text = string.crlf( string.load("\forms\main\config\coreConfigs\default.json") )
+			winform.editCoreConfig.text = ..string.load("\forms\main\config\coreConfigs\default.json") 
 			winform.editCoreConfig.msgOk('已重置为默认内核配置。\n请在下面点击：『更新内核配置』启用新的配置。',1300)
 		} 
 	}; 
 	{ "重置为启用路由规则默认内核配置";
 		function(id){  
-			winform.editCoreConfig.text = string.crlf( string.load("\forms\main\config\coreConfigs\xray.rules.json") )
+			winform.editCoreConfig.text = ..string.load("\forms\main\config\coreConfigs\xray.rules.json")
 			import xray.core.rules;
 			var versionTag = xray.core.rules.check();
 			if(versionTag) winform.editCoreConfig.msgOk('已重置为启用路由规则默认内核配置，\n已下载路由规则数据最新版本：' + versionTag+ '\n\n请在下面点击：『更新内核配置』启用新的配置。',2000)
@@ -628,7 +596,7 @@ var editOutboundsTip = {
 	obfs = {"混淆插件";"可选值：plain,http_simple,http_post,tls1.2_ticket_auth ..."}; 
 	obfsParam = {"混淆参数";"SSR 里的 obfs_param"}; 
 	networkParam = {"SSR网络协议参数";"SSR 里的 protocol_param"}; 
-	concurrency = {"Mux多路复用:最大并发连接数";"最小值1，最大值1024，特殊值-1，不加载mux模块。缺省由WinXray根据连接协议自动设定此值。"}; 
+	concurrency = {"Mux多路复用:最大并发连接数";"最小值1，最大值1024，特殊值-1，不加载mux模块。缺省由winv2ray根据连接协议自动设定此值。"}; 
 }
 
 winform.editOutbounds.wndproc = function(hwnd,message,wParam,lParam){
@@ -651,7 +619,7 @@ winform.editOutbounds.wndproc = function(hwnd,message,wParam,lParam){
 
 winform.editCoreConfig.oncommand = function(id,event){
 	if( event === 0x100/*_EN_SETFOCUS*/){
-		winform.lbTipForCoreJson.hide = false;
+		winform.editCoreConfig.showInfoTip("提示",'inbounds[0] 必须为入站 SOCKS 代理，\ninbounds[1] 必须为入站 HTTP 代理，\noutbounds[0] 会转换为出站服务器数组。')
 	}
 }
 
@@ -748,22 +716,6 @@ winform.btnUpdateNaiveCore.oncommand = function(id,event){
 		winform.btnUpdateNaiveCore.disabledText = null;
 		winform.msgErr("NaÏveProxy Core 下载失败！");
 	} 		
-}
-
-if(!_WIN10_LATER){
-    winform.navUwpExemption.close();
-}
-else {
-	winform.navUwpExemption.skin(style.plainButton)
-	winform.navUwpExemption.oncommand = function( id,event ){
-		if(_STUDIO_INVOKED){
-        	winform.msgErr("请先发布为 EXE！");
-        	return;
-    	}
-    	
-    	import process;
-    	process.execute(io._exepath,"/uwp","runas")
-	}
 }
 
 winform.show();

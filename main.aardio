@@ -162,7 +162,7 @@ import win.ui;
 mainForm = win.form(text="WinXray";right=1019;bottom=679;bgcolor=15793151;border="none")
 mainForm.add(
 Promote={cls="plus";text="推荐";left=0;top=300;right=85;bottom=380;bkBottom=3;bkLeft=7;bkRight=8;bkTop=2;border={color=-65536};color=16777215;dl=1;dt=1;font=LOGFONT(h=-13);iconStyle={font=LOGFONT(h=-37;name='FontAwesome');padding={bottom=20}};iconText='\uF233';notify=1;textPadding={bottom=10};valign="bottom";x=0.5;y=0.2;z=9};
-caption={cls="bkplus";text="WinXray 3.3";left=67;top=9;right=727;bottom=27;align="left";color=6052956;dl=1;dt=1;font=LOGFONT(h=-14);z=7};
+caption={cls="bkplus";text="WinXray 3.4";left=67;top=9;right=727;bottom=27;align="left";color=6052956;dl=1;dt=1;font=LOGFONT(h=-14);z=7};
 custom={cls="custom";left=83;top=40;right=1022;bottom=679;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;z=4};
 logo={cls="bkplus";text='\uF1D9';left=35;top=7;right=64;bottom=32;color=3054125;dl=1;dt=1;font=LOGFONT(h=-18;name='FontAwesome');z=6};
 navBar={cls="bkplus";left=0;top=37;right=83;bottom=681;bgcolor=3442175;db=1;dl=1;dt=1;z=1};
