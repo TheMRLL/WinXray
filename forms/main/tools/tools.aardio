@@ -3,7 +3,7 @@ import win.ui;
 /*DSG{{*/
 var winform = win.form(text="aardio form";right=938;bottom=638;bgcolor=16777215)
 winform.add(
-btnAardio={cls="plus";text="WinXray推荐服务器商(适用高阶用户)";left=26;top=533;right=460;bottom=575;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-27;name='FontAwesome');padding={left=18}};iconText='\uF233';notify=1;textPadding={left=50};z=3};
+btnAardio={cls="plus";text="WinXray推荐服务器商(适用高阶用户)";left=26;top=533;right=460;bottom=575;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-27;name='FontAwesome');padding={left=18}};iconText='\uF0AE';notify=1;textPadding={left=50};z=3};
 btnCreateLnk={cls="plus";text="创建桌面图标";left=26;top=391;right=205;bottom=433;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-23;name='FontAwesome');padding={left=18}};iconText='\uF108';notify=1;textPadding={left=50};z=10};
 btnDeleteIconCache={cls="plus";text="修复桌面图标空白";left=26;top=439;right=269;bottom=481;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-23;name='FontAwesome');padding={left=18}};iconText='\uF0AD';notify=1;textPadding={left=50};z=16};
 btnDnsFlush={cls="plus";text="清空 DNS 缓存";left=26;top=155;right=412;bottom=197;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-27;name='FontAwesome');padding={left=18}};iconText='\uF021';notify=1;textPadding={left=50};z=5};
@@ -15,7 +15,7 @@ btnTestSpeed={cls="plus";text="当前代理服务器测速";left=26;top=61;right
 btnUpdateSystemTime={cls="plus";text="同步系统时间(修正 Xray 连接报错)";left=26;top=108;right=412;bottom=150;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-27;name='FontAwesome');padding={left=18}};iconText='\uF017';notify=1;textPadding={left=50};z=4};
 btnUuid={cls="plus";text="UUID 生成工具";left=26;top=344;right=262;bottom=386;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-27;name='FontAwesome');padding={left=18}};iconText='\uF13E';notify=1;textPadding={left=50};z=15};
 btnWubiLex={cls="plus";text="WinXray推荐大型机场(适用普通用户)";left=26;top=486;right=661;bottom=528;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-24;name='FontAwesome');padding={left=18}};iconText='\uF233';notify=1;textPadding={left=50};z=6};
-btnYoutube={cls="plus";text="Youtube 视频下载工具";left=26;top=203;right=262;bottom=245;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-27;name='FontAwesome');padding={left=18}};iconText='\uF167';notify=1;textPadding={left=50};z=1};
+btnYoutube={cls="plus";text="二维码识别工具";left=26;top=203;right=262;bottom=245;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-27;name='FontAwesome');padding={left=18}};iconText='\uF2C4';notify=1;textPadding={left=50};z=1};
 editSshHost={cls="plus";left=158;top=23;right=386;bottom=47;align="left";bgcolor=16777215;border={bottom=1;color=-8355712};dl=1;dt=1;editable="edit";font=LOGFONT(h=-16);textPadding={bottom=1};z=7};
 lbCurrentProxyLocation={cls="static";left=245;top=74;right=729;bottom=101;color=32768;dl=1;dt=1;transparent=1;z=13};
 static={cls="static";text="账号@服务器：";left=36;top=27;right=151;bottom=54;align="right";color=4934475;dl=1;dt=1;font=LOGFONT(h=-13);transparent=1;z=8}

@@ -1,8 +1,8 @@
 {
-    "description":"默认Xray内核升级到了1.4.3！",
+    "description":"删除youtube视频下载工具，将其替换了工具增加二维码识别工具！",
     "format":".lzma",
     "main":"\\WinXray.exe",
     "updater":"\\WinXray.exe",
     "url":"https://raw.githubusercontent.com/TheMRLL/winxray/main/release/update/",
-    "version":"3.4"
+    "version":"3.5"
 }

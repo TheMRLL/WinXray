@@ -5,26 +5,52 @@ import inet.url;
 import crypt;
 
 namespace xray.core.configJson;
- 
+	
 write  = function(jsonPath,outbound,sockPort,httpPort){
-    if(!outbound){ return; }
+	if(!outbound){ return; }
 	if(type(outbound.port)!=type.number){
 		outbound.port = tonumber(outbound.port);
 	}
 	
-	var current = ..table.clone(..config.core.default);
-	var inbounds = current.inbounds;
-	if(! (..table.isArray(inbounds) && inbounds[1] ) ){
-		return null,"错误的入站SOCKS代理服务器配置" 
+	var currentCore = ..table.clone(..config.core.default);
+	if(! ..table.isArray(currentCore.outbounds) ){
+		return null,"错误的出站代理服务器配置" 
 	}
 	
-	inbounds[1].pacPort = null; 
-	inbounds[1].port = sockPort; 
-	if(inbounds[2]){ inbounds[2].port = httpPort; }
+	var inboundsInCore = currentCore.inbounds;
+	if(! ..table.isArray(inboundsInCore) ){
+		return null,"错误的入站代理服务器配置" 
+	}
 	
-
-	if(sockPort<0){
-		..table.shift(inbounds); 
+	var proxyOutboundInCore;
+	for(k,ob in currentCore.outbounds){
+		if(ob.tag == "proxy"){
+			proxyOutboundInCore = ob;
+		} 
+	}
+	
+	if( type(proxyOutboundInCore) !="table"  ){
+		return null,"未找到默认出站代理服务器配置节点" 
+	}
+	
+	var socksInbounds,httpInbounds;
+	for(k,ib in currentCore.inbounds){
+		if(ib.tag == "proxy"){
+			socksInbounds = ib;
+			socksInbounds.port = sockPort; 
+		} 
+		elseif(ib.tag == "http_proxy"){
+			httpInbounds = ib;
+			httpInbounds.port = httpPort; 
+		} 
+	}
+		
+	if( type(socksInbounds) !="table"  ){
+		return null,"未找到默认 SOCKS 入站代理服务器配置节点" 
+	}
+	
+	if( type(httpInbounds) !="table"  ){
+		return null,"未找到默认 HTTP 入站代理服务器配置节点" 
 	}
 	
 	if(#outbound.tls && !outbound.sni){
@@ -159,11 +185,11 @@ write  = function(jsonPath,outbound,sockPort,httpPort){
 			}
 		}
 		
-		..table.assign(current.outbounds[1],ob); 
+		..table.assign(proxyOutboundInCore,ob); 
 	}
 	elseif(outbound.protocol=="vmess"){
 		if(!#outbound.security) outbound.security = "auto";
-		 
+			
 		var ob = {
 			mux = (outbound.concurrency !== null) ? {
 				concurrency=outbound.concurrency;
@@ -276,7 +302,7 @@ write  = function(jsonPath,outbound,sockPort,httpPort){
 			}
 		}
 		
-		..table.assign(current.outbounds[1],ob); 
+		..table.assign(proxyOutboundInCore,ob); 
 	}
 	elseif(outbound.protocol=="trojan" || outbound.protocol=="trojan-go"){
 		outbound.tls = #outbound.tls ? outbound.tls : "tls";
@@ -327,7 +353,7 @@ write  = function(jsonPath,outbound,sockPort,httpPort){
 				ob.streamSettings.wsSettings.headers.Host = outbound.host;
 			}
 		}
-		..table.assign(current.outbounds[1],ob); 
+		..table.assign(proxyOutboundInCore,ob); 
 	} 
 	elseif(outbound.protocol=="shadowsocks"){
 		var ob = {
@@ -353,11 +379,12 @@ write  = function(jsonPath,outbound,sockPort,httpPort){
 			};
 			streamSettings={
 				network = outbound.network : "tcp";
+				obfs = outbound.obfs : "";
 			};
 			tag="proxy"
 		};
 		
-		..table.assign(current.outbounds[1],ob); 
+		..table.assign(proxyOutboundInCore,ob); 
 	} 
 	elseif(outbound.protocol=="socks"){
 		
@@ -383,7 +410,7 @@ write  = function(jsonPath,outbound,sockPort,httpPort){
 			};
 			tag="proxy"
 		};
-		 
+			
 		if(#outbound.id){
 			var user,password = ..string.match(outbound.id,"([^\:]+)\:(.+)");
 			if(user && password){
@@ -401,7 +428,7 @@ write  = function(jsonPath,outbound,sockPort,httpPort){
 			}
 		}
 		
-		..table.assign(current.outbounds[1],ob); 
+		..table.assign(proxyOutboundInCore,ob); 
 	} 
 	elseif(outbound.protocol=="https" || outbound.protocol=="http"){
 		
@@ -423,7 +450,7 @@ write  = function(jsonPath,outbound,sockPort,httpPort){
 			};
 			tag="proxy"
 		};
-		 
+			
 		if(#outbound.id){
 			var user,password = ..string.match(outbound.id,"([^\:]+)\:(.+)");
 			if(user && password){
@@ -439,11 +466,11 @@ write  = function(jsonPath,outbound,sockPort,httpPort){
 			}
 		}
 		
-		..table.assign(current.outbounds[1],ob); 
+		..table.assign(proxyOutboundInCore,ob); 
 	} 
 
-	..string.save(jsonPath,..web.json.stringify(current) );
+	..string.save(jsonPath,..web.json.stringify(currentCore) );
 	return jsonPath;
 }
 
- 
+	

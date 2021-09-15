@@ -1,14 +1,14 @@
 import fonts.fontAwesome;
 import win.ui;
 /*DSG{{*/
-var winform = win.form(text="aardio form";right=892;bottom=709;bgcolor=16777215)
+var winform = win.form(text="aardio form";right=892;bottom=564;bgcolor=16777215)
 winform.add(
-btnAdd={cls="plus";text="添加订阅";left=10;top=1;right=143;bottom=28;align="left";dl=1;dt=1;font=LOGFONT(h=-15);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=12}};iconText='\uF196 ';notify=1;textPadding={left=30};z=5};
-btnRemove={cls="plus";text="移除选中订阅";left=143;top=1;right=276;bottom=28;align="left";dl=1;dt=1;font=LOGFONT(h=-15);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=12}};iconText='\uF014';notify=1;textPadding={left=30};z=6};
-btnUpdate={cls="plus";text="更新订阅";left=576;top=654;right=698;bottom=690;align="left";bgcolor=11580047;db=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=22}};iconText='\uF0C7';notify=1;textPadding={left=40};z=1};
-chkAll={cls="plus";text="全部启用";left=11;top=628;right=118;bottom=659;align="left";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome')};iconText='\uF0C8';notify=1;textPadding={left=19};z=3};
-chkAutoRefreshSubscription={cls="plus";text="允许出站服务器异常自动刷新订阅";left=11;top=663;right=527;bottom=694;align="left";bgcolor=16777215;db=1;dl=1;dr=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome')};iconText='\uF0C8';notify=1;textPadding={left=19};z=2};
-listview={cls="listview";left=10;top=34;right=883;bottom=609;db=1;dl=1;dr=1;dt=1;edge=1;fullRow=1;gridLines=1;z=4};
+btnAdd={cls="plus";text="添加订阅";left=10;top=4;right=143;bottom=31;align="left";dl=1;dt=1;font=LOGFONT(h=-15);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=12}};iconText='\uF196 ';notify=1;textPadding={left=30};z=5};
+btnRemove={cls="plus";text="移除选中订阅";left=143;top=4;right=276;bottom=31;align="left";dl=1;dt=1;font=LOGFONT(h=-15);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=12}};iconText='\uF014';notify=1;textPadding={left=30};z=6};
+btnUpdate={cls="plus";text="更新订阅";left=608;top=506;right=730;bottom=542;align="left";bgcolor=11580047;db=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=22}};iconText='\uF0C7';notify=1;textPadding={left=40};z=1};
+chkAll={cls="plus";text="全部启用";left=11;top=489;right=118;bottom=520;align="left";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome')};iconText='\uF0C8';notify=1;textPadding={left=19};z=3};
+chkAutoRefreshSubscription={cls="plus";text="允许出站服务器异常自动刷新订阅";left=11;top=524;right=527;bottom=555;align="left";bgcolor=16777215;db=1;dl=1;dr=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome')};iconText='\uF0C8';notify=1;textPadding={left=19};z=2};
+listview={cls="listview";left=10;top=36;right=883;bottom=477;db=1;dl=1;dr=1;dt=1;edge=1;fullRow=1;gridLines=1;z=4};
 static={cls="static";text="双击上面单元格可直接编辑";left=710;top=616;right=867;bottom=634;color=10789024;db=1;dr=1;transparent=1;z=7}
 )
 /*}}*/

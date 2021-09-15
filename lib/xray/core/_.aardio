@@ -47,7 +47,7 @@ restart = function(editor,outbound){
 	var corePath = getPath(editor.hwnd);
 	if(!corePath){ 
 		xrayStarting = false;
-		return false,"启动失败,未找到 xray.exe"; 
+		return false,"启动失败,未找到 Xray.exe"; 
 	}  
 	
 	// 先不要断开当前代理，使用当前代理下载会更快。
@@ -139,12 +139,12 @@ restart = function(editor,outbound){
 				if(..process.isExe(corePath)!="PE32"){
 					..io.remove(corePath);
 					if(!..io.exist(corePath)){
-						..publish("uiCommand.print","当前操作系统是32位，已删除无效的64位 xray Core，正在下载32位 xray Core");
+						..publish("uiCommand.print","当前操作系统是32位，已删除无效的64位 Xray Core，正在下载32位 Xray Core");
 						xrayStarting = false;
 						return restart(editor,outbound)	
 					}
 					else {
-						..publish("uiCommand.print","当前操作系统是32位，但是找到的 xray Core 是64位，请重新下载32位 xray Core");
+						..publish("uiCommand.print","当前操作系统是32位，但是找到的 Xray Core 是64位，请重新下载32位 Xray Core");
 					} 
 				} 	
 			}
@@ -218,14 +218,14 @@ getPath = function(hwnd){
 		return path;
 	}
 
-	var path = ..io.fullpath("/v2ray-core/v2ray.exe");
+	var path = ..io.fullpath("/xray-core/xray.exe");
 	if(..io.exist(path)){
-		..io.rename("/v2ray-core/","/xray-core/") 
+		..io.rename("/xray-core/","/xray-core/") 
 	}
 
-	var path = ..io.fullpath("/xray-core/v2ray.exe");
+	var path = ..io.fullpath("/xray-core/xray.exe");
 	if(..io.exist(path)){
-		..io.rename("/xray-core/v2ray.exe","/xray-core/xray.exe")
+		..io.rename("/xray-core/xray.exe","/xray-core/xray.exe")
 		return ..io.fullpath("/xray-core/xray.exe");
 	}
 	
@@ -237,7 +237,7 @@ getPath = function(hwnd){
 	var url,versionTag = getxrayCoreUrl();
 	 
 	if(!url) {
-		..publish("uiCommand.print","请下载 V2Rary Core 到以下路径:");
+		..publish("uiCommand.print","请下载 Xray Core 到以下路径:");
 		..publish("uiCommand.print",path);
 		
 		..mainForm.disabled = false;

@@ -15,7 +15,7 @@ tip={cls="static";text="单击列标题可排序，双击列表项可复制，�
 )
 /*}}*/
 
-var atom,hwnd = winform.atom("DFA5667E-1D8C-49C0-8918-C6FEC2DECCF8");
+//var atom,hwnd = winform.atom("762C7E32-3E75-42BE-8F4A-4B0E8AAC4EF0");
 if(!atom && hwnd){
 	win.showForeground(hwnd);
 	win.quitMessage();	return;
