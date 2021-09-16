@@ -1,8 +1,8 @@
 {
-    "description":"删除youtube视频下载工具，将其替换了工具增加二维码识别工具！",
+    "description":"修复win10下全局模式UWP的错误问题！",
     "format":".lzma",
     "main":"\\WinXray.exe",
     "updater":"\\WinXray.exe",
     "url":"https://raw.githubusercontent.com/TheMRLL/winxray/main/release/update/",
-    "version":"3.5"
+    "version":"3.6"
 }

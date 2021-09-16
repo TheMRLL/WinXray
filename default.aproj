@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<project ver="10" name="WinXray" libEmbed="true" icon="\forms\ico\app.ico" ui="win" output="WinXray.exe" CompanyName="WinXray" FileDescription="网络代理通用客户端" LegalCopyright="Copyright (C) WinXray" ProductName="WinXray" InternalName="WinXray" FileVersion="3.5" ProductVersion="3.5" publishDir="\WinXray" dstrip="false" local="false" ignored="false">
+<project ver="10" name="WinXray" libEmbed="true" icon="\forms\ico\app.ico" ui="win" output="WinXray.exe" CompanyName="WinXray" FileDescription="网络代理通用客户端" LegalCopyright="Copyright (C) WinXray" ProductName="WinXray" InternalName="WinXray" FileVersion="3.6" ProductVersion="3.6" publishDir="\WinXray" dstrip="false" local="false" ignored="false">
 	<file name="main" path="main.aardio"/>
 	<folder name="窗体" path="forms" comment="" embed="true" local="false" ignored="false">
 		<folder name="ico" path="forms\ico" comment="forms\ico" local="false" embed="false" ignored="false">
@@ -15,12 +15,12 @@
 				<file name="advancedConfig.aardio" path="forms\main\config\advancedConfig.aardio" comment="forms\main\config\advancedConfig.aardio"/>
 				<file name="jsonConfig.aardio" path="forms\main\config\jsonConfig.aardio" comment="forms\main\config\jsonConfig.aardio"/>
 				<file name="subscription.aardio" path="forms\main\config\subscription.aardio" comment="forms\main\config\subscription.aardio"/>
-				<folder name="coreConfigs" path="forms\main\config\coreConfigs" comment="forms\main\config\coreConfigs">
+				<folder name="coreConfigs" path="forms\main\config\coreConfigs" comment="forms\main\config\coreConfigs" local="false" embed="false">
 					<file name="default.json" path="forms\main\config\coreConfigs\default.json" comment="forms\main\config\coreConfigs\default.json"/>
 					<file name="xray.rules.json" path="forms\main\config\coreConfigs\xray.rules.json" comment="forms\main\config\coreConfigs\xray.rules.json"/>
 				</folder>
 			</folder>
-			<folder name="tools" path="forms\main\tools" comment="forms\main\tools" local="false" embed="false">
+			<folder name="tools" path="forms\main\tools" comment="forms\main\tools" local="false" embed="false" ignored="false">
 				<file name="github.aardio" path="forms\main\tools\github.aardio" comment="forms\main\tools\github.aardio"/>
 				<file name="qr.aardio" path="forms\main\tools\qr.aardio" comment="forms\main\tools\qr.aardio"/>
 				<file name="tools.aardio" path="forms\main\tools\tools.aardio" comment="forms\main\tools\tools.aardio"/>
