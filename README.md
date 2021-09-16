@@ -1,5 +1,5 @@
 ﻿
-      WinXray V3.5 删除youtube视频下载工具，将其替换了工具：增加二维码识别工具！
+      WinXray V3.6 修复win10下全局模式UWP的错误问题！
       
 
 导语：
