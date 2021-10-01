@@ -1,0 +1,95 @@
+//sysProxy 系统代理
+import config;
+import inet.conn;
+import xray.github;
+import xray.pacServer;
+
+namespace sysProxy;
+
+switch = function(mode){  
+	..config.proxy.mode = mode : "direct";
+	..config.proxy.save();
+  
+	if(mode=="pac"){
+		var pacUrl = ..xray.pacServer.getUrl();
+		if(pacUrl){
+			..inet.conn.setProxyAutoConfig(,pacUrl ); 
+		}
+		else {
+			..xray.pacServer.restart();
+		}
+		..xray.github.setProxy(true);
+	}
+	elseif(mode=="proxy"){ 
+		import xray.core;
+		var address = xray.core.getSystemProxyConfig(); 
+		
+		if(address){
+			..inet.conn.setProxy(,address);  
+			..xray.github.setProxy(true); 	
+		} 
+	}
+	else {
+		..inet.conn.setProxy();
+		..xray.github.setProxy(false);	
+	} 
+	..publish("sysProxy.modeChanged",mode)
+} 
+
+switchToGlobalMode = function(){
+	switch("proxy") 
+}
+
+switchToPacMode = function(){  
+	switch("pac") 
+}
+
+switchToDirectMode  = function(){ 
+	switch("direct") 
+}
+
+switchHotkey  = function(){ 
+    var mode = ..config.proxy.mode;
+	if( mode != "pac"){
+		switch("pac") 
+	}
+	else {
+		switch("proxy") 
+	}
+	
+	return ..config.proxy.mode;
+}
+
+reset = function(proxy){
+	if(proxy===false){
+		if(..config.proxy.mode != "direct"){
+			..inet.conn.setProxy();
+			..xray.github.setProxy(false);
+		}
+		return;
+	}
+	
+	..inet.conn.setProxy();
+	switch(..config.proxy.mode); 
+} 
+
+..subscribe("pacServer.restarted",function(pacPort){
+	if(..config.proxy.mode == "pac"){
+		switchToPacMode();
+	}
+} )
+
+..subscribe("xrayCore.restarted",function(socksProxyPort,httpProxPort){ 
+	if(..config.proxy.mode != "direct"){
+		reset(true);
+	}
+} )
+
+/**intellisense(sysProxy)
+switch(.(mode) = 切换代理模式，同步修改配置文件。\n可选参数："proxy"，"pac"，"direct"
+switchToGlobalMode() = 设为全局代理，同步修改配置文件。
+switchToPacMode() = 设为PAC自动代理，同步修改配置文件。
+switchToDirectMode() = 设为禁用代理，同步修改配置文件。
+reset(.(是否启用代理)) = 重置系统代理设置，不修改配置文件。\n省略参数时默认值为true。
+end intellisense**/
+	

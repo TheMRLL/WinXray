@@ -1,0 +1,211 @@
+﻿//ssr 内核进程（SSR）
+import wsock.tcp.server;
+import xray.core.ssrJson;
+import process.popen;
+import config;
+
+namespace xray.core.ssr;
+
+var prcsSsr;
+import process.job.limitKill;
+restart = function(editor,outbound,ssrSocksPort){
+ 
+	if(prcsSsr){
+		prcsSsr.terminate();
+		prcsSsr = null;
+	}
+
+	var corePath = getPath(editor.hwnd);
+	if(!corePath){ return false,"启动失败,未找到 ssr-client.exe"; } 
+
+	import xray.core.ssrJson;
+	var jsonPath,err = ..xray.core.ssrJson.write(
+		..io.joinpath(..io.splitpath(corePath).dir,"config.json")
+		,outbound,ssrSocksPort);
+
+	if(!jsonPath){
+		return false,err:"启动失败,写入 SSR 配置文件遇到错误！"; 
+	}
+	 
+	  
+	var err;
+	prcsSsr,err = ..process.popen(corePath," -c=config.json" );
+	if(!prcsSsr){
+		..publish("uiCommand.print",err:"启动 SSR Core 时遇到未知错误!");  
+		return;
+	}
+	else{
+		..publish("uiCommand.print","SSR Core 已启动，端口:" + ssrSocksPort);  
+	}
+	prcsSsr.assignToJobObject(process.job.limitKill);
+	prcsSsr.codepage = 65001;	
+	prcsSsr.logResponse(editor); 
+	 
+	return true;
+}
+
+stop = function(){
+	if(prcsSsr){
+		prcsSsr.terminate();
+		prcsSsr = null;
+	} 
+}
+
+var getSsrCoreUrl = function(){
+    var msgDlg = ..win.dlg.message(..mainForm); 
+	var form = msgDlg.create('正在获取SSR Core（ShadowsocksR-native）最新版本',,true)
+	form.icon = '\uF1D8';
+	form.progress.startProgress(50); 
+	
+	var url,versionTag = ..win.invoke(function(){
+    	import process;
+		import inet.http;
+		var http = ..inet.http();
+		var url = http.location("https://github.com/ShadowsocksR-Live/shadowsocksr-native/releases/latest");
+		http.close();
+		
+		if(!url)return;
+		
+		var tag = ..string.match(url,"[^/]+$")
+		if(!tag || (tag=="latest")) return;
+		
+		return "https://github.com/ShadowsocksR-Live/shadowsocksr-native/releases/download/" 
+			+ tag + "/ssr-native-windows-" +	(..process().isWow64() ? "x64" : "x86") + ".zip",tag	
+	});
+	
+	form.close();
+	
+	return url,versionTag; 
+}
+
+downloadCore = function(){
+	..mainForm.disabled = true;
+
+	var url,versionTag = getSsrCoreUrl();
+	var coreDir = getCoreDir();
+	if(!url) {
+		..publish("uiCommand.print","请下载 SSR Core（ShadowsocksR-native）解压到以下目录内:");
+		..publish("uiCommand.print",coreDir);
+		
+		..mainForm.disabled = false;
+		self.lastDownloadingCoreFailed = true;
+		return null;
+	}
+	
+	import zlib.httpFile;
+	if( ..zlib.httpFile.download(url,"正在下载 SSR Core（ShadowsocksR-native）" 
+		,..io.appData("/WinXray/download/ssr")
+		,coreDir,,..mainForm.hwnd) ){
+			
+		..mainForm.disabled = false;
+		self.lastDownloadingCoreFailed = null;
+		
+		return ..io.exist(..io.joinpath(coreDir,"ssr-client.exe"));
+	}
+	else {
+		..mainForm.disabled = false;
+		self.lastDownloadingCoreFailed = true;
+		
+		..publish("uiCommand.print","请到以下网址下载 SSR Core:");
+		..publish("uiCommand.print",url);
+		
+		..publish("uiCommand.print","下载后请解压到以下目录内:");
+		..publish("uiCommand.print",coreDir); 
+	} 	
+}
+ 
+ 
+getPath = function(hwnd){
+	var path = ..io.fullpath("/xray-core/ssr-core/ssr-client.exe");
+	if(..io.exist(path)){
+		return path;
+	}
+		
+	var path = ..io.appData("/WinXray/ssr-core/ssr-client.exe");
+	if(..io.exist(path)){
+		return path;
+	}
+	
+	if(self.lastDownloadingCoreFailed){
+		return;
+	}
+	
+
+	return downloadCore();
+} 
+
+getCoreDir = function(hwnd){
+	var path = ..io.fullpath("/xray-core/ssr-core/ssr-client.exe");
+	if(..io.exist(path)){
+		return ..io.fullpath("/xray-core/ssr-core/");
+	}
+		
+	var path = ..io.appData("/WinXray/ssr-core/ssr-client.exe");
+	if(..io.exist(path)){
+		return ..io.appData("/WinXray/ssr-core/");;;
+	}
+	
+	var path = ..io.fullpath("/xray-core/xray.exe");
+	if(..io.exist(path)){
+		return ..io.fullpath("/xray-core/ssr-core/");
+	}
+		
+	var path = ..io.appData("/WinXray/core/xray.exe");
+	if(..io.exist(path)){
+		return ..io.appData("/winXray/ssr-core/");
+	}
+	
+	var path = ..io.fullpath("/xray-core/");
+	if(..io.exist(path)){
+		return ..io.fullpath("/xray-core/ssr-core/");
+	}
+		
+	return ..io.appData("/winXray/ssr-core/");
+} 
+
+updateCore = function(){
+  	..mainForm.disabled = true; 
+  	
+	var coreDir = getCoreDir(); 
+	var url,versionTag = getSsrCoreUrl();
+	if(!url){		
+		..mainForm.disabled = false;
+		self.lastDownloadingCoreFailed = true;
+		return null;
+	}
+	
+	import fsys;
+	fsys.delete(..io.appData("/xray/temp/ssr/"))
+ 
+	import zlib.httpFile;
+	if( ..zlib.httpFile.download(url,"正在下载 SSR Core（ShadowsocksR-native），版本：" + versionTag
+		,..io.appData("/winXray/download/ssr/")
+		,..io.appData("/winXray/temp/ssr/"),,..mainForm.hwnd) ){
+			..mainForm.disabled = false;
+			
+			if(..io.exist(..io.appData("/winXray/temp/ssr/ssr-client.exe"))){
+				import sysProxy;
+				sysProxy.reset(false);
+
+				import process.file;
+				process.file.terminate(..io.joinpath(coreDir,"ssr-client.exe")); 
+				
+				..io.createDir(coreDir); 
+				fsys.copy(..io.appData("/winXray/temp/ssr/*.*"),coreDir); 
+				
+				return versionTag;
+			} 
+			else {
+				self.lastDownloadingCoreFailed = true;
+			} 
+	}
+	else {
+		..mainForm.disabled = false;
+		self.lastDownloadingCoreFailed = true; 
+	}  
+}
+
+/**intellisense(xray.core.ssr) 
+restart(.(editor,outbound) = 重启启动 SSR 服务进程
+lastDownloadingCoreFailed = 上次下载 Core 是否失败,如果希望重新下载请重新赋值为 null
+end intellisense**/

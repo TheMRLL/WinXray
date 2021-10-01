@@ -1,0 +1,240 @@
+//RUNAS//UWP本机隔离
+import win.ui;
+import win.ui.atom;
+import win.ui.menu;
+import fonts.fontAwesome;
+/*DSG{{*/
+var winform = win.form(text="UWP 应用 - 本机网络隔离工具";right=1150;bottom=666;bgcolor=16777215)
+winform.add(
+btnAllowLocalhostLoopback={cls="plus";text='\uF13E  允许所有应用访问本机网络';left=562;top=625;right=818;bottom=661;bgcolor=14609886;db=1;dr=1;font=LOGFONT(h=-16;name='FontAwesome');notify=1;tabstop=1;z=5};
+btnDisableLocalhostLoopback={cls="plus";text='\uF023  禁止所有应用访问本机网络';left=825;top=625;right=1081;bottom=661;bgcolor=14147583;db=1;dr=1;font=LOGFONT(h=-16;name='FontAwesome');notify=1;tabstop=1;z=6};
+listview={cls="listview";left=8;top=41;right=1138;bottom=617;acceptfiles=1;asel=false;bgcolor=16777215;db=1;dl=1;dr=1;dt=1;edge=1;font=LOGFONT(name='SimSun');fullRow=1;gridLines=1;hide=1;vscroll=1;z=1};
+plusLoading={cls="plus";left=368;top=195;right=739;bottom=457;color=15780518;db=1;dl=1;dr=1;dt=1;font=LOGFONT(h=-96;name='FontAwesome');z=2};
+plusSearch={cls="plus";left=727;top=3;right=1136;bottom=33;align="right";autohscroll=false;autovscroll=false;border={bottom=1;color=-4144960};dr=1;dt=1;editable=1;font=LOGFONT(h=-13);hide=1;textPadding={top=10;bottom=3};valign="top";z=3};
+tip={cls="static";text="单击列标题可排序，双击列表项可复制，右键点列表项可弹出菜单，回车搜索或刷新";left=13;top=626;right=552;bottom=655;db=1;dl=1;dr=1;transparent=1;z=4}
+)
+/*}}*/
+
+var atom,hwnd = winform.atom("762C7E32-3E75-42BE-8F4A-4B0E8AAC4EF0-winxray");
+if(!atom && hwnd){
+	win.showForeground(hwnd);
+	win.quitMessage();	return;
+}
+
+uiLanguage = {
+	displayName = "显示名称";
+	packageName = "完整包名";
+	localhost = "本机";
+	enabled = "允许";
+	disabled = "禁止";
+	searchCueBannerText = "输入应用名（支持模式匹配）";
+	exemptAll = '\uF13E  允许所有应用访问本机网络';
+	exemptNone = '\uF023  禁止所有应用访问本机网络';
+	allowLocalhostLoopback = "允许访问本机网络";
+	disableLocalhostLoopback = "禁止访问本机网络";
+	requiredWin10 = "本程序仅支持 WIN10";
+	run = "启动应用";
+	tip = "单击列标题可排序，双击列表项可复制，右键点列表项可弹出菜单，回车搜索或刷新";
+	title = "UWP 应用 - 本机网络隔离工具";
+}
+
+import win.ui.grid;
+var grid = win.ui.grid(winform.listview);
+	
+var reloadItemData = function(){
+	thread.invoke( 
+		function(uiLanguage,winform,grid){
+			winform.plusLoading.hide = false;
+			winform.plusSearch.hide = true;
+			winform.listview.hide = true;
+			winform.plusLoading.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'} 
+			
+			import sys.networkIsolation;
+			var exemptApps = sys.networkIsolation.getLoopbackState();
+			var dataTable = sys.networkIsolation.getAppContainers();
+			
+			var word = string.trim(winform.plusSearch.text);
+			if(#word){
+				word = "@@" + word;
+				dataTable = table.filter(dataTable
+					,lambda(v) string.find(v.displayName,word) || string.find(v.appContainerName,word)|| string.find(v.description,word) ) 
+					
+			}
+			
+			for(k,app in dataTable){
+				app.loopback = exemptApps[app.sid]?uiLanguage.enabled:uiLanguage.disabled;
+			}
+			
+			
+			dataTable.fields = {"displayName","appContainerName","loopback","sid"}
+			if(grid.sortCloumn){
+				var name = dataTable.fields[grid.sortCloumn];
+				if(name){
+					if(!grid.sortDesc){
+						table.sort(dataTable,function(b){
+							return owner[name] < b[name]
+						})	
+					}
+					else {
+						table.sort(dataTable,function(b){
+							return owner[name] > b[name]
+						})
+					}	
+				}				
+			}
+				
+			grid.setTable( dataTable ) 
+			sleep(300);
+			
+			winform.plusLoading.disabledText = null;
+			winform.plusLoading.hide = true;
+			winform.listview.hide = false;
+			winform.plusSearch.hide = false; 
+			
+			winform.resize();
+			
+		},uiLanguage,winform,grid
+	)
+} 
+
+grid.onSortColumn = function(cloumn,desc){ 
+	grid.sortDesc = desc;
+	grid.sortCloumn = cloumn ;
+	reloadItemData();
+	return true;
+}
+
+grid.onEditChanged = function(text,iItem,iSubItem){
+	return false; //禁止编辑
+} 
+
+winform.adjust = function( cx,cy,wParam ) {	 
+	winform.listview.fillParent(); 
+};
+
+import win.debounce;
+winform.plusSearch.editBox.onChange = win.debounce(function(){
+	if(#winform.plusSearch.text) reloadItemData();
+})
+
+import  sys.networkIsolation
+var exemptUwpApp = function(exempted){ 
+	var sidConfigs  = {};
+	for item,sid in winform.listview.eachSelected(4){ 
+		sidConfigs[sid] = exempted;
+	} 
+	sys.networkIsolation.enableLoopback(sidConfigs);
+	
+	var exemptApps = sys.networkIsolation.getLoopbackState();
+	for item,sid in winform.listview.eachSelected(4){
+		winform.listview.setItemText( exemptApps[sid]?uiLanguage.enabled:uiLanguage.disabled,item,3); 
+	}
+}
+
+import com.shell;
+winform.listview.onnotify = function(id,code,ptr){ 
+	
+	select(code) { 
+		case 0xFFFFFFFB/*_NM_RCLICK*/  {
+			
+			var x,y = win.getCursorPos();
+			winform.popmenu = win.ui.popmenu(winform);
+			
+			if(1===#winform.listview.selected){
+				var item,path = winform.listview.getSelection(,2);
+				winform.popmenu.add(uiLanguage.run,function(id){ 
+					import com.shell;
+					com.shell.activateApp(path+"!App");
+				});	
+			}
+		
+			winform.popmenu.add(uiLanguage.allowLocalhostLoopback,function(id){ 
+				exemptUwpApp(true);
+			});
+
+			winform.popmenu.add(uiLanguage.disableLocalhostLoopback,function(id){ 
+				exemptUwpApp(false);
+			});		
+	
+			winform.popmenu.popup(x,y,true);
+		}
+	} 
+}
+
+winform.btnAllowLocalhostLoopback.skin({
+	background={
+		default=0x669BCC9B;
+		hover=0xFF928BB3;
+		disabled=0xFFCCCCCC; 
+	}
+})
+winform.btnAllowLocalhostLoopback.oncommand = function(id,event){
+	var sidConfigs  = {};
+	for item,sid in winform.listview.each(0,0,4){ 
+		sidConfigs[sid] = true;
+	} 
+	sys.networkIsolation.enableLoopback(sidConfigs);
+	reloadItemData();
+}
+
+winform.btnDisableLocalhostLoopback.skin({
+	background={
+		default=0x66FFA07D;
+		hover=0xFF928BB3;
+		disabled=0xFFCCCCCC; 
+	}
+})
+winform.btnDisableLocalhostLoopback.oncommand = function(id,event){
+	var sidConfigs  = {};
+	for item,sid in winform.listview.each(0,0,4){ 
+		sidConfigs[sid] = false;
+	} 
+	sys.networkIsolation.enableLoopback(sidConfigs);
+	reloadItemData();
+}
+
+winform.onOk = function(){
+	winform.plusSearch.setFocus()
+}
+
+winform.plusSearch.setCueBannerText(uiLanguage.searchCueBannerText);
+winform.listview.setExtended(0x10000/*_LVS_EX_DOUBLEBUFFER*/);
+
+var setUiLanguage = function(lang){
+	uiLanguage = lang;
+	winform.text = uiLanguage.title;
+	winform.btnAllowLocalhostLoopback.text = uiLanguage.exemptAll;
+	winform.btnDisableLocalhostLoopback.text = uiLanguage.exemptNone;
+	winform.tip.text = uiLanguage.tip;
+	
+	winform.listview.clear(true);
+	winform.listview.insertColumn(uiLanguage.displayName,300)  
+	winform.listview.insertColumn(uiLanguage.packageName,300) 
+	winform.listview.insertColumn(uiLanguage.localhost,80) 
+	winform.listview.insertColumn("SID",-2) 
+	winform.plusSearch.setCueBannerText(uiLanguage.searchCueBannerText)
+}
+
+var lcid = ::Kernel32.GetUserDefaultLCID()
+if( lcid==1028 || lcid == 3076 || lcid == 5124 ){
+	import string.conv; 
+	setUiLanguage(table.map(uiLanguage,lambda(v) string.conv.traditionalized(v)) ) 
+}
+else {
+	setUiLanguage(uiLanguage);
+}
+
+reloadItemData();
+
+winform.plusSearch.editBox.onOk = function(){ 
+    reloadItemData();
+    return true; 	
+}
+
+winform.show();
+import win.dlg.message;
+if(!_WIN10_LATER){
+	winform.msgWarn(uiLanguage.requiredWin10)
+}
+
+win.loopMessage();

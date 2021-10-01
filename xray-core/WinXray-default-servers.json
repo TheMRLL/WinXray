@@ -1,0 +1,19 @@
+﻿// 号开头为注释行。
+// 本文件用于指定默认服务器列表。
+// 本文件可以直接输入json格式的服务器数组（ 服务器可以使用subscribeUrl字段指定订阅源地址，可以指定"autoConnect":false字段禁止自动连接 ）
+// 也可以每行一个 vless://、vmess://、trojan、trojan-go、ss:// 等分享链接
+[
+    {
+        "address":"服务器地址",  
+        "port":443,  // 服务器端口
+        "id":"UUID或密码", // v2ray就指定UUID，shadowsocks在这里指定密码
+        "network":"tcp", // 网络协议可以改为 "tcp", "ws" 等 
+        "security":"none", // 加密方法，vmess 默认为 auto, vless 默认为 none, shadowsocks也可以在这里指定加密方法，例如:"aes-256-gcm",
+        "protocol":"vless", // 协议可以更换为 "vless","vmess","shadowsocks","trojan","trojan-go" 等
+        "host":"伪装主机域名", // 例如ws协议通过这个指定HTTP头里的host字段。
+        "sni":"TLS域名",  // 不指定使用host的值，如果host也没指定就使用 address的值
+        "tls":"xtls", // 可以不写，值可以指定为 "","tls","xtls" 等
+        "flow":"流控", // xtls需要用到的字段，可以不指定使用默认值 "xtls-rprx-direct"
+        "ps":"描述文本"
+    }
+]

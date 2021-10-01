@@ -1,0 +1,11 @@
+﻿//dnsApi 域名解析
+namespace dnsApi
+	
+_dll = ..raw.loadDll("dnsapi.dll");
+flush = function(domain){
+	return domain ? _dll.DnsFlushResolverCacheB() : _dll.DnsFlushResolverCacheEntry_A(domain); 
+}
+
+/**intellisense(dnsApi)
+flush(.(domain) = 清空指定域名的DNS缓存，\n如果参数不指定域名则清空所有DNS缓存
+end intellisense**/

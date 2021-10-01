@@ -1,0 +1,108 @@
+﻿//style 外观样式
+
+namespace style{
+	primaryButton = {
+		background={
+			default=0xFF8FB2B0;
+			hover=0xFF928BB3;
+			disabled=0xFFCCCCCC; 
+		}
+	};
+	button = {
+		background={
+			default=0x668FB2B0;
+			hover=0xFF928BB3;
+			disabled=0xFFCCCCCC; 
+		}
+	};
+	transButton = {
+		background={
+			default=0;
+			hover=0xFF928BB3;
+			disabled=0xFFCCCCCC; 
+		}
+	};
+	checkBox = {
+		color = { 
+			hover = 0xFFFF0000; 
+			active = 0xFF00FF00;
+			disabled = 0xEE666666;
+		}
+		checked = {
+			color = { 
+				hover = 0xFFFF0000; 
+				active = 0xFF00FF00;
+				disabled = 0xEE666666;
+			}
+			iconText = '\uF14a'/*_FA_CHECK_SQUARE*/
+		} 	
+	};
+	radio ={
+		group = "default";
+		color = { 
+			hover = 0xFFFF0000; 
+			active = 0xFF00FF00;
+		}
+		checked = {  
+			iconText = '\uF058'/*_FA_CHECK_CIRCLE*/
+		} 	
+	};
+	link = {
+		color = { 
+			default = 0xFF000080;
+			hover = 0xFFFF0000; 
+			active = 0xFF00FF00; 
+		}
+	};
+	plainButton = {
+		color = { 
+			default = 0xFF3C3C3C;
+			hover = 0xFFFF0000; 
+			active = 0xFF00FF00;
+			disabled = 0xFFCCCCCC;  
+		}
+	};
+	key = {
+		foreground={
+			default = 0x00FFFFFF;
+			hover= 0xFF8ADBAF;
+		};
+	};
+	dropdown = {
+		background={
+			default=0xFF68CC95;
+			disabled=0xFFC4CCC8;
+			hover=0xFF4A522F;
+		};
+		color={
+			default=0xFF000000;
+			disabled=0xFF8A8A8A;
+			hover=0xFFFFFFFF
+		};
+		checked = { 
+			foreground={
+				default = 0xFFDB8A8E;
+				hover= 0xFF8ADBAF;
+			}; 
+		}
+	};
+	edit = {
+		border={
+			default={bottom=1;color=0xFF808080};
+			disabled={bottom=1;color=0xFFCCCCCC}
+		}
+	};
+	trackbar = {
+		background={
+			default=0xFF23ABD9
+		};
+		foreground={
+			default=0xFFFF771C;
+			hover=0xFFFF6600
+		};
+		color={
+			default=0xFFFF5C00;
+			hover=0xFFFF6600
+		}
+	}
+}

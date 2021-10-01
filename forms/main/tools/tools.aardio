@@ -1,0 +1,276 @@
+import fonts.fontAwesome;
+import win.ui;
+/*DSG{{*/
+var winform = win.form(text="aardio form";right=938;bottom=638;bgcolor=16777215)
+winform.add(
+btnAardio={cls="plus";text="WinXray推荐服务器商(适用高阶用户)";left=26;top=533;right=460;bottom=575;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-27;name='FontAwesome');padding={left=18}};iconText='\uF0AE';notify=1;textPadding={left=50};z=3};
+btnCreateLnk={cls="plus";text="创建桌面图标";left=26;top=391;right=205;bottom=433;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-23;name='FontAwesome');padding={left=18}};iconText='\uF108';notify=1;textPadding={left=50};z=10};
+btnDeleteIconCache={cls="plus";text="修复桌面图标空白";left=26;top=439;right=269;bottom=481;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-23;name='FontAwesome');padding={left=18}};iconText='\uF0AD';notify=1;textPadding={left=50};z=16};
+btnDnsFlush={cls="plus";text="清空 DNS 缓存";left=26;top=155;right=412;bottom=197;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-27;name='FontAwesome');padding={left=18}};iconText='\uF021';notify=1;textPadding={left=50};z=5};
+btnGitHub={cls="plus";text="Github 网速优化";left=26;top=250;right=262;bottom=292;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-27;name='FontAwesome');padding={left=18}};iconText='\uF09B';notify=1;textPadding={left=50};z=2};
+btnQrCode={cls="plus";text="二维码生成工具";left=26;top=297;right=262;bottom=339;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-27;name='FontAwesome');padding={left=18}};iconText='\uF029';notify=1;textPadding={left=50};z=14};
+btnSshInstall={cls="plus";text="一键安装 Xray 服务端";left=393;top=14;right=601;bottom=56;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-27;name='FontAwesome');padding={left=11}};iconText='\uF17C';notify=1;textPadding={left=40};z=9};
+btnSshInstallKey={cls="plus";text="安装SSH密钥";left=606;top=15;right=755;bottom=57;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-24;name='FontAwesome');padding={left=11}};iconText='\uF084';notify=1;textPadding={left=40};z=11};
+btnTestSpeed={cls="plus";text="当前代理服务器测速";left=26;top=61;right=244;bottom=103;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-24;name='FontAwesome');padding={left=18}};iconText='\uF0ED';notify=1;textPadding={left=50};z=12};
+btnUpdateSystemTime={cls="plus";text="同步系统时间(修正 Xray 连接报错)";left=26;top=108;right=412;bottom=150;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-27;name='FontAwesome');padding={left=18}};iconText='\uF017';notify=1;textPadding={left=50};z=4};
+btnUuid={cls="plus";text="UUID 生成工具";left=26;top=344;right=262;bottom=386;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-27;name='FontAwesome');padding={left=18}};iconText='\uF13E';notify=1;textPadding={left=50};z=15};
+btnWubiLex={cls="plus";text="WinXray推荐大型机场(适用普通用户)";left=26;top=486;right=661;bottom=528;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-24;name='FontAwesome');padding={left=18}};iconText='\uF233';notify=1;textPadding={left=50};z=6};
+btnYoutube={cls="plus";text="二维码识别工具";left=26;top=203;right=262;bottom=245;align="left";color=3947580;dl=1;dt=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-27;name='FontAwesome');padding={left=18}};iconText='\uF2C4';notify=1;textPadding={left=50};z=1};
+editSshHost={cls="plus";left=158;top=23;right=386;bottom=47;align="left";bgcolor=16777215;border={bottom=1;color=-8355712};dl=1;dt=1;editable="edit";font=LOGFONT(h=-16);textPadding={bottom=1};z=7};
+lbCurrentProxyLocation={cls="static";left=245;top=74;right=729;bottom=101;color=32768;dl=1;dt=1;transparent=1;z=13};
+static={cls="static";text="账号@服务器：";left=36;top=27;right=151;bottom=54;align="right";color=4934475;dl=1;dt=1;font=LOGFONT(h=-13);transparent=1;z=8}
+)
+/*}}*/
+
+import style;
+winform.btnYoutube.skin(style.plainButton);
+
+var frmYoutube;
+winform.btnYoutube.oncommand = function(id,event){
+	if(frmYoutube&&win.isWindow(frmYoutube.hwnd)){
+		if(win.isIconic(frmYoutube.hwnd)){
+			frmYoutube.show(9/*_SW_RESTORE*/);	
+		}
+		
+		frmYoutube.show();
+		return;
+	}
+	
+	frmYoutube = winform.loadForm("\forms\main\tools\youtube.aardio");
+	frmYoutube.show();
+}
+	
+import process;
+winform.btnGitHub.skin(style.plainButton)
+winform.btnGitHub.oncommand = function(id,event){
+	if(_STUDIO_INVOKED){
+		winform.msgboxErr("请在发布后运行此功能");
+		return;
+	}
+	
+	process.execute(io._exepath,"/github","runas");
+}
+
+winform.btnAardio.skin(style.plainButton)
+winform.btnAardio.oncommand = function(id,event){
+	process.openUrl("https://vps.iuvpn.com")
+}
+
+winform.btnUpdateSystemTime.skin(style.plainButton)
+winform.btnUpdateSystemTime.oncommand = function(id,event){
+	if(_STUDIO_INVOKED){
+		winform.msgboxErr("请在发布后运行此功能");
+		return;
+	}
+	
+	winform.btnUpdateSystemTime.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'}
+	if( process.executeWait(io._exepath,"/updateTime","runas") ){
+		winform.btnUpdateSystemTime.disabledText = null;
+		winform.btnUpdateSystemTime.text = '时间已同步'
+		winform.setTimeout( 
+			function(){
+				winform.btnUpdateSystemTime.text = '同步系统时间（ 修正 Xray 连接报错 ）'
+			},2000) 
+	}
+	else {
+		winform.btnUpdateSystemTime.disabledText = null;
+	} 
+}
+
+winform.btnDnsFlush.skin(style.plainButton)
+winform.btnDnsFlush.oncommand = function(id,event){
+	winform.btnDnsFlush.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'}
+
+	import process.popen;
+	var prcs = process.popen(,"ipconfig /flushdns");
+	var str = prcs.read(-1)
+	
+	var dnsapi = ..raw.loadDll("dnsapi.dll");
+	dnsapi.DnsFlushResolverCacheB();
+		
+	winform.msgInfo(str);
+	winform.btnDnsFlush.disabledText = null;
+}
+
+import process;
+winform.btnWubiLex.skin(style.plainButton)
+winform.btnWubiLex.oncommand = function(id,event){
+	process.openUrl("https://vpn.iuvpn.com");
+}
+
+winform.editSshHost.setCueBannerText("root@0.0.0.0:22")
+winform.btnSshInstall.skin(style.plainButton)
+winform.btnSshInstall.oncommand = function(id,event){
+	
+	if(_STUDIO_INVOKED){
+		winform.msgErr("请在发布后运行此功能");
+		return;
+	}
+	
+	config.ui.sshServer = winform.editSshHost.text;
+	config.ui.save();
+	
+	winform.btnSshInstall.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'}
+	
+	var server = winform.editSshHost.text;
+	if( ! ..string.indexOf(server,"@") ){
+		server = "root@" + server;
+	}
+	process.execute(io._exepath,"/sshInstall " + server);
+	win.delay(1000);
+	winform.btnSshInstall.disabledText = null;
+}
+
+import config;
+if(config.ui.sshServer){
+	winform.editSshHost.text = config.ui.sshServer;
+}
+
+winform.btnSshInstallKey.skin(style.plainButton)
+winform.btnSshInstallKey.oncommand = function(id,event){
+	if(_STUDIO_INVOKED){
+		winform.msgErr("请在发布后运行此功能");
+		return;
+	}
+	
+	config.ui.sshServer = winform.editSshHost.text;
+	config.ui.save();
+	
+	winform.btnSshInstall.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'}
+	
+	var server = winform.editSshHost.text;
+	if( ! ..string.indexOf(server,"@") ){
+		server = "root@" + server;
+	}
+	process.execute(io._exepath,"/sshInstallKey " + server);
+	win.delay(1000);
+	winform.btnSshInstall.disabledText = null;
+}
+
+winform.btnCreateLnk.skin(style.plainButton)
+winform.btnCreateLnk.oncommand = function(id,event){
+	if(_STUDIO_INVOKED){
+		return winform.msgboxErr("请在发布后使用此功能")
+	}
+	
+	import fsys.lnk;  
+	var lnk = fsys.lnk(); 
+	lnk.description = "WinXray(Xray/V2Ray、Shadowsocks、Trojan通用客户端 )"  
+	
+	lnk.path = io._exepath //设置目标路径
+	lnk.setIcon(io._exepath,0); //设置图标
+	
+	lnk.save(
+		io.getSpecial(0/*_CSIDL_DESKTOP*/,"WinXray.lnk" )
+	) 
+	
+	::Shell32.SHChangeNotify(0x8000000/*_SHCNE_ASSOCCHANGED*/,0,0,0);
+	
+	import com;
+	com.CreateObject("Shell.Application").MinimizeAll();
+}
+
+winform.btnTestSpeed.skin(style.plainButton)
+winform.btnTestSpeed.oncommand = function(id,event){
+	import chrome.path;
+	var chromePath = chrome.path();
+	if(!chromePath){
+		winform.msgFrown('抱歉，\r\n测速工具需要调用Chrome或兼容浏览器才能运行，\r\n但是当前系统未找到任何Chrome兼容浏览器！');
+		return; 
+	}
+	
+	import xray.core;
+	if(!xray.core.socksProxyPort){
+		winform.msgFrown('抱歉，当前未连接到任何代理服务器！');
+		return; 
+	}
+	
+	winform.btnTestSpeed.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'}
+	
+	var ipip = win.invoke(
+		function(port){
+			import web.rest.client;
+			var restClient = web.rest.client(,"SOCKS=127.0.0.1:"+port);
+			restClient._http.setTimeouts(1000,2000,2000);
+			restClient.get("https://www.google.com/generate_204");
+			var lastStatusCode = restClient.lastStatusCode; 
+				
+			if( lastStatusCode == 204 ){
+					
+				var ipip,err  = restClient.get("http://myip.ipip.net");
+				if(ipip){
+					ipip = ..string.match(ipip,"\d+\.\d+\.\d+\.\d+\A+");
+					if(ipip) {
+						restClient.close();
+						return "当前代理服务器："+ipip;
+					}
+				} 
+				
+				restClient.close();
+				return null;
+			}
+			restClient.close();
+		},xray.core.socksProxyPort 
+	)
+	
+	if(!ipip){
+		winform.msgFrown('抱歉，当前未连接到任何代理服务器！');
+		winform.btnTestSpeed.disabledText = null;
+		return; 	
+	}
+	
+	winform.lbCurrentProxyLocation.text = ipip;
+	
+	import process
+	process.execute(chromePath,` --proxy-server="SOCKS5://127.0.0.1:`+xray.core.socksProxyPort 
+		+`" --user-data-dir="` +io.appData("WinXray/chrome-socks5")+ `" --app="https://speed.cloudflare.com/"`);
+	winform.btnTestSpeed.disabledText = null;
+}
+
+onActiveOutbound = function(address){
+	winform.btnTestSpeed.disabled = !address;
+	if(type.isString(address)){
+		winform.lbCurrentProxyLocation.text = "当前活动的代理服务器：" + address;
+	}	
+} 
+	
+subscribe("activeOutbound",function(address){ 
+	onActiveOutbound(address)
+} )
+if(globalActiveOutbound){
+	onActiveOutbound(globalActiveOutbound)	
+}
+
+winform.btnQrCode.skin(style.plainButton)
+winform.btnQrCode.oncommand = function(id,event){
+
+	var frmChild = winform.loadForm("\forms\main\tools\qr.aardio");
+	frmChild.show();
+	
+}
+
+winform.btnUuid.skin(style.plainButton)
+winform.btnUuid.oncommand = function(id,event){
+	var frmChild = winform.loadForm("\forms\main\tools\uuid.aardio");
+	frmChild.show();
+}
+
+winform.btnDeleteIconCache.skin(style.plainButton)
+winform.btnDeleteIconCache.oncommand = function(id,event){
+	import fsys;
+	import process;
+	
+	var explorerPath = process.kill("explorer.exe")
+	if( explorerPath ) {
+		fsys.delete(io.appData("iconcache.db"));  
+		process.execute(explorerPath);
+		
+		::Shell32.SHChangeNotify(0x8000000/*_SHCNE_ASSOCCHANGED*/,0,0,0);
+	} 
+}
+
+
+
+winform.enableDpiScaling();
+winform.show();
+win.loopMessage();

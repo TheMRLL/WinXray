@@ -1,0 +1,356 @@
+import fonts.fontAwesome;
+import win.ui;
+/*DSG{{*/
+var winform = win.form(text="aardio form";right=892;bottom=573;bgcolor=16777215)
+winform.add(
+btnOpenFirewall={cls="plus";text="设置防火墙";left=485;top=398;right=615;bottom=428;align="left";db=1;dl=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=12}};iconText='\uF09C';notify=1;textPadding={left=30};z=7};
+btnUpdate={cls="plus";text="保 存";left=516;top=514;right=619;bottom=550;align="left";bgcolor=11580047;db=1;dl=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=22}};iconText='\uF0C7';notify=1;textPadding={left=40};z=5};
+chkEnableGitConfigGithub={cls="plus";text="设置 git 客户端启用 github.com 代理提速（支持https、ssh协议）";left=276;top=437;right=792;bottom=468;align="left";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome')};iconText='\uF0C8';notify=1;textPadding={left=19};z=13};
+chkLan={cls="plus";text="允许来自局域网的连接";left=276;top=397;right=483;bottom=428;align="left";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome')};iconText='\uF0C8';notify=1;textPadding={left=19};z=1};
+chkSystemStart={cls="plus";text="允许开机启动 WinXray";left=276;top=476;right=792;bottom=507;align="left";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome')};iconText='\uF0C8';notify=1;textPadding={left=19};z=17};
+editHttpPort={cls="plus";left=278;top=126;right=358;bottom=150;align="left";bgcolor=16777215;border={bottom=1;color=-8355712};db=1;dl=1;editable="edit";font=LOGFONT(h=-16);textPadding={bottom=1};z=14};
+editLanPacUrl={cls="plus";left=280;top=357;right=699;bottom=381;align="left";bgcolor=16777215;border={bottom=1;color=-8355712};db=1;dl=1;editable="edit";font=LOGFONT(h=-16);textPadding={bottom=1};z=11};
+editPacPort={cls="plus";left=278;top=281;right=358;bottom=305;align="left";bgcolor=16777215;border={bottom=1;color=-8355712};db=1;dl=1;editable="edit";font=LOGFONT(h=-16);textPadding={bottom=1};z=2};
+editPacUrl={cls="plus";left=278;top=318;right=697;bottom=342;align="left";bgcolor=16777215;border={bottom=1;color=-8355712};db=1;dl=1;editable="edit";font=LOGFONT(h=-16);textPadding={bottom=1};z=8};
+editSocksPort={cls="plus";left=278;top=91;right=358;bottom=115;align="left";bgcolor=16777215;border={bottom=1;color=-8355712};db=1;dl=1;editable="edit";font=LOGFONT(h=-16);textPadding={bottom=1};z=3};
+hotkey={cls="hotkey";left=227;top=249;right=367;bottom=269;clip=1;db=1;dl=1;edge=1;z=26};
+lbMaxTestServers={cls="static";text="100";left=564;top=62;right=880;bottom=88;bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-13);transparent=1;z=25};
+lbTestInterval={cls="static";text="15秒";left=564;top=26;right=823;bottom=52;bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-13);transparent=1;z=20};
+lnkVersion={cls="plus";text="正在检查新版本";left=15;top=533;right=376;bottom=564;align="left";color=8388608;db=1;dl=1;font=LOGFONT(h=-13);iconColor=2960685;iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome')};iconText='\uF021';notify=1;paddingLeft=20;z=10};
+plus={cls="plus";text="全局/PAC 代理切换热键";left=368;top=248;right=702;bottom=270;align="left";db=1;dl=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(name='FontAwesome');padding={left=9}};iconText='\uF11C ';notify=1;tabstop=1;textPadding={left=25};z=27};
+radioHttpPac={cls="plus";text="仅 HTTP";left=273;top=167;right=365;bottom=198;align="left";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome')};iconText='\uF111 ';notify=1;textPadding={left=19};z=21};
+radioHttpProxy={cls="plus";text="HTTP( 推荐 )";left=378;top=205;right=537;bottom=236;align="left";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome')};iconText='\uF111 ';notify=1;textPadding={left=19};z=29};
+radioSocksPac={cls="plus";text="SOCKS5/SOCKS4/HTTP 自动兼容( 推荐 )  ";left=378;top=167;right=727;bottom=198;align="left";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome')};iconText='\uF111 ';notify=1;textPadding={left=19};z=22};
+radioSocksProxy={cls="plus";text="SOCKS4";left=273;top=205;right=371;bottom=236;align="left";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome')};iconText='\uF111 ';notify=1;textPadding={left=19};z=28};
+static={cls="static";text="SOCKS 代理服务端口：";left=68;top=95;right=266;bottom=121;align="right";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);transparent=1;z=4};
+static10={cls="static";text="PAC代理模式：";left=8;top=170;right=266;bottom=196;align="right";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);transparent=1;z=30};
+static11={cls="static";text="全局代理模式：";left=8;top=208;right=266;bottom=234;align="right";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);transparent=1;z=31};
+static2={cls="static";text="PAC 端口：";left=136;top=286;right=266;bottom=312;align="right";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);transparent=1;z=6};
+static3={cls="static";text="本机 PAC 地址：";left=108;top=325;right=266;bottom=351;align="right";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);transparent=1;z=9};
+static4={cls="static";text="局域网 PAC 地址：";left=108;top=364;right=266;bottom=390;align="right";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);transparent=1;z=12};
+static5={cls="static";text="HTTP  代理服务端口：";left=8;top=132;right=266;bottom=158;align="right";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);transparent=1;z=15};
+static6={cls="static";text="支持 SOCKS4,SOCKS4A,SOCKS5";left=366;top=96;right=653;bottom=122;bgcolor=16777215;color=5921370;db=1;dl=1;font=LOGFONT(h=-13);transparent=1;z=16};
+static7={cls="static";text="检查服务器异常间隔时间：";left=21;top=19;right=266;bottom=45;align="right";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);transparent=1;z=19};
+static8={cls="static";text="允许同时测速的服务器数：";left=21;top=57;right=266;bottom=83;align="right";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);transparent=1;z=24};
+tbMaxTestServers={cls="plus";left=278;top=64;right=559;bottom=76;bgcolor=-2512093;border={radius=-1};color=23807;db=1;dl=1;foreRight=13;forecolor=-14911489;notify=1;paddingBottom=5;paddingTop=5;z=23};
+tbTestInterval={cls="plus";left=278;top=27;right=559;bottom=39;bgcolor=-2512093;border={radius=-1};color=23807;db=1;dl=1;foreRight=13;forecolor=-14911489;notify=1;paddingBottom=5;paddingTop=5;z=18}
+)
+/*}}*/
+
+import style;
+winform.chkLan.skin(style.checkBox);  
+winform.chkEnableGitConfigGithub.skin(style.checkBox);  
+winform.chkSystemStart.skin(style.checkBox); 
+winform.radioHttpProxy.skin(style.radio)
+winform.radioSocksProxy.skin(style.radio)
+winform.radioHttpPac.skin(style.radio)
+winform.radioSocksPac.skin(style.radio)
+winform.btnUpdate.skin(style.primaryButton);
+winform.editSocksPort.skin(style.edit);
+winform.editPacPort.skin(style.edit);
+winform.editPacUrl.editBox.readonly = true;
+
+import win.ui.tooltip;
+var tooltipCtrl = win.ui.tooltip( winform );
+tooltipCtrl.addTool(winform.editSocksPort,"点击右键可以复制IP:端口" ); 
+tooltipCtrl.addTool(winform.radioHttpProxy,"全局代理使用 HTTP 代理端口可以避免使用本机 DNS 解析域名。" );
+tooltipCtrl.addTool(winform.radioSocksProxy,'全局代理使用 SOCKS 代理端口时，Chrome 浏览器等会默认选用 SOCKS4 协议，SOCKS4 会使用本机 DNS 解析域名。' );
+tooltipCtrl.addTool(winform.radioHttpPac,"PAC 仅使用使用 HTTP 代理端口，不推荐此选项。" );
+tooltipCtrl.addTool(winform.radioSocksPac,'开启此选项以后：\nChrome 浏览器会优先使用高效安全的 SOCKS 5 协议。\n也可以自动兼容仅支持 SOCKS4 或 HTTP代理的应用' );
+
+import xray.pacServer;
+onPacUpdated = function(){
+	winform.editPacPort.text = xray.pacServer.getPort() || config.proxy.pacPort || 1083;
+	
+	var pac = xray.pacServer.getUrl();
+	winform.editPacUrl.text = pac ? string.match(pac,"[^?]+");
+	pac = xray.pacServer.getUrl(true);
+	winform.editLanPacUrl.text = pac ? string.match(pac,"[^?]+");
+	
+	winform.editLanPacUrl.disabled = !winform.chkLan.checked;
+}
+
+subscribe("pacServer.restarted",function(pacPort){
+	onPacUpdated()
+}) 
+
+subscribe("sysProxy.modeChanged",function(mode){
+	if(mode==="pac"){
+		var pac = xray.pacServer.getUrl();
+		winform.editPacUrl.text = pac ? string.match(pac,"[^?]+");
+		pac = xray.pacServer.getUrl(true);
+		winform.editLanPacUrl.text = pac ? string.match(pac,"[^?]+");	
+	}
+}) 
+
+import xray.core;
+var onInboundsUpdated = function(){
+	var inbounds = ..config.core.default[["inbounds"]];
+	winform.editSocksPort.text = xray.core.socksProxyPort || inbounds[[1]][["port"]] || 1081;
+	winform.editHttpPort.text = xray.core.httpProxyPort || inbounds[[2]][["port"]] || 1082;
+	winform.chkLan.checked = inbounds[[1]][["listen"]] !== "127.0.0.1";
+	winform.btnOpenFirewall.disabled = !winform.chkLan.checked;
+}
+
+subscribe("config.core.changed",function(){
+	onInboundsUpdated();
+})  
+
+subscribe("xrayCore.restarted",function(socksProxyPort,httpProxPort){
+	onInboundsUpdated();
+})  
+
+import win.reg;
+var reg = win.reg("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run\");
+winform.chkSystemStart.checked = reg.queryValue("WinXray");
+reg.close();
+
+winform.chkEnableGitConfigGithub.checked = config.proxy.enableGitConfigGithub;
+winform.radioSocksProxy.radioGroup = "proxy.mode";
+winform.radioHttpProxy.radioGroup = "proxy.mode";
+winform.radioHttpPac.radioGroup = "pac.mode";
+winform.radioSocksPac.radioGroup = "pac.mode";
+winform.radioHttpProxy.checked = config.proxy.useHttpGlobal;
+winform.radioSocksProxy.checked = !config.proxy.useHttpGlobal;
+winform.radioHttpPac.checked = !config.proxy.useSocksPac;
+winform.radioSocksPac.checked = config.proxy.useSocksPac;
+winform.hotkey.sethotkey(config.proxy.hotkey[1],config.proxy.hotkey[2])
+onInboundsUpdated();
+onPacUpdated();
+
+import wsock.tcp.client;
+winform.btnUpdate.oncommand = function(id,event){
+	winform.btnUpdate.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'};
+	config.proxy.useHttpGlobal = winform.radioHttpProxy.checked;
+	config.proxy.useSocksPac = winform.radioSocksPac.checked;
+	xray.pacServer.updateUseHttpProxy(!config.proxy.useSocksPac);
+	
+	var client = wsock.tcp.client();  
+	var oldPort = xray.core.socksProxyPort;
+	if( tonumber(winform.editSocksPort.text)
+		&& tonumber(winform.editSocksPort.text) != oldPort
+		&& client.connectTimeout("127.0.0.1",tonumber(winform.editSocksPort.text) ,0.5) ){
+		winform.editSocksPort.editBox.showErrorTip(,"端口已被占用");
+		winform.btnUpdate.disabledText = null;
+		return client.close(); 
+	} 
+	client.close();  
+	
+	var client = wsock.tcp.client();  
+	var oldPacPort = xray.pacServer.getPort();
+	if( tonumber(winform.editPacPort.text)
+		&& tonumber(winform.editPacPort.text) != oldPacPort
+		&& client.connectTimeout("127.0.0.1",tonumber(winform.editPacPort.text) ,0.5) ){
+		winform.editPacPort.editBox.showErrorTip(,"PAC端口已被占用");
+		winform.btnUpdate.disabledText = null;
+		return client.close(); 
+	} 
+	client.close(); 
+	
+	
+	if(winform.chkEnableGitConfigGithub.checked!=config.proxy.enableGitConfigGithub){
+		config.proxy.enableGitConfigGithub = winform.chkEnableGitConfigGithub.checked;
+			
+		import xray.github;
+		if(!config.proxy.enableGitConfigGithub){
+			xray.github.setProxy(false);		
+		} 
+		else {
+			xray.github.setProxy(null);	
+		}
+	} 
+	
+	var restartCore = false;
+	var port = tonumber(winform.editSocksPort.text) 
+	config.core.default.inbounds[1]["port"]  = port;
+	if(port!=oldPort){ 
+		restartCore = true;
+	}	
+	
+	var port = tonumber(winform.editHttpPort.text) 
+	config.core.default.inbounds[2]["port"]  = port;
+	if(port!=oldPort){
+		restartCore = true;
+	}		
+
+	var listen = winform.chkLan.checked ? "0.0.0.0" : "127.0.0.1"; 
+	if(listen!=config.core.default.inbounds[1]["listen"]){
+		config.core.default.inbounds[1]["listen"]= listen;
+		restartCore = true;
+	}	
+	
+	if(listen!=config.core.default.inbounds[2]["listen"]){
+		config.core.default.inbounds[2]["listen"]= listen;
+		restartCore = true;
+	}			 
+	
+	config.core.save(); 
+	publish("config.inbounds.changed");
+	if(restartCore) {
+		publish("uiCommand.restartxrayCore");    
+	}
+	
+	config.proxy.pacPort  = tonumber(winform.editPacPort.text)
+	if(oldPacPort!=tonumber(winform.editPacPort.text)){ 
+		xray.pacServer.restart();
+	}
+	
+	config.proxy.save();
+	sysProxy.reset(true);
+	
+	import win.reg;
+	var reg = win.reg("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run\");
+	if(!_STUDIO_INVOKED){
+		if(winform.chkSystemStart.checked){
+			reg.setSzValue("WinXray",`"`+io._exepath+`" /tray`);
+		}
+		else {
+			reg.delValue("WinXray");
+		}           	
+	} 
+	reg.close();
+	
+	var hotmod,hotkey = winform.hotkey.gethotkey()
+	config.proxy.hotkey = {hotmod;hotkey};
+	config.proxy.save();
+	
+	publish("uiCommand.HotkeyChanged");
+	
+	winform.btnUpdate.disabledText = null;
+	winform.msgOk("配置已更新",1200);
+}
+
+winform.editPacUrl.editBox.readonly = true;
+winform.editLanPacUrl.editBox.readonly = true;
+
+import win.clip;
+import wsock.tcp.client;
+winform.editSocksPort.editBox.enablePopMenu(function(){
+	var lanIp = wsock.tcp.client.getLocalIp("www.baidu.com");
+	return {
+			{ "复制端口" + winform.editSocksPort.text;
+				function(id){ 
+					win.clip.write("" + winform.editSocksPort.text)	
+				}
+			};
+			{ "复制本机IP与端口 127.0.0.1:" + winform.editSocksPort.text;
+				function(id){ 
+					win.clip.write("127.0.0.1:" + winform.editSocksPort.text)	
+				}
+			}; 
+			{ "复制局域网IP与端口 "+lanIp+":" + winform.editSocksPort.text;
+				function(id){ 
+					win.clip.write(lanIp+":" + winform.editSocksPort.text)
+				}
+			}; 
+	}
+} )
+
+winform.editHttpPort.editBox.enablePopMenu(function(){
+	var lanIp = wsock.tcp.client.getLocalIp("www.baidu.com");
+	return {
+			{ "复制端口" + winform.editHttpPort.text;
+				function(id){ 
+					win.clip.write("" + winform.editHttpPort.text)	
+				}
+			};
+			{ "复制本机IP与端口 127.0.0.1:" + winform.editHttpPort.text;
+				function(id){ 
+					win.clip.write("127.0.0.1:" + winform.editHttpPort.text)	
+				}
+			}; 
+			{ "复制局域网IP与端口 "+lanIp+":" + winform.editHttpPort.text;
+				function(id){ 
+					win.clip.write(lanIp+":" + winform.editHttpPort.text)
+				}
+			}; 
+	}
+} )
+
+winform.editPacUrl.setCueBannerText("当前未启用本机PAC代理");
+winform.editLanPacUrl.setCueBannerText("当前未启用局域网PAC代理");
+
+winform.chkLan.oncommand = function(id,event){
+    winform.editLanPacUrl.editBox.setsel(0);
+	winform.editLanPacUrl.disabled = !winform.chkLan.checked;
+	winform.btnOpenFirewall.disabled = !winform.chkLan.checked;
+}
+
+winform.tbTestInterval.setTrackbarRange(1,30);
+winform.tbTestInterval.skin(style.trackbar);
+winform.tbTestInterval.progressPos = config.proxy.testInterval;
+winform.lbTestInterval.text = config.proxy.testInterval+"秒";
+winform.tbTestInterval.onPosChanged = function( pos,thumbTrack ){
+	winform.lbTestInterval.text = pos+"秒";
+	config.proxy.testInterval = pos;
+	config.proxy.save();
+}
+
+winform.tbMaxTestServers.setTrackbarRange(50,1000);
+winform.tbMaxTestServers.skin(style.trackbar);
+winform.tbMaxTestServers.progressPos = config.proxy.maxTestServers;
+winform.lbMaxTestServers.text = config.proxy.maxTestServers+"个服务器";
+winform.tbMaxTestServers.onPosChanged = function( pos,thumbTrack ){
+	if(pos>300){
+		winform.lbMaxTestServers.color = 0xFF;
+		winform.lbMaxTestServers.text = pos+"个服务器( 数值太大可能导致卡顿 )";
+	}
+	else {
+		winform.lbMaxTestServers.color = 0;
+		winform.lbMaxTestServers.text = pos+"个服务器";
+	}
+	
+	config.proxy.maxTestServers = pos;
+	config.proxy.save();
+}
+
+if(table.getByNamespace("fsys.update.simpleMain")){
+	fsys.update.simpleMain.onStatusChanged(function(version,description,status){
+		/*注意此回调可捕获到调用前或调用后的更新状态变更*/
+		if(status=="ready"){
+			winform.lnkVersion.disabledText = null;	
+			winform.lnkVersion.text = "点这里重新启动软件更新到新版本：" + version
+			tooltipCtrl.addTool(winform.lnkVersion,description);
+		}
+		elseif(status=="complete"){
+			winform.lnkVersion.text = "已更新到最新版本:" + version; 
+			tooltipCtrl.addTool(winform.lnkVersion,description);
+			..publish("uiCommand.print",winform.lnkVersion.text );
+		} 
+		elseif(status=="latest"){
+			winform.lnkVersion.disabledText = null;
+			winform.lnkVersion.text = "已经是最新版本";
+			
+		} 
+		elseif(status=="failed"){
+			winform.lnkVersion.disabledText = null; 
+			..publish("uiCommand.print",description);
+			..publish("uiCommand.print","建议在「工具」中运行「github优化工具」修复无法访问 raw.githubusercontent.com 的问题。"); 
+		}
+	})
+	
+	winform.lnkVersion.skin(style.link)
+	tooltipCtrl.addTool(winform.lnkVersion,"点击检测更新" );
+	winform.lnkVersion.oncommand = function(id,event){ 
+		
+		winform.lnkVersion.text = fsys.update.simpleMain.getReadyStatusInfo() ? "正在启动自动更新" : "正在检查新版本";
+		winform.lnkVersion.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'}
+		if(fsys.update.simpleMain.checkUpdate(true)){
+			win.quitMessage();
+		}
+	}
+}
+else {
+	winform.lnkVersion.close();
+}
+
+
+winform.btnOpenFirewall.skin(style.plainButton)
+winform.btnOpenFirewall.oncommand = function(id,event){
+	import process.control;
+	process.control("firewall.cpl")	
+}
+
+winform.show();
+win.loopMessage();
+return winform;

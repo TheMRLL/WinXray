@@ -1,0 +1,28 @@
+//GUID生成器
+import win.ui;
+import win.ui.menu;
+import win.guid;
+import win.clip;
+/*DSG{{*/
+var winform = win.form(text="UUID 生成器 - 已生成新的UUID";right=550;bottom=91;border="dialog frame";exmode="none";max=false;parent=...)
+winform.add(
+btnCpy={cls="button";text="复制到剪贴板";left=436;top=21;right=529;bottom=47;z=3};
+btnGenerant={cls="button";text="生成UUID";left=339;top=21;right=432;bottom=47;z=2};
+static={cls="static";text="UUID理论上能产生全球唯一的值";left=37;top=63;right=543;bottom=80;transparent=1;z=4};
+txtGuid={cls="edit";left=31;top=21;right=327;bottom=47;edge=1;multiline=1;z=1}
+)
+/*}}*/
+
+winform.btnCpy.oncommand = function(id,event){
+	win.clip.write(winform.txtGuid.text)
+} 
+
+winform.btnGenerant.oncommand = function(id,event){
+	winform.txtGuid.text = string.lower( tostring(win.guid.create() )); 
+}
+winform.btnGenerant.oncommand();
+
+winform.enableDpiScaling();
+winform.show(true) 
+win.loopMessage();
+return winform;

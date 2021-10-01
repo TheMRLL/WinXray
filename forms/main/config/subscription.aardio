@@ -1,0 +1,308 @@
+import fonts.fontAwesome;
+import win.ui;
+/*DSG{{*/
+var winform = win.form(text="aardio form";right=892;bottom=564;bgcolor=16777215)
+winform.add(
+btnAdd={cls="plus";text="添加订阅";left=10;top=4;right=143;bottom=31;align="left";dl=1;dt=1;font=LOGFONT(h=-15);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=12}};iconText='\uF196 ';notify=1;textPadding={left=30};z=5};
+btnRemove={cls="plus";text="移除选中订阅";left=143;top=4;right=276;bottom=31;align="left";dl=1;dt=1;font=LOGFONT(h=-15);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=12}};iconText='\uF014';notify=1;textPadding={left=30};z=6};
+btnUpdate={cls="plus";text="更新订阅";left=608;top=506;right=730;bottom=542;align="left";bgcolor=11580047;db=1;dr=1;font=LOGFONT(h=-13);iconStyle={align="left";font=LOGFONT(h=-13;name='FontAwesome');padding={left=22}};iconText='\uF0C7';notify=1;textPadding={left=40};z=1};
+chkAll={cls="plus";text="全部启用";left=11;top=489;right=118;bottom=520;align="left";bgcolor=16777215;db=1;dl=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome')};iconText='\uF0C8';notify=1;textPadding={left=19};z=3};
+chkAutoRefreshSubscription={cls="plus";text="允许出站服务器异常自动刷新订阅";left=11;top=524;right=527;bottom=555;align="left";bgcolor=16777215;db=1;dl=1;dr=1;font=LOGFONT(h=-16);iconStyle={align="left";font=LOGFONT(h=-16;name='FontAwesome')};iconText='\uF0C8';notify=1;textPadding={left=19};z=2};
+listview={cls="listview";left=10;top=36;right=883;bottom=477;db=1;dl=1;dr=1;dt=1;edge=1;fullRow=1;gridLines=1;z=4};
+static={cls="static";text="双击上面单元格可直接编辑";left=710;top=616;right=867;bottom=634;color=10789024;db=1;dr=1;transparent=1;z=7}
+)
+/*}}*/
+
+import style;
+winform.chkAutoRefreshSubscription.skin(style.checkBox);  
+winform.chkAll.skin(style.checkBox); 
+winform.btnAdd.skin(style.plainButton);
+
+winform.listview.insertColumn("",20) 
+winform.listview.insertColumn("状态",50) 
+winform.listview.insertColumn("备注",150) 
+winform.listview.insertColumn("订阅地址",-1) 
+winform.listview.checkbox = true;
+winform.listview.gridLines = 0;
+
+import win.ui.grid;
+var grid = win.ui.grid(winform.listview);//创建数据视图
+grid.readonlyColums = { [1] = true;[2] = true };
+	
+import config;
+import inet.url;
+var reloadSubscriptions = function(){
+	winform.chkAutoRefreshSubscription.checked = config.proxy.autoRefreshSubscription; 
+	config.proxy.subscribeUrls.fields =  {"";"checked";"ps";"url";} 
+	var outbounds = ..config.proxy.outbounds : ..table.array(); 
+	
+	var outbondSubscribeUrlMap = {};
+	for(i=#outbounds;1;-1){
+		var outbound = outbounds[i] 
+		if(outbound.subscribeUrl){ 
+			outbondSubscribeUrlMap[outbound.subscribeUrl] = true;	 
+		}
+	} 
+	
+	var cfgSubscribeUrls = config.proxy.subscribeUrls;
+	for(i=#cfgSubscribeUrls;1;-1){
+		var sub = cfgSubscribeUrls[i]  
+		if(outbondSubscribeUrlMap[sub.url]){
+			outbondSubscribeUrlMap[sub.url] = null;	
+		}
+		else{
+			sub.checked = "禁用";
+		}
+	} 
+	
+	var count = 0;
+	for(url,v in outbondSubscribeUrlMap){ 
+		var tUrl = ..inet.url.split(subscribeUrl); 
+		..table.push(cfgSubscribeUrls,{url=url;ps=tUrl ? tUrl.host : "";checked="启用"})
+	} 
+	
+	var chkAll = true;
+	var checked = {}
+	for(i=#cfgSubscribeUrls;1;-1){
+		var sub = cfgSubscribeUrls[i] 
+		if(sub.checked=="启用"){ 
+			table.push(checked,i)
+		}
+		else {
+			chkAll = false;
+		}
+	} 
+	winform.chkAll.checked = chkAll;
+	
+	grid.setTable( cfgSubscribeUrls );
+	winform.listview.checked = checked;	
+} 
+
+winform.loadSubscriptionsOnce = function(){
+	reloadSubscriptions();
+	winform.loadSubscriptionsOnce = function(){};
+}
+
+subscribe("uiCommand.subscriptionNew",function(subItem,existIndex){
+	if(existIndex){ 
+		winform.listview.setItemText(subItem.url,existIndex,4); 	
+		winform.listview.setChecked(existIndex,true);
+		return;
+	} 
+		
+	var item = winform.listview.addItem({"",subItem.checked,subItem.ps,subItem.url});
+	winform.listview.setChecked(item,true);
+} ) 
+
+//编辑变更值会触发下面的事件
+grid.onEditChanged = function(text,iItem,iSubItem){
+	var name = config.proxy.subscribeUrls.fields[iSubItem] 
+	var sub = config.proxy.subscribeUrls[iItem];
+
+	if( name==="url" ){ 
+		if( text[1]=='/'#) {
+			text = "https://github.com"+text;
+		}
+		
+		if(sub && sub.ps=="订阅源"){
+			import inet.url;
+			var tUrl = inet.url.split(text);
+			if(tUrl&&#tUrl.host){
+				sub.ps = tUrl.host;
+				winform.listview.setItemText(sub.ps,iItem,3);
+			} 
+		}
+	}
+
+	if(sub){
+		sub[name] = text;
+		config.proxy.save();
+	}
+	else {
+		winform.msgErr("错误的订阅索引")
+	}
+} 
+
+winform.popmenu = win.ui.popmenu(winform);//创建弹出菜单
+winform.popmenu.add('删除',function(id){
+	winform.btnRemove.oncommand();
+});
+winform.popmenu.add('全部删除',function(id){ 
+    for(i=1; winform.listview.count)  winform.listview.setSelected(i,true);
+	winform.btnRemove.oncommand();
+});
+winform.popmenu.add();
+winform.popmenu.add('自剪贴板添加订阅',function(id){ 
+    winform.btnAdd.oncommand();
+});
+
+winform.btnUpdate.skin(style.primaryButton);
+winform.btnUpdate.oncommand = function(id,event){
+
+	winform.btnUpdate.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'}
+	config.proxy.autoRefreshSubscription = winform.chkAutoRefreshSubscription.checked; 
+	
+	var outbondSubscribeUrlMap = {};
+	var cfgSubscribeUrls = config.proxy.subscribeUrls;
+	for(i=#cfgSubscribeUrls;1;-1){
+		var sub = cfgSubscribeUrls[i]  
+		outbondSubscribeUrlMap[sub.url] = sub.checked=="启用";
+	} 
+	
+	var removed = 0;
+	var outbounds = ..config.proxy.outbounds : ..table.array();
+	for(i=#outbounds;1;-1){
+		var outbound = outbounds[i]  
+		if(outbound.subscribeUrl){ 
+			if(!outbondSubscribeUrlMap[outbound.subscribeUrl]){
+				table.remove(outbounds,i);
+				removed++;	
+			}
+		}
+	} 
+	
+	if(removed) config.proxy.save();
+		
+	import xray.outbounds;
+	if(!xray.outbounds.updateSubscription()){
+		if(removed) publish("uiCommand.restartxrayCore",outbounds) 
+	}
+	
+	winform.btnUpdate.disabledText = null;
+}
+
+winform.chkAll.oncommand = function(id,event){
+	var checked = winform.chkAll.checked
+	for hItem in winform.listview.each(){
+		winform.listview.setChecked(hItem,checked)
+	}
+}
+
+winform.btnRemove.skin(style.plainButton)
+winform.btnRemove.oncommand = function(id,event){
+	
+	var outboundRemoved = 0;
+	var subscribeUrls = config.proxy.subscribeUrls;
+	var items = winform.listview.selected;
+	if(!#items){
+		return winform.msgWarn("未选中任何订阅项（ 请用鼠标单击订阅链接，不是指「勾选」 ）")
+	}
+	
+	winform.btnUpdate.disabledText = {'\uF254';'\uF251';'\uF252';'\uF253';'\uF250'}
+	
+	for(i=#items;1;-1){
+		var url = subscribeUrls[items[i]].url;
+		table.remove(subscribeUrls,items[i]);
+		winform.listview.delItem(items[i]);
+		
+		var outbounds = ..config.proxy.outbounds : ..table.array();
+		for(i=#outbounds;1;-1){
+			var outbound = outbounds[i]  
+			if(outbound.subscribeUrl===url){ 
+				table.remove(outbounds,i);
+				outboundRemoved++;
+			}
+		} 
+	}
+	
+	config.proxy.save();
+	
+	if(outboundRemoved){
+		publish("uiCommand.restartxrayCore") 
+	}
+	else {
+		win.delay(200);
+	}
+	
+	publish("outbounds.updateConfigJson"); 
+	winform.btnUpdate.disabledText = null;
+}
+
+winform.btnAdd.oncommand = function(id,event){
+	import inet.url;
+	import win.clip;
+	
+	var ps = "订阅源";
+	var url = win.clip.read();
+	url = url ? string.trim(url,'"\'\s\t\r\n ');
+	if(url && url[1]=='/'#){
+		url = "http://github.com" + url;
+	}
+	
+	if(!inet.url.is(url)){
+		url = "";
+	}
+	else {
+		var tUrl = inet.url.split(url);
+		if(tUrl && tUrl.host){
+			ps = tUrl.host
+		}
+	} 
+	
+	config.proxy.subscribeUrls[winform.listview.count+1] = {checked="启用";ps="订阅源";url=url}
+	var item = winform.listview.addItem({
+		"";"启用";ps;url
+	})
+	
+	winform.listview.setChecked(item,true);
+	grid.beginEdit(item,4);
+}
+
+winform.listview.onnotify = function(id,code,ptr){  
+	if( code == 0xFFFFFF9B/*_LVN_ITEMCHANGED*/ ){ 
+		var nmListView = winform.listview.getNotifyMessage(code,ptr);
+		if( !nmListView )
+			return;
+			
+		if( nmListView.uNewState & 0xF000/*_LVIS_STATEIMAGEMASK*/){
+			var selIndex = nmListView.iItem;
+			if( winform.listview.getChecked( selIndex ) ){
+				config.proxy.subscribeUrls[selIndex].checked = "启用";
+				config.proxy.save();
+				
+				winform.listview.setItemText("启用",selIndex,2);
+			}
+			else {
+				config.proxy.subscribeUrls[selIndex].checked = "禁用";
+				config.proxy.save();
+				
+				winform.listview.setItemText("禁用",selIndex,2); 
+			} 
+			
+			var chkAll = true; 
+			for(i=#config.proxy.subscribeUrls;1;-1){
+				var sub = config.proxy.subscribeUrls[i] 
+				if(sub.checked!="启用"){ 
+					chkAll = false;
+					
+				}
+			} 
+				
+			winform.chkAll.checked = chkAll;
+		}  
+	}
+	elseif( code ==  0xFFFFFFF4/*_NM_CUSTOMDRAW*/ ) {
+		var lvcd = winform.listview.getNotifyCustomDraw(code,ptr);
+		if( lvcd.nmcd.dwDrawStage == 0x10001/*_CDDS_ITEMPREPAINT*/)
+			return 0x20/*_CDRF_NOTIFYSUBITEMDRAW*/
+		elseif( lvcd.nmcd.dwDrawStage == 1/*_CDDS_PREPAINT*/ ){
+			return 0x20/*_CDRF_NOTIFYITEMDRAW*/;
+		}
+		elseif( lvcd.nmcd.dwDrawStage == ( 0x10001/*_CDDS_ITEMPREPAINT*/ | 0x20000/*_CDDS_SUBITEM*/) ){ 
+			//注意这里 iSubItem 的索引自0开始( 其他函数通常自1开始 )
+			lvcd.clrText = lvcd.nmcd.dwItemSpec % 2 ? 0x373737 : 0;
+			lvcd.clrTextBk = lvcd.nmcd.dwItemSpec % 2 ? 0xFFFFFF : 0xF5F5F5;
+			lvcd.update();
+			
+			return 0/*_CDRF_DODEFAULT*/
+		}
+	}
+	elseif( code ==  0xFFFFFFFB/*_NM_RCLICK*/ )  {
+		var x,y = win.getCursorPos();
+		winform.popmenu.popup(x,y,true);//弹出菜单
+	}
+}
+
+winform.show();
+win.loopMessage();
+return winform;

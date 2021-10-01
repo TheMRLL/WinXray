@@ -1,0 +1,142 @@
+//pacServer 自动代理服务
+import config;
+import wsock.tcp.simpleHttpServer; 
+import inet.http; 
+import inet.url;
+
+namespace xray.pacServer;
+$serverMain = ..wsock.tcp.simpleHttpServer.mainThread( 
+	function(response,request,session){ 
+
+		if(request.path=="/proxy.pac"){ 
+		 
+			var pacData = ..string.load(pacPath);
+			var proxPorts = inboundPort.get();
+			if(!proxPorts[["socksProxy"]]){
+				response.errorStatus(404);
+				return;
+			}
+			
+			var reps = ..string.replace(pacData,"var\s+proxy\s+=\s+%''","var proxy = 'SOCKS5 "+ request.environ.SERVER_NAME +":"+proxPorts.socksProxy 
+				+";SOCKS "+ request.environ.SERVER_NAME +":"+proxPorts.socksProxy 
+				+";PROXY "+ request.environ.SERVER_NAME +":"+proxPorts.httpProxy +"'"); 
+				
+			var useHttp = useHttpProxy.get();
+			if(!useHttp){
+				var ua = request.headers["user-agent"];
+				if( ua && ..string.find(ua,"WinHttp-Autoproxy-Service/")){
+					useHttp = true; 
+				}
+			}
+			
+			if(useHttp){
+				reps = ..string.replace(pacData,"var\s+proxy\s+=\s+%''","var proxy = 'PROXY "+ request.environ.SERVER_NAME +":"+proxPorts.httpProxy +"'"); 
+			}
+	
+			response.contentType = "application/x-ns-proxy-autoconfig";
+			response.write(reps);
+		}  
+	} 	
+);
+$serverMain.threadNum = 50; 
+
+var pacPath = ..io.appData("/WinXray/pac.txt");
+resetPac = function(){
+	..string.save(pacPath,$"/pac.txt" )
+}
+
+if( ! ..io.exist(pacPath) ){
+	resetPac();
+}
+
+loadPacText = function(){
+	return ..io.exist(pacPath) ? ..string.load(pacPath) || $"/pac.txt";
+}
+
+savePacText = function(json){
+	var str = ..string.replace($"/pac.txt","var\s+rules\s*=\s*%\[\]","var rules = " + json);
+	..string.save(pacPath,str );
+}
+
+var inboundPort = ..thread.var();
+var useHttpProxy = ..thread.var();
+restart = function(){
+	useHttpProxy.set(!..config.proxy.useSocksPac);
+
+	$serverMain.threadGlobal = {
+		inboundPort = inboundPort;
+		pacPath = pacPath;
+		useHttpProxy = useHttpProxy;
+	}
+
+	var pacPort = ..config.proxy.pacPort;
+	if( (! pacPort) || pacPort >= 49152 ){ pacPort = ..wsock.tcp.server.getFreePort("127.0.0.1",1083,10803,10813,44823) }
+
+	var currentIp,currentPort = $serverMain.getLocalIp(); 
+	if(currentIp!==..config.core.default.inbounds[[1]][["listen"]] 
+		|| currentPort != pacPort ){
+		$serverMain.stop();
+	
+		var ok,err = $serverMain.start(
+			..config.core.default.inbounds[[1]][["listen"]] : "127.0.0.1",pacPort );
+		if(!ok){ 
+			..publish("uiCommand.print","启动PAC服务器失败",err)
+			return false,err;
+		}
+			
+		..publish("uiCommand.print","PAC服务器已启动",getUrl())
+		..publish("pacServer.restarted",pacPort);
+	}
+	
+	return true;
+} 
+
+stop = function(){
+	if($serverMain){
+		$serverMain.stop();
+	}
+}
+
+updateUseHttpProxy = function(httpProxy){
+	useHttpProxy.set(httpProxy);
+}
+
+updateConfig = function(socksProxyPort,httpProxyPort){
+	if(socksProxyPort && httpProxyPort){
+		inboundPort.set( {socksProxy=socksProxyPort;httpProxy=httpProxyPort} );
+	} 
+}
+
+..subscribe("xrayCore.restarted",function(socksProxyPort,httpProxyPort){
+	updateConfig(socksProxyPort,httpProxyPort);
+} )
+
+getUrl = function(localIp){
+	var url = $serverMain.getUrl("/proxy.pac?" + ..time.tick() )
+	if(!url){ return }
+	
+	var tUrl = ..inet.url.split(url);
+	if(!localIp){
+			tUrl.host = "127.0.0.1"
+		}
+	else {
+		tUrl.host = ..wsock.tcp.client.getLocalIp("www.baidu.com");
+	}
+
+	return tostring(tUrl);
+}
+
+getPort = function(){
+	var ip,port = $serverMain.getLocalIp();
+	return port;
+}
+
+
+/**intellisense(xray.pacServer)
+stop() = 停止PAC服务器
+restart() = 重启PAC服务器
+getUrl(.(localIp) = 返回PAC服务地址
+getPort() = 返回PAC端口
+updateConfig(.(socksProxyPort,httpProxPort) = 更新代理端口或PAC数据
+resetPac() = 重置为默认PAC
+end intellisense**/
