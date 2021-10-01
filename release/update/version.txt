@@ -1,8 +1,8 @@
 {
-    "description":"修复win10下全局模式UWP的错误问题！",
+    "description":"更新默认Xray 核心到V1.45版本！",
     "format":".lzma",
     "main":"\\WinXray.exe",
     "updater":"\\WinXray.exe",
     "url":"https://raw.githubusercontent.com/TheMRLL/winxray/main/release/update/",
-    "version":"3.6"
+    "version":"3.7"
 }
