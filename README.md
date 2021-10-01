@@ -1,5 +1,5 @@
 ﻿
-      WinXray V3.6 修复win10下全局模式UWP的错误问题！
+      WinXray V3.7 更新默认Xray 核心到V1.45版本！
       
 
 导语：
