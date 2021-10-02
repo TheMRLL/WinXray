@@ -29,8 +29,21 @@ exportSharedLinks = function(outbounds){
 			..table.push(outString,vmess);
 		}
 		elseif(outbound.protocol == "shadowsocks"){
-			var ss = "ss://" + ..crypt.encodeBin( outbound.security + ":" + outbound.id + "@" + outbound.address + ":" + outbound.port) + "#" + outbound.address + ":" + outbound.port;
-			..table.push(outString,ss);
+			if(outbound.plugin){
+				var pluginInfo;
+				if(outbound.pluginOptions){
+					pluginInfo = ..inet.url.encode(outbound.plugin+";"+outbound.pluginOptions);
+				}
+				else {
+					pluginInfo = ..inet.url.encode(outbound.plugin);
+				}
+				var ss = "ss://" + ..crypt.encodeBin( outbound.security + ":" + outbound.id ) + "@" + outbound.address + ":" + outbound.port + "/?plugin=" + pluginInfo + "#" + ..inet.url.encode(outbound.ps);
+				..table.push(outString,ss);
+			}
+			else {
+				var ss = "ss://" + ..crypt.encodeBin( outbound.security + ":" + outbound.id ) + "@" + outbound.address + ":" + outbound.port + "#" + ..inet.url.encode(outbound.ps);
+				..table.push(outString,ss);
+			}
 		} 
 		elseif(outbound.protocol == "socks"){
 			var ss;
@@ -802,12 +815,48 @@ importFromString = function(str,subscribeUrl){
 	return outbounds;
 }
 
-importFromClipboard  = function(){ 
+importFromClipboard  = function(refreshConfig){
+    import win.clip;
 	var str = ..win.clip.read();
-	if(!str){ return; }
 	
-	str = ..string.trim(str,'"\'\t\r\n ');
-	return importFromString(str);
+    if( refreshConfig===false ){
+		if(!str){return;}
+		
+		str = ..string.trim(str,'"\'\t\r\n ');
+		
+		if( ..string.startWith(str,"http://") || ..string.startWith(str,"https://") 
+			|| ..string.match(str,"^\s*/\N+\s*$") ){
+			
+			return importFormSubscription(str);
+		}
+		
+		return importFromString(str);
+    }
+	elseif( refreshConfig===true ){
+		if(str){
+			str = ..string.trim(str,'"\'\t\r\n '); 
+			if( ..string.startWith(str,"http://") || ..string.startWith(str,"https://") 
+				|| ..string.match(str,"^\s*/\N+\s*$") ){
+				
+				import UpdateSubscription;
+				if( UpdateSubscription.updateSubscription({[str]=true}) ){return true}
+				else {return false}
+			}
+			
+			var impoutbounds = importFromString(str);
+			if(#impoutbounds){
+				var count = #impoutbounds;
+				..config.proxy.outbounds = ..table.append(impoutbounds,..config.proxy.outbounds);
+				..config.proxy.save();
+				..publish("uiCommand.restartxrayCore","obadd",#impoutbounds);
+				..publish("uiCommand.restartxrayCore","change");
+				..mainForm.msgOk("已成功导入" + count + "个节点",1200);
+				return true; 
+			}
+		}
+		..mainForm.msgFrown('未能导入节点或订阅！');
+		//('\r\n请先复制以下格式文本（自动清除其中的无效内容）：\r\n\r\n1、一行或多行（忽略无效行）分享链接或服务器JSON配置。\r\n支持 vmess://，vless://，ss://，ssr://，trojan://， trojan-go:// 等通用分享链接。\r\n\r\n2、包含多个服务器配置的JSON数组,支持winXray格式以及通用格式JSON。\r\n\r\n3、单个 http:// 或 https:// 开头的通用订阅源地址。\r\n可直接使用浏览器地址栏的github文件地址（含blob或raw目录名）。\r\n也可以仅复制单斜杆开始的github文件路径。\r\n\r\n订阅源可用BASE64编码或明文返回以上1、2条规定的配置或分享链接。');
+	}
 }
 
 validAll = function(outbounds){ 
