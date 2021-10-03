@@ -11,7 +11,7 @@ exportSharedLinks = function(outbounds){
 	var outString = {};
 	for i,outbound in ..table.eachIndex(outbounds){
 		if(outbound.protocol == "vmess"){
-			var json = ..web.json.stringify({
+			var info = {
 				v = 2;
 				add = outbound.address;
 				aid = outbound.alterId;
@@ -23,8 +23,20 @@ exportSharedLinks = function(outbounds){
 				host = outbound.host;
 				tls = outbound.tls;
 				ps = outbound.ps;
-			})
+			}
 			
+			if(outbound.network=="quic"){
+				info.host = outbound.quicSecutity;
+				info.path = outbound.key;
+			}
+			elseif(outbound.network=="kcp"){
+				info.path = outbound.seed;
+			}
+			elseif(outbound.network=="grpc"){
+				info.path = outbound.grpcSni;
+			}
+			
+			var json = ..web.json.stringify(info);
 			var vmess = "vmess://" + ..crypt.encodeBin(json);
 			..table.push(outString,vmess);
 		}
@@ -60,7 +72,7 @@ exportSharedLinks = function(outbounds){
 
 			if(#outbound.ps)info.remarks = ..crypt.bin.encodeUrlBase64(outbound.ps);
 			if(#outbound.obfsParam)info.obfsparam = ..crypt.bin.encodeUrlBase64(outbound.obfsParam);
-			if(#outbound.networkParam)info.protoparam = ..crypt.bin.encodeUrlBase64(outbound.networkParam); 
+			if(#outbound.networkParam)info.protoparam = ..crypt.bin.encodeUrlBase64(outbound.networkParam);
 
 			if(#outbound.path)info.ot_path = ..crypt.bin.encodeUrlBase64(outbound.path);
 			if(#outbound.sni)info.ot_domain = ..crypt.bin.encodeUrlBase64(outbound.sni);
@@ -152,14 +164,14 @@ exportSharedLinks = function(outbounds){
 			var urlInfo = {
 				host = outbound.address;
 				port = outbound.port;
-				scheme = "proxy";
+				scheme = outbound.protocol;//"proxy"
 				location = outbound.ps;
 			}
-
+			
 			if(outbound.protocol == "http"){
-				urlInfo.extraInfo ={
+				/*urlInfo.extraInfo ={
 					["tls"] = "none"
-				}
+				}*/
 			}
 			elseif(outbound.allowInsecure){
 				urlInfo.extraInfo ={

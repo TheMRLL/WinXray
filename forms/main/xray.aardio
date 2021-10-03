@@ -469,6 +469,59 @@ var removeOutbounds = function(selectedItems){
 		if(!xray.core.lastDownloadingCoreFailed) frmXray.btnTcping.oncommand();
 	}
 }
+//移除重复节点
+frmXray.removeRepeat=function(){
+	//跳过检测异常
+	frmXray.listChanging = true;
+	//避免后台线程改变activeIndex
+	frmXray.onTcpingReturn = function(outboundIndex,address,succeeded,speedText){}; 
+	frmXray.btnTcping.disabledText = null;
+	frmXray.autoTesting = false;
+	//标记活动节点
+	var activeIndex = frmXray.listview.activeOutboundIndex;  
+	var outbounds = config.proxy.outbounds;
+	for(i=#outbounds;1;-1){ 
+		var ob = outbounds[i];
+		if(activeIndex==i){
+			ob.active = true;
+		}
+	}
+	//标记重复节点
+	for(i=1;#outbounds;1){
+		for(j=1;#outbounds;1){
+			if( j<=i ){ continue }
+			if( outbounds[j].address==outbounds[i].address 
+				&& outbounds[j].port==outbounds[i].port ){
+				outbounds[j].repeat=true;
+			}
+		}
+	}
+	//删除重复节点
+	var removecount=0;
+	for(i=#outbounds;1;-1){
+		if(outbounds[i].repeat){
+			table.remove(outbounds,i);
+			removecount++;
+		}
+	}
+
+	//保存配置文件
+	config.proxy.outbounds = outbounds;
+	config.proxy.save();
+	frmXray.listview.setTable(outbounds);
+	//如果把活动节点删了,重新连接
+	if(activeIndex && (!frmXray.listview.activeOutboundIndex) ){
+		if( config.settings.autoStartTest) frmXray.btnAutoConnect.oncommand();
+	}
+	elseif(frmXray.listview.activeOutboundIndex){
+		frmXray.listview.setItemText(activeText,activeIndex,frmXray.StatusX);
+	}
+	//继续检测异常
+	frmXray.listChanging = false;
+	
+	return removecount; 
+}
+
 
 import xray.outbounds;
 frmXray.listview.onnotify = function(id,code,ptr){
@@ -552,9 +605,14 @@ frmXray.listview.onnotify = function(id,code,ptr){
 					publish("outbounds.updateConfigJson");
 				});
 				
-				popmenu.add('清除「不可用」服务器',function(id){
+				popmenu.add('清除「不可用」节点',function(id){
 					removeOutbounds();
 				});	
+				
+				popmenu.add('清除「重复」节点',function(id){
+					var removecount = frmXray.removeRepeat();
+					if(removecount){ frmXray.edit.print("删除了"+removecount+"个节点") }
+				});
 				
 				popmenu.add("重置为默认服务器列表",
 					function(id){
@@ -674,10 +732,15 @@ frmXray.listview.onnotify = function(id,code,ptr){
 				}
 			});
 			
-			popmenu.add('清除「不可用」服务器',function(id){
+			popmenu.add('清除「不可用」节点',function(id){
 				removeOutbounds();
 			});	
 			
+			popmenu.add('清除「重复」节点',function(id){
+				var removecount = frmXray.removeRepeat();
+				if(removecount){ frmXray.edit.print("删除了"+removecount+"个节点") }
+				});
+				
 			popmenu.add("重置为默认服务器列表",
 				function(id){
 					..config.__loadDefaultOutbounds();
