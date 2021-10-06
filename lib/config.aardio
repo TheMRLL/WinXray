@@ -20,19 +20,23 @@ namespace config {
 
 if(!config.proxy.mode) config.proxy.mode = "pac";
 if(!config.proxy.pacPort) config.proxy.pacPort = 0;
-if(config.proxy.useHttpGlobal===null){
+if(config.proxy.useHttpGlobal === null){
 	config.proxy.useHttpGlobal = true;
 }
-if(config.proxy.useSocksPac===null){
+if(config.proxy.useSocksPac === null){
 	config.proxy.useSocksPac = _WIN10_LATER;
 }
 
-if(config.proxy.enableGitConfigGithub===null){
+if(config.proxy.enableGitConfigGithub === null){
 	config.proxy.enableGitConfigGithub = true;
 }
 
 if(config.proxy.test === null){
 	config.proxy.test = true;
+}
+
+if(config.settings.autoStartTest === null){
+	config.settings.autoStartTest = true;
 }
 
 if(config.proxy.autoRefreshSubscription === null){

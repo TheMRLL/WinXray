@@ -22,7 +22,7 @@ frmXray.listview.insertColumn("加密",90)
 frmXray.listview.insertColumn("协议",50) 
 frmXray.listview.insertColumn("备注",190) 
 frmXray.listview.insertColumn("响应速度",95) 
-frmXray.listview.insertColumn("状态",-1) 
+frmXray.listview.insertColumn("状态",-1);
 frmXray.listview.setExtended(0x10000/*_LVS_EX_DOUBLEBUFFER*/);
 
 frmXray.show();
@@ -469,59 +469,6 @@ var removeOutbounds = function(selectedItems){
 		if(!xray.core.lastDownloadingCoreFailed) frmXray.btnTcping.oncommand();
 	}
 }
-//移除重复节点
-frmXray.removeRepeat=function(){
-	//跳过检测异常
-	frmXray.listChanging = true;
-	//避免后台线程改变activeIndex
-	frmXray.onTcpingReturn = function(outboundIndex,address,succeeded,speedText){}; 
-	frmXray.btnTcping.disabledText = null;
-	frmXray.autoTesting = false;
-	//标记活动节点
-	var activeIndex = frmXray.listview.activeOutboundIndex;  
-	var outbounds = config.proxy.outbounds;
-	for(i=#outbounds;1;-1){ 
-		var ob = outbounds[i];
-		if(activeIndex==i){
-			ob.active = true;
-		}
-	}
-	//标记重复节点
-	for(i=1;#outbounds;1){
-		for(j=1;#outbounds;1){
-			if( j<=i ){ continue }
-			if( outbounds[j].address==outbounds[i].address 
-				&& outbounds[j].port==outbounds[i].port ){
-				outbounds[j].repeat=true;
-			}
-		}
-	}
-	//删除重复节点
-	var removecount=0;
-	for(i=#outbounds;1;-1){
-		if(outbounds[i].repeat){
-			table.remove(outbounds,i);
-			removecount++;
-		}
-	}
-
-	//保存配置文件
-	config.proxy.outbounds = outbounds;
-	config.proxy.save();
-	frmXray.listview.setTable(outbounds);
-	//如果把活动节点删了,重新连接
-	if(activeIndex && (!frmXray.listview.activeOutboundIndex) ){
-		if( config.settings.autoStartTest) frmXray.btnAutoConnect.oncommand();
-	}
-	elseif(frmXray.listview.activeOutboundIndex){
-		frmXray.listview.setItemText(activeText,activeIndex,frmXray.StatusX);
-	}
-	//继续检测异常
-	frmXray.listChanging = false;
-	
-	return removecount; 
-}
-
 
 import xray.outbounds;
 frmXray.listview.onnotify = function(id,code,ptr){
@@ -611,7 +558,9 @@ frmXray.listview.onnotify = function(id,code,ptr){
 				
 				popmenu.add('清除「重复」节点',function(id){
 					var removecount = frmXray.removeRepeat();
-					if(removecount){ frmXray.edit.print("删除了"+removecount+"个节点") }
+					if(removecount){
+						frmXray.edit.print("删除了"+removecount+"个节点")
+						}
 				});
 				
 				popmenu.add("重置为默认服务器列表",
@@ -738,7 +687,9 @@ frmXray.listview.onnotify = function(id,code,ptr){
 			
 			popmenu.add('清除「重复」节点',function(id){
 				var removecount = frmXray.removeRepeat();
-				if(removecount){ frmXray.edit.print("删除了"+removecount+"个节点") }
+				if(removecount){
+					frmXray.edit.print("删除了"+removecount+"个节点")
+					}
 				});
 				
 			popmenu.add("重置为默认服务器列表",
@@ -938,6 +889,61 @@ frmXray.listview.sortBySpeed = function () {
 		frmXray.listview.setItemText("活动服务器：正常",frmXray.listview.activeOutboundIndex,8)
 	} 
 	frmXray.listview.setColumnImage(7, desc ? 1 : 0);
+}
+//移除重复节点(保留序号在前的)
+frmXray.removeRepeat=function(){
+	//跳过检测异常
+	frmXray.listChanging = true;
+	//避免后台线程改变activeIndex
+	frmXray.onTcpingReturn = function(outboundIndex,address,succeeded,speedText){}; 
+	frmXray.btnTcping.disabledText = null;
+	frmXray.autoTesting = false;
+	//标记活动节点
+	var activeIndex,activeText = frmXray.listview.activeOutboundIndex;  
+	var outbounds = ..table.clone(config.proxy.outbounds);
+	if( activeIndex ){
+		outbounds[activeIndex].active = true;
+		activeText = frmXray.listview.getItemText(activeIndex);
+	}
+	//标记重复节点
+	for(i=1;#outbounds;1){
+		for(j=1;#outbounds;1){
+			if( j<=i ){ continue }
+			if( outbounds[j].address==outbounds[i].address 
+				&& outbounds[j].port==outbounds[i].port ){
+				outbounds[j].repeat=true;
+			}
+		}
+	}
+	//删除重复节点
+	var removecount=0;
+	for(i=#outbounds;1;-1){
+		if(outbounds[i].repeat){
+			table.remove(outbounds,i);
+			removecount++;
+		}
+	}
+	//重设活动节点序号
+	frmXray.listview.activeOutboundIndex = null;
+	for(i=1;#outbounds;1){
+		var ob = outbounds[i];
+		if(ob.active){
+			frmXray.listview.activeOutboundIndex = i;
+			activeIndex = i;
+		}
+		ob.repeat = null;
+		ob.active = null;
+	}
+	//保存配置文件
+	config.proxy.outbounds = outbounds;
+	config.proxy.save();
+	frmXray.listview.setTable(outbounds);
+	//重新测速
+	frmXray.btnTcping.oncommand();
+	//继续检测异常
+	frmXray.listChanging = false;
+	
+	return removecount; 
 }
 
 import win.imageList;

@@ -1,8 +1,8 @@
 {
-    "description":"右键添加了清除重复节点功能！完善了二维码生成器代码！",
+    "description":"V4.0 修复清除重复节点BUG！",
     "format":".lzma",
     "main":"\\WinXray.exe",
     "updater":"\\WinXray.exe",
     "url":"https://raw.githubusercontent.com/TheMRLL/winxray/main/release/update/",
-    "version":"3.9"
+    "version":"4.0"
 }
