@@ -501,7 +501,7 @@ frmXray.listview.onnotify = function(id,code,ptr){
 				return 0/*_CDRF_DODEFAULT*/
 			}
 		}
-		case  0xFFFFFFFD/*_NM_DBLCLK*/ {
+		case 0xFFFFFFFD/*_NM_DBLCLK*/ {
 			var nm = frmXray.listview.getNotifyMessage(code,ptr);
 			if( nm ){
 				xray.core.lastDownloadingCoreFailed = false;
@@ -787,6 +787,43 @@ frmXray.listview.onnotify = function(id,code,ptr){
 					}
 				});  
 			}
+			if(#selectedItems>1){
+				popmenu.add();
+				popmenu.add('批量生成二维码',function(id){
+					if(currentIdx){
+						var outbounds = ..table.array();
+						for(i=1;#selectedItems;1){
+							..table.push(outbounds,config.proxy.outbounds[selectedItems[i]]);
+						}
+						
+						var str = xray.outbounds.exportSharedLinks(outbounds);
+						if(str){
+							var frmChild = frmXray.loadForm("\forms\main\tools\qr.aardio");
+							frmChild.createQrCode(str);
+							frmChild.show();
+						}  
+					}
+				});
+				
+				popmenu.add('批量复制服务器分享链接',function(id){
+					if(currentIdx){
+						var outbounds = ..table.array();
+						for(i=1;#selectedItems;1){
+							..table.push(outbounds,config.proxy.outbounds[selectedItems[i]]);
+						}
+						
+						var str = xray.outbounds.exportSharedLinks(outbounds);
+						if(str){
+							import win.clip;
+							win.clip.write(str);
+							frmXray.msgOk("已将选中链接的分享链接写入剪贴板",1200);
+						}	
+					}
+				});
+
+				popmenu.add();
+			}
+			
 			popmenu.popup(x,y,true);
 		}
 		case 0xFFFFFF94/*_LVN_COLUMNCLICK*/{
@@ -944,6 +981,77 @@ frmXray.removeRepeat=function(){
 	frmXray.listChanging = false;
 	
 	return removecount; 
+}
+//按键
+import win.ui.accelerator;
+var accelerator = win.ui.accelerator({
+	{//按下Enter键
+		vkey = '13';
+		oncommand=function(){
+			frmXray.btnTcping.oncommand();			
+		}	   
+	};
+	{ //按下DELETE键
+		vkey = '46'; 
+		oncommand = function(){
+			var selectedItems = frmXray.listview.selected;
+			removeOutbounds(selectedItems);
+		}
+	};
+	{ //按下ctrl+C
+		ctrl = true; vkey = 'C'#; 
+		oncommand = function(){
+			var selectedItems = frmXray.listview.selected;
+			if( !#selectedItems ){
+				frmXray.msgFrown("没有选中节点！");
+				return ; 
+			}
+			
+			var outbounds = ..table.array();
+			for(i=1;#selectedItems;1){..table.push(outbounds,config.proxy.outbounds[selectedItems[i]])}
+			var str = xray.outbounds.exportSharedLinks(outbounds);
+			if(str){
+				import win.clip;
+				win.clip.write(str);
+				frmXray.msgOk("已将选中节点的分享链接写入剪贴板",1200);
+			}
+		}
+	};
+	{//ctrl+V
+		ctrl = true; vkey = 'V'#;
+		oncommand=function(){
+			frmXray.btnImportServerFromClipBd.oncommand();
+		}
+	};
+	{//ctrl+A
+		ctrl = true; vkey = 'A'#;
+		oncommand=function(){
+			var outbounds=config.proxy.outbounds;
+			for(i=#outbounds;1;-1){
+				frmXray.listview.setSelected(i);
+			}
+		}
+	};
+},frmXray);
+//文件拖放
+frmXray.onDropFiles = function(files){
+	for(i=1;#files;1){
+		var str=string.load(files[i]);
+		if(str){
+			str = ..string.trim(str,'"\'\t\r\n '); 
+	
+			var impoutbounds = xray.outbounds.importFromString(str);
+			if(#impoutbounds){
+				..table.append(config.proxy.outbounds,impoutbounds);
+				publish("uiCommand.OutboundsChange","obadd",#impoutbounds);
+				publish("uiCommand.restartCore","change");
+				publish("outbounds.updateConfigJson");
+				frmXray.msgOk("已成功导入" + #impoutbounds + "个节点",1200); 
+				return; 
+			}
+		}
+	}
+	frmXray.msgFrown('未能在文件中导入节点!');
 }
 
 import win.imageList;

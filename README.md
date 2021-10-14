@@ -1,5 +1,5 @@
 ﻿
-      WinXray V4.0 修复清除重复节点BUG！
+      WinXray V4.1 增加CTRL+C/CTRL+V/CTRL+A/DELETE 快捷键操作！增加多选下批量复制及生成二维码！现在支持了文件解析节点（文件拖拽进入软件即可）！
       
 
 导语：
