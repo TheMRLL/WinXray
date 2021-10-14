@@ -4,7 +4,7 @@
 
 导语：
      请用官网地址下载：https://www.winxray.com
-     winxray存在之本就是：安全，隐私，极速！
+     另外推荐全协议机场：[速蛙云VPN](https://ads.iuvpn.com)
      
 ![xray](./screenshots/Xray.png)
 
