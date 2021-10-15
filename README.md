@@ -1,10 +1,10 @@
 ﻿
-      WinXray V4.1 增加CTRL+C/CTRL+V/CTRL+A/DELETE 快捷键操作！增加多选下批量复制及生成二维码！现在支持了文件解析节点（文件拖拽进入软件即可）！
+      WinXray V4.2 修复文件拖拽解析节点后空白的BUG!
       
 
 导语：
      请用官网地址下载：https://www.winxray.com
-     另外推荐全协议机场：[速蛙云VPN](https://ads.iuvpn.com)
+     推荐全协议机场[速蛙云VPN](https://ads.iuvpn.com)
      
 ![xray](./screenshots/Xray.png)
 

@@ -203,7 +203,7 @@ var _subscriptionResponseCache = {
 importFromString = function(str,subscribeUrl){ 
 	if(!str){ return; }
 	str = ..string.trim(str);
-	
+		
 	var jsonData;
 	if(..string.match(str,"%\[\]") || (
 		..string.match(str,"%\{\}") && !..string.match(str,"%\{\}.+%\{\}")
@@ -371,8 +371,8 @@ importFromString = function(str,subscribeUrl){
 	if(..string.match(str,"^\s*[\w=+/-_]+\s*$")){
 		str = ..crypt.decodeBin(str);
 		if(!str) return;
-	}
-	
+	}	
+    
 	var outbounds = ..table.array();
 	for(line in ..string.lines(str) ){
 		if(#outbounds>=1500){
@@ -1200,10 +1200,117 @@ var currentActiveOutbound = ..globalActiveOutbound;
 	..publish("uiCommand.print","已自动刷新" + count + "个订阅服务器。")		 
 } )
 
+/*importFromClash = function(str,node){
+    if(node){
+    	var start = false;var strTemp="";
+    	var levelTable = ..table.array();var levelATable = ..table.array();
+    	var levelLast = 0;var levelALast = 0;
+    	for(line in ..string.lines(str) ){
+        	//删除注释字段和空白行
+        	line = ..string.splitEx(line,'\#')[1];
+        	if( line===null || ..string.match(line,"^\s*$") ){continue;}
+        	//确定proxies范围
+        	if(..string.match(line,"^\a")){
+				if(..string.startWith(line,"proxies")){start = true;continue;}
+				else {if(start){break;}continue;}
+			}
+			
+			if(start){
+				if( ..string.match(line,"^\s*\-\s*%\{\}\s*$") ){strTemp += line+'\n';}
+    			elseif( !..string.match(line,"^\s*\-\s*%\{\}\s*$") ){
+    				var numNow = #(..string.match(line,"^(\s*)\a"));//键缩进量
+    				var numANow = #(..string.match(line,"^(\s*)\-"));//数组缩进量
+    				//确定数组缩进等级
+    				var levelA;
+    				for(index,num in levelATable){if(num = numANow){levelA=index;break;}}
+    				if(!levelA && numANow){
+    					..table.push(levelATable,numANow);
+    					levelA=..table.count(levelATable);
+    				}
+    				elseif(!levelA && !numANow){levelA=0}
+    				
+    				if( levelA>1 ){
+    					line = ..string.replace(line,"^\s*(-)",'');
+    					numNow = #(..string.match(line,"^(\s*)\a"));
+    				}
+    				elseif( levelA==1 ){
+    					var temp = '\n-{';
+    					if(levelLast){for(i=1;levelLast;1){temp = '}'+temp;}}
+    					line = ..string.replace(line,"^\s*-\s*",temp);
+    				}
+    				
+    				if( ..string.match(line,"^\}*\n\-\{\s*\a") ){strTemp += line+","}//-name:1
+    				elseif( ..string.match(line,"^\}\n\-\{\s*$") ){strTemp += line}//-
+    				
+    				levelALast = levelA;
+    				//确定键缩进等级
+    				var level;
+    				for(index,num in levelTable){if(num=numNow){level=index;break;}}
+    				if(!level && numNow){..table.push(levelTable,numNow);level=..table.count(levelTable);}
+    				elseif(!level && !numNow){level=0}
+    				
+    				if( ..string.match(line,"^\s*\a[^\s\:]*(\:)\s*$") ){//name:
+    					line = ..string.trim(line);
+    					if( levelLast>0 && level>levelLast ){strTemp += line+"{"}
+    					elseif( level==levelLast ){strTemp += ","+line+"{"}
+    					elseif( level<levelLast ){strTemp += "}"+line+"{"}
+    				}
+    				elseif( ..string.match(line,"^\s*\a[^\:]*\:?\s*[^\s]*\s*$") ){//name:1
+    					line = ..string.trim(line);
+    					if( levelLast==0 || level>levelLast ){strTemp += line}
+    					elseif( levelLast>0 && level<levelLast){strTemp += "},"+line}
+    					elseif( level==levelLast ){strTemp += ","+line}
+    				}
+    				
+    				levelLast = level;
+    			}
+    		}
+    	}
+    	var match1 = ..table.count(..string.matches(strTemp,"\{"));
+		var match2 = ..table.count(..string.matches(strTemp,"\}"));
+		for(i=1;match1-match2;1){strTemp += "}"}
+		
+    	if( #(..string.trim(strTemp)) ){str = ..string.trim(strTemp)}	
+    }
+	else {
+		var urlmap = ..table.array();
+		var start = false;var levelTable = ..table.array();
+		for(line in ..string.lines(str) ){
+			//删除注释字段和空白行
+        	line = ..string.splitEx(line,'\#')[1];
+        	if( line===null || ..string.match(line,"^\s*$") ){continue;}
+        	//确定proxies范围
+        	if(..string.match(line,"^\a")){
+				if(..string.startWith(line,"proxy-providers")){start = true;continue;}
+				else {if(start){break;}continue;}
+			}
+			
+			if(start){
+				var numNow = #(..string.match(line,"^(\s*)[^\s]"));//键缩进量
+				var level;
+    			for(index,num in levelTable){if(num=numNow){level=index;break;}}
+    			if(!level && numNow){..table.push(levelTable,numNow);level=..table.count(levelTable);}
+    			elseif(!level && !numNow){level=0}
+    			
+    			if(level==2){
+    				var url = ..string.match(line,"^\s*url\:\s*(http.*)");
+					url = url ? ..string.trim(url,'"\'\s\t\r\n ');
+					if(..inet.url.is(url)){..table.push(urlmap,url)}
+    			}
+			}
+		}
+		
+		if(#urlmap){
+			return urlmap; 
+		}
+	}	
+}*/
+
 /**intellisense(xray.outbounds) 
 exportSharedLinks(.(outbounds) = 导出分享链接
 importFromString(.(str,subscribeUrl) = 导入分享链接
 importFromClipboard() = 自剪贴板导入分享链接
 autoUpdateSubscription() = 自动并静默更新订阅源
 updateSubscription() = 更新或自剪贴板导入订阅源\n可选在参数中用一个表自定义要更新的订阅地址,\n参数表中键为url，值为true
+importFromClash(.(str,node) = 从clash文件导入节点或订阅
 end intellisense**/

@@ -1040,15 +1040,14 @@ frmXray.onDropFiles = function(files){
 		if(str){
 			str = ..string.trim(str,'"\'\t\r\n '); 
 	
-			var impoutbounds = xray.outbounds.importFromString(str);
-			if(#impoutbounds){
-				..table.append(config.proxy.outbounds,impoutbounds);
-				publish("uiCommand.OutboundsChange","obadd",#impoutbounds);
-				publish("uiCommand.restartCore","change");
-				publish("outbounds.updateConfigJson");
-				frmXray.msgOk("已成功导入" + #impoutbounds + "个节点",1200); 
-				return; 
-			}
+			var outbounds = xray.outbounds.importFromString(str);
+					if(#outbounds){
+						..table.append(config.proxy.outbounds,outbounds); 
+						publish("uiCommand.restartxrayCore");
+						publish("outbounds.updateConfigJson");
+						frmXray.msgOk("已成功导入" + #outbounds + "个服务器",1200); 
+						return; 
+					}
 		}
 	}
 	frmXray.msgFrown('未能在文件中导入节点!');
