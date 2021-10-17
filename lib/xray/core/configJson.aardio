@@ -184,6 +184,11 @@ write  = function(jsonPath,outbound,sockPort,httpPort){
 				}
 			}
 		}
+		elseif( outbound.network == "grpc" ){
+			ob.streamSettings.grpcSettings = {
+				serviceName = outbound.grpcSni;
+			}
+		}
 		
 		..table.assign(proxyOutboundInCore,ob); 
 	}
@@ -299,6 +304,11 @@ write  = function(jsonPath,outbound,sockPort,httpPort){
 				header = {
 					type = outbound.type;
 				}
+			}
+		}
+		elseif( outbound.network == "grpc" ){
+			ob.streamSettings.grpcSettings = {
+				serviceName = outbound.grpcSni;
 			}
 		}
 		

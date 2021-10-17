@@ -1036,6 +1036,26 @@ var accelerator = win.ui.accelerator({
 //文件拖放
 frmXray.onDropFiles = function(files){
 	for(i=1;#files;1){
+		var bmp = gdip.bitmap(files[i]);
+		if(bmp){
+			import zbar;
+			var scanner = zbar.scanner();
+			scanner.config('qrcode.enable');
+			scanner.scanBitmap(bmp,function(typeName,data){  
+		    	import win.clip;
+				win.clip.write(data);
+				
+				var outbounds = xray.outbounds.importFromString(data);
+					if(#outbounds){
+						..table.append(config.proxy.outbounds,outbounds); 
+						publish("uiCommand.restartxrayCore");
+						publish("outbounds.updateConfigJson");
+						frmXray.msgOk("已成功导入" + #outbounds + "个服务器",1200); 
+						return; 
+			           }
+			    })					
+	 } 
+	 
 		var str=string.load(files[i]);
 		if(str){
 			str = ..string.trim(str,'"\'\t\r\n '); 
@@ -1050,7 +1070,7 @@ frmXray.onDropFiles = function(files){
 					}
 		}
 	}
-	frmXray.msgFrown('未能在文件中导入节点!');
+	//frmXray.msgFrown('未能在文件中导入节点!');
 }
 
 import win.imageList;

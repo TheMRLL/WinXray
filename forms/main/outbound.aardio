@@ -53,11 +53,11 @@ winform.cmbProtocol.onProtocolChange = function(){
 		winform.outboundConfig.security = "auto";
 		
 		winform.cmbNetwork.items = {
-			"tcp";"kcp";"h2";"quic";
+			"tcp";"ws";"kcp";"h2";"quic";"grpc";
 		}
 		winform.cmbNetwork.selIndex = 1;
 		winform.outboundConfig.network = "tcp";
-		winform.btnUpdateCore.text = '下载 / 更新支持组件： xray Core';
+		winform.btnUpdateCore.text = '下载 / 更新支持组件： Xray Core';
 		winform.editId.setCueBannerText("请输入 GUID");
 	}
 	elseif(sel=="shadowsocks"){
@@ -71,7 +71,7 @@ winform.cmbProtocol.onProtocolChange = function(){
 		winform.cmbNetwork.items = {"tcp";}
 		winform.cmbNetwork.selIndex = 1;
 		winform.outboundConfig.network = "tcp";
-		winform.btnUpdateCore.text = '下载 / 更新支持组件： xray Core';
+		winform.btnUpdateCore.text = '下载 / 更新支持组件： Xray Core';
 		winform.editId.setCueBannerText("请输入密码");
 	}
 	elseif(sel=="ssr"){
@@ -98,11 +98,11 @@ winform.cmbProtocol.onProtocolChange = function(){
 		winform.outboundConfig.security = "none";
 		
 		winform.cmbNetwork.items = {
-			"tcp";"kcp";"h2";"quic";
+			"tcp";"ws";"kcp";"h2";"quic";"grpc";
 		}
 		winform.cmbNetwork.selIndex = 1;
 		winform.outboundConfig.network = "tcp";
-		winform.btnUpdateCore.text = '下载 / 更新支持组件： v2ray Core';
+		winform.btnUpdateCore.text = '下载 / 更新支持组件： V2ray Core';
 		winform.editId.setCueBannerText("请输入 GUID");
 	}
 	elseif(sel=="naive"){
@@ -125,7 +125,7 @@ winform.cmbProtocol.onProtocolChange = function(){
 		winform.cmbNetwork.items = {"tcp";}
 		winform.cmbNetwork.selIndex = 1;
 		winform.outboundConfig.network = "tcp";  
-		winform.btnUpdateCore.text = '下载 / 更新支持组件： xray Core';
+		winform.btnUpdateCore.text = '下载 / 更新支持组件： Xray Core';
 		winform.editId.setCueBannerText("请输入 用户名:密码");
 	}
 	elseif(sel=="http" || sel=="https"){
@@ -135,7 +135,7 @@ winform.cmbProtocol.onProtocolChange = function(){
 		winform.cmbNetwork.items = {"tcp";}
 		winform.cmbNetwork.selIndex = 1;
 		winform.outboundConfig.network = "tcp";  
-		winform.btnUpdateCore.text = '下载 / 更新支持组件： xray Core';
+		winform.btnUpdateCore.text = '下载 / 更新支持组件： Xray Core';
 		winform.editId.setCueBannerText("请输入 用户名:密码");
 	}
 	else {
@@ -145,7 +145,7 @@ winform.cmbProtocol.onProtocolChange = function(){
 		winform.cmbNetwork.items = {"tcp";}
 		winform.cmbNetwork.selIndex = 1;
 		winform.outboundConfig.network = "tcp";
-		winform.btnUpdateCore.text = '下载 / 更新支持组件： xray Core';
+		winform.btnUpdateCore.text = '下载 / 更新支持组件： Xray Core';
 		winform.editId.setCueBannerText("请输入密码");
 	} 
 }
@@ -220,6 +220,7 @@ var editOutboundTip = {
 	security = {"加密方式";"可省略,vmess协议默认为auto,vless协议默认为none"};
 	sni = {"TLS服务器名";"TLS客户端请求中的服务器名字段,如果不指定则默认取host或address字段值。"}; 
 	flow = {"流控";"目前仅用于选择 XTLS 的算法,省略时默认值为xtls-rprx-direct"}; 
+	grpcSni = {"gRPC的ServiceName";"gRPC传输方式的ServiceName"};
 	obfs = {"混淆插件";"可选值：plain,http_simple,http_post,tls1.2_ticket_auth ..."}; 
 	obfsParam = {"混淆参数";"SSR 里的 obfs_param"}; 
 	networkParam = {"SSR网络协议参数";"SSR 里的 protocol_param"}; 

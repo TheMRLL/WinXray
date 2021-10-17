@@ -965,6 +965,7 @@ validOutbound = function(outbound){
 			outbound.id = outbound.password;
 			outbound.password = null; 
 		} 
+		
 		if(outbound.uuid){
 			outbound.id = outbound.uuid;
 			outbound.uuid = null; 
@@ -986,6 +987,13 @@ validOutbound = function(outbound){
 		outbound["ws-headers"] = null; 
 	}
 	
+	var grpcOpts = outbound[["grpc-opts"]];
+	if( grpcOpts ){
+		if(grpcOpts[["grpc-service-name"]]){
+			outbound.grpcSni = grpcOpts[["grpc-service-name"]];
+		}
+	}
+		
 	if(type(outbound.tls)!="string"){
 		if(outbound.tls) outbound.tls = "tls";
 		else outbound.tls = "";
