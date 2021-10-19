@@ -850,8 +850,8 @@ importFromClipboard  = function(refreshConfig){
 			if( ..string.startWith(str,"http://") || ..string.startWith(str,"https://") 
 				|| ..string.match(str,"^\s*/\N+\s*$") ){
 				
-				import UpdateSubscription;
-				if( UpdateSubscription.updateSubscription({[str]=true}) ){return true}
+				//import UpdateSubscription;
+				if( updateSubscription({[str]=true}) ){return true}
 				else {return false}
 			}
 			
