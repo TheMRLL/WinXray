@@ -3,8 +3,7 @@
       
 
 导语：
-     请用官网地址下载：https://www.winxray.com
-     推荐全协议机场[速蛙云VPN](https://vpn.iuvpn.com)
+     请使用用官网地址下载：https://www.winxray.com
      
 ![xray](./screenshots/Xray.png)
 
