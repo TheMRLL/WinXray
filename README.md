@@ -4,7 +4,7 @@
 
 导语：
      请用官网地址下载：https://www.winxray.com
-     推荐全协议机场[速蛙云VPN](https://ads.iuvpn.com)
+     推荐全协议机场[速蛙云VPN](https://vpn.iuvpn.com)
      
 ![xray](./screenshots/Xray.png)
 
